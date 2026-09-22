@@ -1,2 +1,10 @@
-// Central export hub for Application Views and Pages
-export {};
+export { default as DashboardView } from './DashboardView';
+export { default as WalletsView } from './WalletsView';
+export { default as TransactionsView } from './TransactionsView';
+export { default as BudgetsView } from './BudgetsView';
+export { default as AnalyticsView } from './AnalyticsView';
+export { default as GoalsView } from './GoalsView';
+export { default as DebtsView } from './DebtsView';
+export { default as SecurityView } from './SecurityView';
+export { default as LoginView } from './LoginView';
+export { default as NotFoundView } from './NotFoundView';

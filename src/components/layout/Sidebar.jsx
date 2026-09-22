@@ -1,9 +1,11 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
 export const NAVIGATION_ITEMS = [
   {
     id: 'dashboard',
+    path: '/',
     label: 'Dashboard',
     icon: (
       <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,6 +18,7 @@ export const NAVIGATION_ITEMS = [
   },
   {
     id: 'wallets',
+    path: '/wallets',
     label: 'Billeteras & Cuentas',
     icon: (
       <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -26,6 +29,7 @@ export const NAVIGATION_ITEMS = [
   },
   {
     id: 'transactions',
+    path: '/transactions',
     label: 'Transacciones',
     icon: (
       <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -35,6 +39,7 @@ export const NAVIGATION_ITEMS = [
   },
   {
     id: 'budgets',
+    path: '/budgets',
     label: 'Presupuesto por Sobres',
     icon: (
       <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -45,6 +50,7 @@ export const NAVIGATION_ITEMS = [
   },
   {
     id: 'analytics',
+    path: '/analytics',
     label: 'Analítica & Flujo',
     icon: (
       <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -56,6 +62,7 @@ export const NAVIGATION_ITEMS = [
   },
   {
     id: 'goals',
+    path: '/goals',
     label: 'Metas & Ahorro FIRE',
     icon: (
       <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -67,6 +74,7 @@ export const NAVIGATION_ITEMS = [
   },
   {
     id: 'debts',
+    path: '/debts',
     label: 'Plan de Deudas',
     icon: (
       <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -77,6 +85,7 @@ export const NAVIGATION_ITEMS = [
   },
   {
     id: 'security',
+    path: '/security',
     label: 'Bóveda & Criptoseguridad',
     icon: (
       <svg className="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -86,7 +95,10 @@ export const NAVIGATION_ITEMS = [
   },
 ];
 
-export default function Sidebar({ isOpen, activeTab, onSelectTab, isCollapsed, onToggleCollapse }) {
+export default function Sidebar({ isOpen, onCloseMobile, isCollapsed, onToggleCollapse }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <aside
       className={`app-sidebar glass-panel ${isOpen ? 'open' : ''} ${isCollapsed ? 'collapsed' : ''}`}
@@ -94,7 +106,7 @@ export default function Sidebar({ isOpen, activeTab, onSelectTab, isCollapsed, o
     >
       {/* Brand Header */}
       <div className="sidebar-brand">
-        <div className="brand-logo-wrapper">
+        <div className="brand-logo-wrapper" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <div className="brand-diamond">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
@@ -115,14 +127,17 @@ export default function Sidebar({ isOpen, activeTab, onSelectTab, isCollapsed, o
       <nav className="sidebar-nav">
         <ul className="nav-list" role="menubar">
           {NAVIGATION_ITEMS.map((item) => {
-            const isActive = activeTab === item.id;
+            const isActive = location.pathname === item.path;
             return (
               <li key={item.id} role="none">
                 <button
                   type="button"
                   role="menuitem"
                   className={`nav-item-btn ${isActive ? 'active' : ''}`}
-                  onClick={() => onSelectTab(item.id)}
+                  onClick={() => {
+                    navigate(item.path);
+                    onCloseMobile?.();
+                  }}
                   aria-current={isActive ? 'page' : undefined}
                   title={isCollapsed ? item.label : undefined}
                 >

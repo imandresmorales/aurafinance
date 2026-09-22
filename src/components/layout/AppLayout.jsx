@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 import Footer from './Footer';
 import './AppLayout.css';
 
-export default function AppLayout({ activeTab, onSelectTab, children }) {
+export default function AppLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [stealthMode, setStealthMode] = useState(false);
@@ -12,7 +12,6 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
   // Global hotkey: 'H' for stealth mode toggle
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Ignore if user is typing in an input or textarea
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
         return;
       }
@@ -48,11 +47,7 @@ export default function AppLayout({ activeTab, onSelectTab, children }) {
       {/* Sidebar Navigation */}
       <Sidebar
         isOpen={isSidebarOpen}
-        activeTab={activeTab}
-        onSelectTab={(tabId) => {
-          onSelectTab(tabId);
-          setIsSidebarOpen(false);
-        }}
+        onCloseMobile={() => setIsSidebarOpen(false)}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
       />
