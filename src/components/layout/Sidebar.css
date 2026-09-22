@@ -1,0 +1,202 @@
+/* ==========================================================================
+   AuraFinance - Sidebar Styles
+   ========================================================================== */
+
+.app-sidebar {
+  width: 260px;
+  height: calc(100vh - 2 * var(--space-6));
+  position: sticky;
+  top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  transition: width var(--transition-normal), transform var(--transition-normal);
+  z-index: 50;
+}
+
+.app-sidebar.collapsed {
+  width: 80px;
+}
+
+/* Brand Section */
+.sidebar-brand {
+  padding: var(--space-6) var(--space-5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.brand-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.brand-diamond {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(6, 78, 59, 0.6));
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+.brand-diamond svg {
+  width: 22px;
+  height: 22px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.brand-name {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.brand-badge {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--color-accent-gold);
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Nav Menu */
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-4) var(--space-3);
+  overflow-y: auto;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nav-item-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-align: left;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.collapsed .nav-item-btn {
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+.nav-item-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass-subtle);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.nav-item-btn.active {
+  color: #ffffff;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.22), rgba(6, 78, 59, 0.12));
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: inset 0 0 12px rgba(16, 185, 129, 0.15);
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.nav-item-btn.active .nav-icon {
+  color: var(--color-primary-light);
+  filter: drop-shadow(0 0 6px var(--color-primary));
+}
+
+.active-glow-indicator {
+  position: absolute;
+  right: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 3px;
+  border-radius: 4px 0 0 4px;
+  background-color: var(--color-primary-light);
+  box-shadow: 0 0 8px var(--color-primary);
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  padding: var(--space-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.collapse-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--text-tertiary);
+  font-size: var(--font-size-xs);
+  transition: all var(--transition-fast);
+}
+
+.collapsed .collapse-toggle-btn {
+  justify-content: center;
+}
+
+.collapse-toggle-btn:hover {
+  color: var(--text-secondary);
+  background: var(--bg-glass-subtle);
+}
+
+.collapse-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-normal);
+}
+
+.collapse-icon.rotated {
+  transform: rotate(180deg);
+}
+
+/* Responsive Mobile Sidebar */
+@media (max-width: 1024px) {
+  .app-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    border-radius: 0;
+    transform: translateX(-105%);
+    background: rgba(3, 20, 15, 0.95);
+    backdrop-filter: blur(24px);
+  }
+
+  .app-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+  }
+
+  .app-sidebar.collapsed {
+    width: 260px;
+  }
+}

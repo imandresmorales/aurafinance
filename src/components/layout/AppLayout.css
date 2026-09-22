@@ -1,0 +1,69 @@
+/* ==========================================================================
+   AuraFinance - AppLayout Shell Styles
+   ========================================================================== */
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  padding: var(--space-6);
+  gap: var(--space-6);
+  position: relative;
+}
+
+/* Accessibility: Skip link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: var(--space-6);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary);
+  color: #021a12;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  z-index: 1000;
+  transition: top var(--transition-fast);
+}
+
+.skip-to-content:focus {
+  top: var(--space-6);
+}
+
+/* Main content wrapper */
+.app-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Prevents flex items from overflowing horizontally */
+}
+
+.app-content-container {
+  flex: 1;
+  outline: none;
+}
+
+/* Mobile backdrop */
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 45;
+}
+
+/* Stealth Mode Global CSS Masking */
+.stealth-active .num-mono:not(.session-tag) {
+  filter: blur(8px);
+  user-select: none;
+  transition: filter var(--transition-normal);
+}
+
+.stealth-active .num-mono:not(.session-tag):hover {
+  filter: blur(0);
+}
+
+@media (max-width: 1024px) {
+  .app-shell {
+    padding: var(--space-3);
+    gap: 0;
+  }
+}
