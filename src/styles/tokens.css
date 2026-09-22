@@ -1,0 +1,82 @@
+/* ==========================================================================
+   AuraFinance - Design Tokens (Emerald Glass Theme)
+   ========================================================================== */
+
+:root {
+  /* Surface & Background Hierarchy */
+  --bg-app: #03140f;
+  --bg-surface: #06231a;
+  --bg-elevated: #0a3327;
+  --bg-glass: rgba(6, 35, 26, 0.65);
+  --bg-glass-subtle: rgba(6, 35, 26, 0.4);
+  --bg-glass-active: rgba(16, 78, 60, 0.55);
+
+  /* Primary Emerald Spectrum */
+  --color-primary: #10b981;
+  --color-primary-hover: #059669;
+  --color-primary-light: #34d399;
+  --color-primary-glow: rgba(16, 185, 129, 0.3);
+  --color-primary-ultra-glow: rgba(16, 185, 129, 0.5);
+
+  /* Luxury Accents */
+  --color-accent-gold: #e2c275;
+  --color-accent-gold-glow: rgba(226, 194, 117, 0.25);
+  --color-accent-cyan: #38bdf8;
+
+  /* Financial Status Colors */
+  --color-income: #10b981;
+  --color-expense: #f43f5e;
+  --color-transfer: #38bdf8;
+  --color-warning: #f59e0b;
+  --color-info: #6366f1;
+
+  /* Text & Contrast (WCAG 2.2 AAA Compliant) */
+  --text-primary: #f2fbf7;
+  --text-secondary: #9cb5ab;
+  --text-tertiary: #5d7e72;
+  --text-inverse: #021a12;
+
+  /* Glassmorphism & Borders */
+  --border-glass: 1px solid rgba(255, 255, 255, 0.08);
+  --border-glass-hover: 1px solid rgba(16, 185, 129, 0.3);
+  --border-glass-active: 1px solid rgba(16, 185, 129, 0.6);
+  --border-gold: 1px solid rgba(226, 194, 117, 0.3);
+
+  /* Blurs & Backdrops */
+  --backdrop-blur-sm: blur(8px);
+  --backdrop-blur-md: blur(16px);
+  --backdrop-blur-lg: blur(24px);
+  --glass-filter: blur(16px) saturate(180%);
+
+  /* Shadows & Illuminations */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-emerald-glow: 0 0 28px rgba(16, 185, 129, 0.25);
+  --shadow-gold-glow: 0 0 24px rgba(226, 194, 117, 0.2);
+
+  /* Border Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
