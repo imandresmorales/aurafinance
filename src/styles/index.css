@@ -1,0 +1,17 @@
+/* Base CSS for AuraFinance */
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #041a14;
+  color: #f0fdf4;
+  font-family: system-ui, -apple-system, sans-serif;
+}
