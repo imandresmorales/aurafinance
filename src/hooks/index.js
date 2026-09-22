@@ -1,2 +1,2 @@
-// Central export hub for React Custom Hooks
-export {};
+export { default as useTheme } from './useTheme';
+export * from './useTheme';

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from './context';
 import { AppLayout } from './components';
 import { AppRoutes } from './routes';
 
@@ -13,10 +14,12 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
-      <AppLayout>
-        <AppRoutes isAuthenticated={isAuthenticated} onUnlock={handleUnlock} />
-      </AppLayout>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AppLayout>
+          <AppRoutes isAuthenticated={isAuthenticated} onUnlock={handleUnlock} />
+        </AppLayout>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }

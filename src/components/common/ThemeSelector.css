@@ -1,0 +1,98 @@
+/* ==========================================================================
+   AuraFinance - ThemeSelector Styles
+   ========================================================================== */
+
+.theme-selector-container {
+  position: relative;
+}
+
+.theme-selector-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--bg-glass-subtle);
+  border: var(--border-glass);
+  color: var(--text-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.theme-selector-btn:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: var(--bg-glass-active);
+}
+
+.theme-swatch-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.chevron-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-tertiary);
+  transition: transform var(--transition-fast);
+}
+
+.chevron-icon.open {
+  transform: rotate(180deg);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  min-width: 180px;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.theme-dropdown-header {
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-2xs);
+  color: var(--text-tertiary);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.theme-option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.theme-option-item:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass-active);
+}
+
+.theme-option-item.selected {
+  color: var(--color-primary-light);
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.check-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--color-primary);
+}
