@@ -1,0 +1,153 @@
+/* ==========================================================================
+   AuraFinance - Onboarding Wizard Styles
+   ========================================================================== */
+
+.onboarding-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.wizard-progress-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+}
+
+.wizard-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent-gold));
+  border-radius: var(--radius-full);
+  transition: width var(--transition-normal);
+}
+
+.wizard-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  animation: step-fade 250ms ease-out;
+}
+
+@keyframes step-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-badge-diamond {
+  font-size: 2.25rem;
+  margin-bottom: var(--space-1);
+}
+
+.step-title {
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.step-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.features-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-md);
+  border: var(--border-glass);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.check-bullet {
+  color: var(--color-primary-light);
+  font-weight: bold;
+}
+
+.form-group-spaced {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: var(--space-3);
+}
+
+.wizard-select-control {
+  width: 100%;
+  padding: 0.75rem var(--space-3);
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.5);
+  border: var(--border-glass);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  outline: none;
+  cursor: pointer;
+}
+
+.wizard-select-control:focus {
+  border-color: rgba(16, 185, 129, 0.6);
+}
+
+.budget-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.budget-pill-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-md);
+}
+
+.budget-pill-box.gold {
+  background: rgba(226, 194, 117, 0.08);
+  border-color: rgba(226, 194, 117, 0.3);
+}
+
+.pill-title {
+  font-size: var(--font-size-2xs);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.pill-amount {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-primary-light);
+}
+
+.budget-pill-box.gold .pill-amount {
+  color: var(--color-accent-gold);
+}
+
+.pill-note {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+}
+
+.wizard-footer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: var(--space-4);
+  margin-top: var(--space-3);
+}

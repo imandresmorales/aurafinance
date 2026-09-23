@@ -1,22 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { formatCurrency } from '../utils';
+import { OnboardingWizard } from '../components';
 
 export default function DashboardView() {
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // Comprobar si es el primer inicio para sugerir el tour de inducción
+  useEffect(() => {
+    try {
+      const completed = localStorage.getItem('aura_onboarding_completed');
+      if (!completed) {
+        setShowOnboarding(true);
+      }
+    } catch {
+      // Ignorar si storage no accesible
+    }
+  }, []);
+
   const netWorth = 142850.75;
   const cashFlow = 18420.50;
   const monthlySavings = 4250.00;
 
   return (
     <div className="view-container">
-      <header style={{ marginBottom: '2rem' }}>
-        <div className="glass-pill emerald" style={{ marginBottom: '0.75rem' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--color-primary)' }} />
-          <span>Visión General Patrimonial</span>
+      <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+        <div>
+          <div className="glass-pill emerald" style={{ marginBottom: '0.75rem' }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--color-primary)' }} />
+            <span>Visión General Patrimonial</span>
+          </div>
+          <h1 className="text-gradient-emerald">Panel de Control Financiero</h1>
+          <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: 'var(--font-size-base)' }}>
+            Resumen en tiempo real de liquidez, presupuestos por sobres y rendimiento de tus activos.
+          </p>
         </div>
-        <h1 className="text-gradient-emerald">Panel de Control Financiero</h1>
-        <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: 'var(--font-size-base)' }}>
-          Resumen en tiempo real de liquidez, presupuestos por sobres y rendimiento de tus activos.
-        </p>
+
+        <button
+          type="button"
+          className="glass-pill gold"
+          onClick={() => setShowOnboarding(true)}
+          style={{ cursor: 'pointer', padding: '0.65rem 1.25rem', fontSize: 'var(--font-size-xs)', fontWeight: 600 }}
+        >
+          ✨ Tour de Inducción
+        </button>
       </header>
 
       {/* Main Metric Cards */}
@@ -87,6 +113,12 @@ export default function DashboardView() {
           </div>
         </div>
       </section>
+
+      {/* Financial Onboarding Wizard Modal */}
+      <OnboardingWizard
+        isOpen={showOnboarding}
+        onClose={() => setShowOnboarding(false)}
+      />
     </div>
   );
 }
