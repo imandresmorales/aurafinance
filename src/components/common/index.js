@@ -4,3 +4,4 @@ export { default as Button } from './Button';
 export { default as Input } from './Input';
 export { default as InputGroup } from './InputGroup';
 export { default as ToastContainer } from './ToastContainer';
+export { default as ErrorBoundary } from './ErrorBoundary';
