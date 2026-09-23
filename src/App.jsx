@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from './context';
+import { ThemeProvider, AuthProvider } from './context';
+import { useAuth } from './hooks';
 import { AppLayout } from './components';
 import { AppRoutes } from './routes';
 
-export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-  const handleUnlock = (passphrase) => {
-    if (passphrase) {
-      setIsAuthenticated(true);
-    }
-  };
+function AppContent() {
+  const { isAuthenticated, isLocked, unlockVault } = useAuth();
 
   return (
+    <AppLayout>
+      <AppRoutes
+        isAuthenticated={isAuthenticated && !isLocked}
+        onUnlock={unlockVault}
+      />
+    </AppLayout>
+  );
+}
+
+export default function App() {
+  return (
     <ThemeProvider>
-      <BrowserRouter>
-        <AppLayout>
-          <AppRoutes isAuthenticated={isAuthenticated} onUnlock={handleUnlock} />
-        </AppLayout>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
