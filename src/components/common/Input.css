@@ -1,0 +1,132 @@
+/* ==========================================================================
+   AuraFinance - Accessible Input & InputGroup Styles
+   ========================================================================== */
+
+.input-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+  text-align: left;
+}
+
+.input-label {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required-star {
+  color: var(--color-danger);
+}
+
+.input-control-container {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  border: var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-3);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.input-control-container:focus-within {
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.2);
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.has-error .input-control-container {
+  border-color: rgba(244, 63, 94, 0.6);
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.2);
+}
+
+.input-control {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  padding: 0.75rem var(--space-2);
+  outline: none;
+  min-width: 0;
+}
+
+.input-control::placeholder {
+  color: var(--text-tertiary);
+}
+
+.input-prefix,
+.input-suffix {
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+.input-icon-left,
+.input-icon-right {
+  display: flex;
+  align-items: center;
+  color: var(--text-tertiary);
+}
+
+.input-icon-left svg,
+.input-icon-right svg {
+  width: 18px;
+  height: 18px;
+}
+
+.input-password-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  color: var(--text-tertiary);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.input-password-toggle:hover {
+  color: var(--text-primary);
+}
+
+.input-password-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.input-helper-text {
+  font-size: var(--font-size-2xs);
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.input-error-text {
+  font-size: var(--font-size-2xs);
+  color: var(--color-danger);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* InputGroup Container */
+.input-group-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-group-container > *:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group-container > *:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: -1px;
+}

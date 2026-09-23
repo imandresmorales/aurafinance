@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import { calculatePasswordEntropy } from '../utils';
+import { Input, Button } from '../components';
 
 export default function RegisterView() {
   const { registerVault } = useAuth();
@@ -85,52 +86,24 @@ export default function RegisterView() {
         )}
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <div>
-            <label htmlFor="reg-alias" style={{ display: 'block', fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-              Nombre / Alias del Titular:
-            </label>
-            <input
-              id="reg-alias"
-              type="text"
-              required
-              value={alias}
-              onChange={(e) => setAlias(e.target.value)}
-              placeholder="Ej. Bóveda Personal de Alex"
-              style={{
-                width: '100%',
-                padding: '0.85rem 1rem',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(0,0,0,0.4)',
-                border: 'var(--border-glass)',
-                color: '#fff',
-                fontSize: 'var(--font-size-sm)',
-                outline: 'none'
-              }}
-            />
-          </div>
+          <Input
+            id="reg-alias"
+            label="Nombre / Alias del Titular"
+            required
+            value={alias}
+            onChange={(e) => setAlias(e.target.value)}
+            placeholder="Ej. Bóveda Personal de Alex"
+          />
 
           <div>
-            <label htmlFor="reg-passphrase" style={{ display: 'block', fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-              Frase de Paso Maestra:
-            </label>
-            <input
+            <Input
               id="reg-passphrase"
+              label="Frase de Paso Maestra"
               type="password"
               required
               value={passphrase}
               onChange={(e) => setPassphrase(e.target.value)}
               placeholder="Crea una frase de paso sólida..."
-              aria-describedby="entropy-feedback"
-              style={{
-                width: '100%',
-                padding: '0.85rem 1rem',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(0,0,0,0.4)',
-                border: 'var(--border-glass)',
-                color: '#fff',
-                fontSize: 'var(--font-size-sm)',
-                outline: 'none'
-              }}
             />
 
             {/* Entropy Meter */}
@@ -161,29 +134,16 @@ export default function RegisterView() {
             )}
           </div>
 
-          <div>
-            <label htmlFor="reg-confirm-passphrase" style={{ display: 'block', fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-              Confirmar Frase de Paso:
-            </label>
-            <input
-              id="reg-confirm-passphrase"
-              type="password"
-              required
-              value={confirmPassphrase}
-              onChange={(e) => setConfirmPassphrase(e.target.value)}
-              placeholder="Repite la frase de paso..."
-              style={{
-                width: '100%',
-                padding: '0.85rem 1rem',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(0,0,0,0.4)',
-                border: passwordsMatch ? '1px solid rgba(16,185,129,0.5)' : 'var(--border-glass)',
-                color: '#fff',
-                fontSize: 'var(--font-size-sm)',
-                outline: 'none'
-              }}
-            />
-          </div>
+          <Input
+            id="reg-confirm-passphrase"
+            label="Confirmar Frase de Paso"
+            type="password"
+            required
+            value={confirmPassphrase}
+            onChange={(e) => setConfirmPassphrase(e.target.value)}
+            placeholder="Repite la frase de paso..."
+            error={confirmPassphrase && !passwordsMatch ? 'Las frases de paso no coinciden.' : ''}
+          />
 
           {/* Zero-Knowledge Disclaimer */}
           <div style={{ padding: '0.85rem', background: 'rgba(226,194,117,0.08)', borderRadius: 'var(--radius-md)', border: 'var(--border-gold)' }}>
@@ -200,20 +160,15 @@ export default function RegisterView() {
             </label>
           </div>
 
-          <button
+          <Button
             type="submit"
-            disabled={isLoading}
-            className="glass-pill emerald"
-            style={{
-              padding: '0.9rem',
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 600,
-              justifyContent: 'center',
-              cursor: isLoading ? 'wait' : 'pointer'
-            }}
+            variant="primary"
+            size="lg"
+            isLoading={isLoading}
+            style={{ width: '100%' }}
           >
             {isLoading ? 'Derivando claves y creando bóveda...' : 'Inicializar Bóveda Cifrada'}
-          </button>
+          </Button>
         </form>
 
         <footer style={{ marginTop: '1.75rem', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1rem' }}>

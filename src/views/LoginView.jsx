@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import { RateLimiter } from '../utils';
+import { Input, Button } from '../components';
 
 export default function LoginView() {
   const { unlockVault, isInitialized } = useAuth();
@@ -75,25 +76,6 @@ export default function LoginView() {
           Introduce tu frase de paso maestra para derivar tus llaves AES-256 en memoria volátil.
         </p>
 
-        {error && (
-          <div
-            role="alert"
-            aria-live="assertive"
-            style={{
-              padding: '0.85rem 1rem',
-              marginBottom: '1.5rem',
-              borderRadius: 'var(--radius-md)',
-              background: 'rgba(244,63,94,0.15)',
-              border: '1px solid rgba(244,63,94,0.4)',
-              color: '#fecdd3',
-              fontSize: 'var(--font-size-xs)',
-              textAlign: 'left'
-            }}
-          >
-            {error}
-          </div>
-        )}
-
         {lockoutStatus.isLockedOut && (
           <div
             style={{
@@ -111,43 +93,27 @@ export default function LoginView() {
         )}
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <div>
-            <label htmlFor="login-passphrase" style={{ display: 'none' }}>Frase de Paso Maestra</label>
-            <input
-              id="login-passphrase"
-              type="password"
-              disabled={lockoutStatus.isLockedOut || isLoading}
-              value={passphrase}
-              onChange={(e) => setPassphrase(e.target.value)}
-              placeholder="Frase de paso maestra..."
-              style={{
-                width: '100%',
-                padding: '0.9rem 1rem',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(0,0,0,0.4)',
-                border: 'var(--border-glass)',
-                color: '#ffffff',
-                fontSize: 'var(--font-size-base)',
-                outline: 'none',
-                textAlign: 'center'
-              }}
-            />
-          </div>
-
-          <button
-            type="submit"
+          <Input
+            label="Frase de Paso Maestra"
+            type="password"
+            required
             disabled={lockoutStatus.isLockedOut || isLoading}
-            className="glass-pill emerald"
-            style={{
-              padding: '0.9rem',
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 600,
-              justifyContent: 'center',
-              cursor: lockoutStatus.isLockedOut || isLoading ? 'not-allowed' : 'pointer'
-            }}
+            value={passphrase}
+            onChange={(e) => setPassphrase(e.target.value)}
+            placeholder="Introduce tu frase maestra..."
+            error={error}
+          />
+
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            isLoading={isLoading}
+            disabled={lockoutStatus.isLockedOut}
+            style={{ width: '100%', marginTop: '0.5rem' }}
           >
             {isLoading ? 'Derivando clave PBKDF2...' : 'Desbloquear Bóveda AES-256'}
-          </button>
+          </Button>
         </form>
 
         <footer style={{ marginTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.25rem' }}>
