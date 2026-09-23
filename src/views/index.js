@@ -7,4 +7,5 @@ export { default as GoalsView } from './GoalsView';
 export { default as DebtsView } from './DebtsView';
 export { default as SecurityView } from './SecurityView';
 export { default as LoginView } from './LoginView';
+export { default as RegisterView } from './RegisterView';
 export { default as NotFoundView } from './NotFoundView';

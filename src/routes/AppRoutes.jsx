@@ -11,14 +11,16 @@ import {
   DebtsView,
   SecurityView,
   LoginView,
+  RegisterView,
   NotFoundView,
 } from '../views';
 
 export default function AppRoutes({ isAuthenticated = true, onUnlock }) {
   return (
     <Routes>
-      {/* Public Route */}
+      {/* Public Routes */}
       <Route path="/login" element={<LoginView onUnlock={onUnlock} />} />
+      <Route path="/register" element={<RegisterView />} />
 
       {/* Protected Routes inside App */}
       <Route
