@@ -1,4 +1,5 @@
 export * from './passwordEntropy';
+export * from './rateLimiter';
 
 // Formateador de divisas estándar internacional
 export const formatCurrency = (amount, currency = 'USD', locale = 'es-ES') => {
