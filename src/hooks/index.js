@@ -6,3 +6,5 @@ export { default as useToast } from './useToast';
 export * from './useToast';
 export { default as useEncryptedStorage } from './useEncryptedStorage';
 export * from './useEncryptedStorage';
+export { default as useAccounts } from './useAccounts';
+export * from './useAccounts';
