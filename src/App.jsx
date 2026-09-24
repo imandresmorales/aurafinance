@@ -1,6 +1,11 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider, AuthProvider, ToastProvider } from './context';
+import {
+  ThemeProvider,
+  AuthProvider,
+  ToastProvider,
+  AccountsProvider,
+} from './context';
 import { useAuth } from './hooks';
 import { AppLayout, ToastContainer } from './components';
 import { AppRoutes } from './routes';
@@ -24,9 +29,11 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <ToastProvider>
-          <BrowserRouter>
-            <AppContent />
-          </BrowserRouter>
+          <AccountsProvider>
+            <BrowserRouter>
+              <AppContent />
+            </BrowserRouter>
+          </AccountsProvider>
         </ToastProvider>
       </AuthProvider>
     </ThemeProvider>

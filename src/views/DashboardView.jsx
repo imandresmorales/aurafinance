@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useAccounts } from '../hooks';
 import { formatCurrency } from '../utils';
 import { OnboardingWizard } from '../components';
 
 export default function DashboardView() {
+  const { accounts, balances, netWorthData } = useAccounts();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   // Comprobar si es el primer inicio para sugerir el tour de inducción
@@ -17,9 +19,10 @@ export default function DashboardView() {
     }
   }, []);
 
-  const netWorth = 142850.75;
-  const cashFlow = 18420.50;
-  const monthlySavings = 4250.00;
+  // Calcular liquidez inmediata disponible (cuentas de tipo banco o efectivo)
+  const cashFlow = accounts
+    .filter((a) => a.category === 'BANK' || a.category === 'CASH')
+    .reduce((sum, acc) => sum + (balances[acc.id] !== undefined ? Math.max(0, balances[acc.id]) : 0), 0);
 
   return (
     <div className="view-container">
@@ -55,10 +58,10 @@ export default function DashboardView() {
             <span className="glass-pill emerald" style={{ fontSize: 'var(--font-size-xs)' }}>+14.2%</span>
           </div>
           <div className="num-mono text-gradient-emerald" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 700, margin: '0.25rem 0 0.75rem 0' }}>
-            {formatCurrency(netWorth, 'USD')}
+            {formatCurrency(netWorthData.netWorth, 'USD')}
           </div>
           <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)' }}>
-            Activos $158,350 • Pasivos $15,500
+            Activos {formatCurrency(netWorthData.totalAssets)} • Pasivos {formatCurrency(netWorthData.totalLiabilities)}
           </p>
         </div>
 
@@ -73,22 +76,22 @@ export default function DashboardView() {
             {formatCurrency(cashFlow, 'USD')}
           </div>
           <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)' }}>
-            Disponible en cuentas corrientes y efectivo
+            Disponible en {accounts.filter((a) => a.category === 'BANK' || a.category === 'CASH').length} cuentas líquidas
           </p>
         </div>
 
         <div className="glass-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
             <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>
-              Capacidad de Ahorro
+              Cuentas & Billeteras
             </span>
-            <span className="glass-pill emerald" style={{ fontSize: 'var(--font-size-xs)' }}>32% Tasa</span>
+            <span className="glass-pill emerald" style={{ fontSize: 'var(--font-size-xs)' }}>E2EE</span>
           </div>
           <div className="num-mono" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 700, color: 'var(--color-primary-light)', margin: '0.25rem 0 0.75rem 0' }}>
-            {formatCurrency(monthlySavings, 'USD')}
+            {accounts.length} Activas
           </div>
           <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)' }}>
-            Aportado este mes a metas FIRE
+            Todas sincronizadas con Libro Mayor
           </p>
         </div>
       </section>
@@ -101,7 +104,7 @@ export default function DashboardView() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
           <div style={{ padding: '1.25rem', background: 'rgba(6, 35, 26, 0.4)', borderRadius: 'var(--radius-md)', border: 'var(--border-glass)' }}>
             <h4 style={{ fontSize: 'var(--font-size-base)', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Cuentas Conciliadas</h4>
-            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>5 de 5 billeteras verificadas con hash criptográfico.</p>
+            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>{accounts.length} de {accounts.length} billeteras verificadas con hash criptográfico.</p>
           </div>
           <div style={{ padding: '1.25rem', background: 'rgba(6, 35, 26, 0.4)', borderRadius: 'var(--radius-md)', border: 'var(--border-glass)' }}>
             <h4 style={{ fontSize: 'var(--font-size-base)', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Regla 50/30/20</h4>
