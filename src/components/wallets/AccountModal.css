@@ -1,0 +1,80 @@
+/* ==========================================================================
+   AuraFinance - AccountModal Styles
+   ========================================================================== */
+
+.account-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-row-dual {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
+}
+
+.form-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.account-select-control {
+  width: 100%;
+  padding: 0.75rem var(--space-3);
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.4);
+  border: var(--border-glass);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  outline: none;
+  cursor: pointer;
+}
+
+.account-select-control:focus {
+  border-color: rgba(16, 185, 129, 0.6);
+}
+
+.color-swatch-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.color-swatch-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 2px;
+}
+
+.swatch-inner-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--swatch-color);
+}
+
+.color-swatch-btn.active {
+  border-color: #ffffff;
+  transform: scale(1.15);
+  box-shadow: 0 0 12px var(--swatch-color);
+}
+
+.account-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: var(--space-4);
+}

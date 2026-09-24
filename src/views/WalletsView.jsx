@@ -1,10 +1,31 @@
 import React, { useState } from 'react';
 import { useAccounts } from '../hooks';
 import { formatCurrency } from '../utils';
+import { AccountModal } from '../components';
 
-export default function WalletsView({ onOpenNewAccountModal }) {
-  const { accounts, balances, netWorthData, deleteAccount } = useAccounts();
+export default function WalletsView() {
+  const { accounts, balances, netWorthData, addAccount, updateAccount, deleteAccount } = useAccounts();
   const [selectedFilter, setSelectedFilter] = useState('ALL');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [accountToEdit, setAccountToEdit] = useState(null);
+
+  const handleOpenCreateModal = () => {
+    setAccountToEdit(null);
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEditModal = (account) => {
+    setAccountToEdit(account);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveAccount = async (accountData, accountId) => {
+    if (accountId) {
+      await updateAccount(accountId, accountData);
+    } else {
+      await addAccount(accountData);
+    }
+  };
 
   const filteredAccounts = selectedFilter === 'ALL'
     ? accounts
@@ -26,7 +47,7 @@ export default function WalletsView({ onOpenNewAccountModal }) {
         <button
           type="button"
           className="glass-pill emerald"
-          onClick={onOpenNewAccountModal}
+          onClick={handleOpenCreateModal}
           style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
         >
           + Nueva Cuenta / Billetera
@@ -114,13 +135,18 @@ export default function WalletsView({ onOpenNewAccountModal }) {
               {account.creditLimit && (
                 <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)', marginBottom: '0.75rem' }}>
                   Límite de Crédito: <span className="num-mono">{formatCurrency(account.creditLimit, account.currency)}</span>
+                  {account.apr && <span> • {account.apr}% APR</span>}
                 </div>
               )}
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '0.75rem' }}>
-                <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--text-secondary)' }}>
-                  Cifrado AES-GCM
-                </span>
+                <button
+                  type="button"
+                  onClick={() => handleOpenEditModal(account)}
+                  style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-primary-light)', cursor: 'pointer', background: 'transparent', border: 'none', fontWeight: 600 }}
+                >
+                  ✏️ Editar Cuenta
+                </button>
                 <button
                   type="button"
                   onClick={() => deleteAccount(account.id)}
@@ -134,6 +160,14 @@ export default function WalletsView({ onOpenNewAccountModal }) {
           );
         })}
       </div>
+
+      {/* Account Creation & Edition Modal */}
+      <AccountModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveAccount}
+        accountToEdit={accountToEdit}
+      />
     </div>
   );
 }
