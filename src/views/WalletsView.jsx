@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 import { useAccounts } from '../hooks';
 import { formatCurrency } from '../utils';
-import { AccountModal } from '../components';
+import { AccountModal, CurrencyConverterModal } from '../components';
 
 export default function WalletsView() {
   const { accounts, balances, netWorthData, addAccount, updateAccount, deleteAccount } = useAccounts();
   const [selectedFilter, setSelectedFilter] = useState('ALL');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+  const [isConverterModalOpen, setIsConverterModalOpen] = useState(false);
   const [accountToEdit, setAccountToEdit] = useState(null);
 
   const handleOpenCreateModal = () => {
     setAccountToEdit(null);
-    setIsModalOpen(true);
+    setIsAccountModalOpen(true);
   };
 
   const handleOpenEditModal = (account) => {
     setAccountToEdit(account);
-    setIsModalOpen(true);
+    setIsAccountModalOpen(true);
   };
 
   const handleSaveAccount = async (accountData, accountId) => {
@@ -44,14 +45,24 @@ export default function WalletsView() {
           </p>
         </div>
 
-        <button
-          type="button"
-          className="glass-pill emerald"
-          onClick={handleOpenCreateModal}
-          style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
-        >
-          + Nueva Cuenta / Billetera
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="glass-pill gold"
+            onClick={() => setIsConverterModalOpen(true)}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
+          >
+            💱 Conversor Multidivisa
+          </button>
+          <button
+            type="button"
+            className="glass-pill emerald"
+            onClick={handleOpenCreateModal}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
+          >
+            + Nueva Cuenta
+          </button>
+        </div>
       </header>
 
       {/* Net Worth Summary Pill Header */}
@@ -163,10 +174,16 @@ export default function WalletsView() {
 
       {/* Account Creation & Edition Modal */}
       <AccountModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isAccountModalOpen}
+        onClose={() => setIsAccountModalOpen(false)}
         onSave={handleSaveAccount}
         accountToEdit={accountToEdit}
+      />
+
+      {/* Currency Converter Modal */}
+      <CurrencyConverterModal
+        isOpen={isConverterModalOpen}
+        onClose={() => setIsConverterModalOpen(false)}
       />
     </div>
   );

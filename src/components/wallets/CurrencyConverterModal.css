@@ -1,0 +1,124 @@
+/* ==========================================================================
+   AuraFinance - Currency Converter Modal Styles
+   ========================================================================== */
+
+.currency-converter-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.currency-selectors-row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.selector-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.currency-select {
+  width: 100%;
+  padding: 0.75rem var(--space-3);
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.4);
+  border: var(--border-glass);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  outline: none;
+  cursor: pointer;
+}
+
+.currency-select:focus {
+  border-color: rgba(16, 185, 129, 0.6);
+}
+
+.currency-swap-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: var(--bg-glass-subtle);
+  border: var(--border-glass);
+  color: var(--color-primary-light);
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.currency-swap-btn:hover {
+  background: var(--bg-glass-active);
+  border-color: rgba(16, 185, 129, 0.4);
+  transform: rotate(180deg);
+}
+
+.conversion-result-card {
+  padding: var(--space-4);
+  text-align: center;
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(6, 35, 26, 0.6);
+}
+
+.rate-hint {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.final-converted-value {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  margin: 0.5rem 0;
+}
+
+.rate-timestamp {
+  font-size: var(--font-size-2xs);
+  color: var(--text-tertiary);
+}
+
+.rates-table-wrapper {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: var(--space-3);
+}
+
+.rates-table-title {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.rates-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: var(--space-2);
+}
+
+.rate-mini-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: var(--font-size-2xs);
+}
+
+.rate-code {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.rate-val {
+  color: var(--color-primary-light);
+}
+
+.converter-actions {
+  margin-top: var(--space-2);
+}
