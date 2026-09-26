@@ -498,7 +498,14 @@ export default function TransactionsView() {
                           color: isIncome ? 'var(--color-income)' : isTransfer ? 'var(--color-transfer)' : 'var(--color-expense)',
                         }}
                       >
-                        {isIncome ? `+${formatCurrency(tx.amount)}` : isTransfer ? `⇄ ${formatCurrency(tx.amount)}` : `-${formatCurrency(tx.amount)}`}
+                        <div>
+                          {isIncome ? `+${formatCurrency(tx.amount)}` : isTransfer ? `⇄ ${formatCurrency(tx.amount)}` : `-${formatCurrency(tx.amount)}`}
+                        </div>
+                        {isTransfer && (tx.feeAmount > 0 || tx.fee > 0) && (
+                          <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                            +{formatCurrency(tx.feeAmount || tx.fee)} com.
+                          </span>
+                        )}
                       </td>
                       <td style={{ textAlign: 'center' }}>
                         <button

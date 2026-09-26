@@ -17,6 +17,7 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
   const [type, setType] = useState(defaultType);
   const [concept, setConcept] = useState('');
   const [amount, setAmount] = useState('');
+  const [fee, setFee] = useState('');
   const [sourceAccountId, setSourceAccountId] = useState('');
   const [destinationAccountId, setDestinationAccountId] = useState('');
   const [category, setCategory] = useState('Alimentación');
@@ -34,6 +35,7 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
       setType(defaultType);
       setConcept('');
       setAmount('');
+      setFee('');
       setDate(new Date().toISOString().split('T')[0]);
       setSelectedTags([]);
       setReceipt(null);
@@ -74,10 +76,14 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
     try {
       setIsLoading(true);
 
+      const parsedFee = parseFloat(fee) || 0;
+
       const txPayload = {
         type,
         concept: concept.trim(),
         amount: parsedAmount,
+        fee: parsedFee,
+        feeAmount: parsedFee,
         date,
         category,
         subCategory: subCategory || undefined,
@@ -161,6 +167,19 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
               ))}
             </div>
           </div>
+
+          {/* Optional Fee Field for Transfers */}
+          {type === TRANSACTION_TYPES.TRANSFER && (
+            <Input
+              label="Comisión Bancaria / Fee (Opcional):"
+              type="number"
+              step="any"
+              value={fee}
+              onChange={(e) => setFee(e.target.value)}
+              placeholder="0.00"
+              prefix="$"
+            />
+          )}
 
           <Input
             label="Concepto / Descripción:"

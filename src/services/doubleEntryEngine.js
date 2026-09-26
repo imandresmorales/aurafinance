@@ -88,6 +88,7 @@ export function createDoubleEntry({
   sourceAccountId,
   destinationAccountId,
   amount,
+  fee = 0,
   feeAmount = 0,
   feeAccountId = null,
   category = 'General',
@@ -96,7 +97,7 @@ export function createDoubleEntry({
   tags = [],
 }) {
   const normAmount = normalizeMoney(amount);
-  const normFee = normalizeMoney(feeAmount);
+  const normFee = normalizeMoney(fee || feeAmount || 0);
   const cleanConcept = sanitizeText(concept) || (type === TRANSACTION_TYPES.INCOME ? 'Ingreso registrado' : 'Gasto registrado');
   const cleanDate = normalizeIsoDate(date);
 
@@ -115,10 +116,11 @@ export function createDoubleEntry({
     postings.push({ accountId: destinationAccountId, type: 'DEBIT', amount: normAmount });
     postings.push({ accountId: sourceAccountId, type: 'CREDIT', amount: normAmount });
 
-    // Si hay comisión bancaria:
-    if (normFee > 0 && feeAccountId) {
+    // Si hay comisión bancaria / impuesto de transferencia:
+    if (normFee > 0) {
+      const feeSource = feeAccountId || sourceAccountId;
       postings.push({ accountId: 'CAT:Comisiones Bancarias', type: 'DEBIT', amount: normFee });
-      postings.push({ accountId: feeAccountId, type: 'CREDIT', amount: normFee });
+      postings.push({ accountId: feeSource, type: 'CREDIT', amount: normFee });
     }
   } else {
     throw new Error(`Tipo de transacción no reconocido: ${type}`);
@@ -137,6 +139,7 @@ export function createDoubleEntry({
     date: cleanDate,
     amount: normAmount,
     feeAmount: normFee,
+    feeAccountId: normFee > 0 ? (feeAccountId || sourceAccountId) : null,
     sourceAccountId,
     destinationAccountId,
     tags,

@@ -63,4 +63,30 @@ describe('AuraFinance Double-Entry Bookkeeping Engine', () => {
     expect(netWorth.totalLiabilities).toBe(1200);
     expect(netWorth.netWorth).toBe(3800);
   });
+
+  it('debe generar asientos equilibrados para transferencias con comisiones bancarias', () => {
+    const accounts = [
+      { id: 'acc-src', name: 'Cuenta Origen', type: ACCOUNT_TYPES.ASSET, initialBalance: 2000 },
+      { id: 'acc-dst', name: 'Cuenta Destino', type: ACCOUNT_TYPES.ASSET, initialBalance: 500 },
+    ];
+
+    const tx = createDoubleEntry({
+      type: TRANSACTION_TYPES.TRANSFER,
+      sourceAccountId: 'acc-src',
+      destinationAccountId: 'acc-dst',
+      amount: 1000,
+      fee: 25,
+      concept: 'Transferencia internacional con comisión',
+    });
+
+    // Postings should be 4:
+    // Dest: Debit 1000, Source: Credit 1000
+    // Fee Category: Debit 25, Source: Credit 25
+    expect(tx.postings.length).toBe(4);
+    expect(tx.feeAmount).toBe(25);
+
+    const balances = computeAccountBalances(accounts, [tx]);
+    expect(balances['acc-dst']).toBe(1500); // 500 + 1000
+    expect(balances['acc-src']).toBe(975);  // 2000 - 1000 - 25
+  });
 });
