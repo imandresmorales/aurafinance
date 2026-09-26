@@ -1,0 +1,120 @@
+/* ==========================================================================
+   AuraFinance - TagPicker Styles
+   ========================================================================== */
+
+.tag-picker-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.tag-picker-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tag-input-control {
+  flex: 1;
+  padding: 0.5rem var(--space-3);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.4);
+  border: var(--border-glass);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  outline: none;
+}
+
+.tag-input-control:focus {
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.add-tag-btn {
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-glass-subtle);
+  border: var(--border-glass);
+  color: var(--color-primary-light);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.add-tag-btn:hover:not(:disabled) {
+  background: var(--bg-glass-active);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.add-tag-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.selected-tags-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  transition: all var(--transition-fast);
+}
+
+.tag-chip.active {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: var(--color-primary-light);
+}
+
+.remove-tag-x {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.remove-tag-x:hover {
+  color: var(--color-danger);
+}
+
+.suggested-tags-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.suggested-title {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+}
+
+.suggested-chips {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.tag-chip.suggested {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-tertiary);
+  cursor: pointer;
+}
+
+.tag-chip.suggested:hover {
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--text-secondary);
+}

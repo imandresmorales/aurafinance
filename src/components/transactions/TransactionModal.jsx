@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Input, Button } from '../common';
+import { Modal, Input, Button, TagPicker } from '../common';
 import { CategorySelector } from '../categories';
 import { useAccounts, useToast } from '../../hooks';
 import { TRANSACTION_TYPES, FINANCIAL_CATEGORIES } from '../../services';
@@ -219,6 +219,17 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
             onSelectCategory={setCategory}
             onSelectSubCategory={setSubCategory}
             type={type}
+          />
+        </div>
+
+        {/* Multi-Tagging Contextual Engine */}
+        <div>
+          <label className="input-label" style={{ marginBottom: '0.4rem' }}>
+            Etiquetas contextuales (#Tags):
+          </label>
+          <TagPicker
+            selectedTags={selectedTags}
+            onChange={setSelectedTags}
           />
         </div>
 
