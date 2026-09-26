@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Input, Button } from '../common';
+import { CategorySelector } from '../categories';
 import { useAccounts, useToast } from '../../hooks';
 import { TRANSACTION_TYPES, FINANCIAL_CATEGORIES } from '../../services';
 import './TransactionModal.css';
@@ -16,7 +17,7 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
   const [sourceAccountId, setSourceAccountId] = useState('');
   const [destinationAccountId, setDestinationAccountId] = useState('');
   const [category, setCategory] = useState('Alimentación');
-  const [subCategory, setSubCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('Supermercado');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,9 +42,6 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
       setSubCategory(initialCat.subCategories[0] || '');
     }
   }, [isOpen, accounts, defaultType]);
-
-  // Update subcategories when category changes
-  const currentCategoryObj = FINANCIAL_CATEGORIES.find((c) => c.name === category) || FINANCIAL_CATEGORIES[0];
 
   const handleQuickAddAmount = (addVal) => {
     const currentVal = parseFloat(amount) || 0;
@@ -95,7 +93,7 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
       onClose={onClose}
       title="Captura Rápida de Transacción"
       subtitle="Asiento de partida doble en Libro Mayor cifrado"
-      maxWidth="580px"
+      maxWidth="620px"
     >
       <form onSubmit={handleSubmit} className="transaction-form-body">
         {/* Type Selector Pills */}
@@ -197,29 +195,6 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
               </select>
             </div>
           )}
-        </div>
-
-        {/* Category & Date Row */}
-        <div className="tx-form-row">
-          <div className="tx-field-col">
-            <label className="input-label" htmlFor="tx-cat">Categoría:</label>
-            <select
-              id="tx-cat"
-              className="tx-select-control"
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-                const found = FINANCIAL_CATEGORIES.find((c) => c.name === e.target.value);
-                setSubCategory(found?.subCategories[0] || '');
-              }}
-            >
-              {FINANCIAL_CATEGORIES.map((cat) => (
-                <option key={cat.id} value={cat.name}>
-                  {cat.icon} {cat.name}
-                </option>
-              ))}
-            </select>
-          </div>
 
           <div className="tx-field-col">
             <label className="input-label" htmlFor="tx-date">Fecha:</label>
@@ -231,6 +206,20 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
+        </div>
+
+        {/* Intelligent Hierarchical Category Selector */}
+        <div>
+          <label className="input-label" style={{ marginBottom: '0.4rem' }}>
+            Categoría & Subcategoría:
+          </label>
+          <CategorySelector
+            selectedCategory={category}
+            selectedSubCategory={subCategory}
+            onSelectCategory={setCategory}
+            onSelectSubCategory={setSubCategory}
+            type={type}
+          />
         </div>
 
         {/* Modal Action Buttons */}
