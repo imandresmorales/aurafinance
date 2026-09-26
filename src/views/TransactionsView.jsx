@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useAccounts, useToast } from '../hooks';
-import { formatCurrency, exportTransactionsToCSV } from '../utils';
-import { TransactionModal, ReceiptModal, TransactionFilters, DATE_PRESETS } from '../components';
+import { formatCurrency, exportTransactionsToCSV, fuzzyFilter } from '../utils';
+import { TransactionModal, ReceiptModal, TransactionFilters, DATE_PRESETS, HighlightText } from '../components';
 import './TransactionsView.css';
 
 const INITIAL_FILTERS = {
@@ -64,68 +64,60 @@ export default function TransactionsView() {
 
   // Advanced Filtering Engine
   const filteredTransactions = useMemo(() => {
-    return (transactions || []).filter((tx) => {
+    let result = (transactions || []).filter((tx) => {
       // 1. Flow type
       if (filterType !== 'ALL' && tx.type !== filterType) {
         return false;
       }
 
-      // 2. Full-text search
-      if (filters.searchQuery.trim()) {
-        const q = filters.searchQuery.toLowerCase();
-        const srcAcc = getAccountName(tx.sourceAccountId).toLowerCase();
-        const dstAcc = getAccountName(tx.destinationAccountId).toLowerCase();
-        const concept = (tx.concept || '').toLowerCase();
-        const cat = (tx.category || '').toLowerCase();
-        const subCat = (tx.subCategory || '').toLowerCase();
-        const tags = (tx.tags || []).join(' ').toLowerCase();
-        const loc = (tx.location?.label || '').toLowerCase();
-
-        const match =
-          concept.includes(q) ||
-          cat.includes(q) ||
-          subCat.includes(q) ||
-          tags.includes(q) ||
-          srcAcc.includes(q) ||
-          dstAcc.includes(q) ||
-          loc.includes(q);
-
-        if (!match) return false;
-      }
-
-      // 3. Date range
+      // 2. Date range
       if (filters.startDate && tx.date < filters.startDate) return false;
       if (filters.endDate && tx.date > filters.endDate) return false;
 
-      // 4. Account
+      // 3. Account
       if (filters.accountId) {
         if (tx.sourceAccountId !== filters.accountId && tx.destinationAccountId !== filters.accountId) {
           return false;
         }
       }
 
-      // 5. Category
+      // 4. Category
       if (filters.category && tx.category !== filters.category) {
         return false;
       }
 
-      // 6. Tag
+      // 5. Tag
       if (filters.tag && (!tx.tags || !tx.tags.includes(filters.tag))) {
         return false;
       }
 
-      // 7. Amount Range
+      // 6. Amount Range
       if (filters.minAmount && (tx.amount || 0) < Number(filters.minAmount)) return false;
       if (filters.maxAmount && (tx.amount || 0) > Number(filters.maxAmount)) return false;
 
-      // 8. With Receipt only
+      // 7. With Receipt only
       if (filters.onlyWithReceipt && !tx.receipt) return false;
 
-      // 9. With Location only
+      // 8. With Location only
       if (filters.onlyWithLocation && !tx.location) return false;
 
       return true;
     });
+
+    // Apply Fuzzy Search Engine across concept, category, tags, and account names
+    if (filters.searchQuery && filters.searchQuery.trim()) {
+      result = fuzzyFilter(result, filters.searchQuery, [
+        'concept',
+        'category',
+        'subCategory',
+        'tags',
+        (tx) => getAccountName(tx.sourceAccountId),
+        (tx) => getAccountName(tx.destinationAccountId),
+        (tx) => tx.location?.label || '',
+      ]);
+    }
+
+    return result;
   }, [transactions, filterType, filters, accounts]);
 
   // Sorting Engine
@@ -439,7 +431,7 @@ export default function TransactionsView() {
                       <td>
                         <div className="tx-concept-cell">
                           <div className="tx-concept-main">
-                            <span>{tx.concept}</span>
+                            <HighlightText text={tx.concept} query={filters.searchQuery} />
                           </div>
 
                           <div className="tx-meta-badges">
@@ -458,7 +450,7 @@ export default function TransactionsView() {
                             {/* Location badge */}
                             {tx.location?.label && (
                               <span className="tx-badge-loc" title={tx.location.label}>
-                                📍 {tx.location.label}
+                                📍 <HighlightText text={tx.location.label} query={filters.searchQuery} />
                               </span>
                             )}
 
@@ -466,7 +458,9 @@ export default function TransactionsView() {
                             {tx.tags && tx.tags.length > 0 && (
                               <div className="tx-tag-list">
                                 {tx.tags.map((tg) => (
-                                  <span key={tg} className="tx-tag-pill">{tg}</span>
+                                  <span key={tg} className="tx-tag-pill">
+                                    <HighlightText text={tg} query={filters.searchQuery} />
+                                  </span>
                                 ))}
                               </div>
                             )}
