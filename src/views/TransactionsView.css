@@ -1,0 +1,263 @@
+/* ==========================================================================
+   AuraFinance - Transactions View & Table Styles
+   ========================================================================== */
+
+.transactions-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.tx-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.tx-table-container {
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.tx-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tx-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tx-data-table th {
+  padding: 0.9rem 1rem;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.2);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.tx-sortable-th {
+  cursor: pointer;
+  transition: color var(--trans-fast);
+}
+
+.tx-sortable-th:hover {
+  color: var(--emerald-primary);
+}
+
+.sort-icon {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.tx-sortable-th.active-sort {
+  color: var(--emerald-primary);
+}
+
+.tx-sortable-th.active-sort .sort-icon {
+  opacity: 1;
+}
+
+.tx-data-table td {
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: var(--font-size-sm);
+  vertical-align: middle;
+}
+
+.tx-data-table tbody tr {
+  transition: background-color var(--trans-fast);
+}
+
+.tx-data-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+.tx-data-table tbody tr.row-selected {
+  background-color: rgba(16, 185, 129, 0.08);
+}
+
+.tx-checkbox-cell {
+  width: 40px;
+  text-align: center;
+}
+
+.tx-custom-checkbox {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--emerald-primary);
+}
+
+.tx-concept-cell {
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tx-concept-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tx-meta-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.tx-badge-receipt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--emerald-primary);
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.tx-badge-receipt:hover {
+  background: rgba(16, 185, 129, 0.28);
+  transform: translateY(-1px);
+}
+
+.tx-badge-loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.tx-tag-list {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tx-tag-pill {
+  font-size: 0.68rem;
+  color: var(--color-primary-light);
+  background: rgba(16, 185, 129, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* Floating Batch Actions Bar */
+.tx-batch-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.tx-batch-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tx-batch-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Table Pagination Footer */
+.tx-pagination-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tx-pagination-info {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.tx-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tx-page-btn {
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.tx-page-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--emerald-primary);
+}
+
+.tx-page-btn.active {
+  background: var(--emerald-primary);
+  color: #03140f;
+  font-weight: 700;
+  border-color: var(--emerald-primary);
+}
+
+.tx-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tx-pagesize-select {
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  margin-left: 0.5rem;
+}

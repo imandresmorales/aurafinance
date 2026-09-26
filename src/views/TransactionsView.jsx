@@ -1,52 +1,216 @@
-import React, { useState } from 'react';
-import { useAccounts } from '../hooks';
-import { formatCurrency } from '../utils';
-import { TransactionModal } from '../components';
+import React, { useState, useMemo } from 'react';
+import { useAccounts, useToast } from '../hooks';
+import { formatCurrency, exportTransactionsToCSV } from '../utils';
+import { TransactionModal, ReceiptModal } from '../components';
+import './TransactionsView.css';
 
 export default function TransactionsView() {
-  const { transactions, accounts, deleteTransaction } = useAccounts();
+  const { transactions, accounts, deleteTransaction, setTransactions } = useAccounts();
+  const toast = useToast();
+
   const [filterType, setFilterType] = useState('ALL');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [previewReceipt, setPreviewReceipt] = useState(null);
+
+  // Multi-Selection State
+  const [selectedTxIds, setSelectedTxIds] = useState(new Set());
+
+  // Sorting State
+  const [sortField, setSortField] = useState('date');
+  const [sortDirection, setSortDirection] = useState('desc'); // 'asc' | 'desc'
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const getAccountName = (accountId) => {
     const found = accounts.find((a) => a.id === accountId);
-    return found ? found.name : 'Bóveda';
+    return found ? found.name : 'Bóveda Cifrada';
   };
 
-  const filtered = filterType === 'ALL'
-    ? transactions
-    : transactions.filter((t) => t.type === filterType);
+  // Base Filtering by Type
+  const filteredByType = useMemo(() => {
+    if (filterType === 'ALL') return transactions;
+    return transactions.filter((t) => t.type === filterType);
+  }, [transactions, filterType]);
+
+  // Sorting Engine
+  const sortedTransactions = useMemo(() => {
+    const list = [...filteredByType];
+    list.sort((a, b) => {
+      let comparison = 0;
+      if (sortField === 'date') {
+        comparison = new Date(a.date).getTime() - new Date(b.date).getTime();
+      } else if (sortField === 'amount') {
+        comparison = (a.amount || 0) - (b.amount || 0);
+      } else if (sortField === 'concept') {
+        comparison = (a.concept || '').localeCompare(b.concept || '');
+      } else if (sortField === 'category') {
+        comparison = (a.category || '').localeCompare(b.category || '');
+      }
+
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+    return list;
+  }, [filteredByType, sortField, sortDirection]);
+
+  // Pagination Calculation
+  const totalItems = sortedTransactions.length;
+  const totalPages = Math.ceil(totalItems / pageSize) || 1;
+  const paginatedTransactions = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return sortedTransactions.slice(start, start + pageSize);
+  }, [sortedTransactions, currentPage, pageSize]);
+
+  // Handle Sort Toggle
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortField(field);
+      setSortDirection('desc');
+    }
+    setCurrentPage(1);
+  };
+
+  // Multi-selection handlers
+  const handleSelectAllOnPage = (e) => {
+    const newSet = new Set(selectedTxIds);
+    if (e.target.checked) {
+      paginatedTransactions.forEach((tx) => newSet.add(tx.id));
+    } else {
+      paginatedTransactions.forEach((tx) => newSet.delete(tx.id));
+    }
+    setSelectedTxIds(newSet);
+  };
+
+  const handleToggleSelectRow = (txId) => {
+    const newSet = new Set(selectedTxIds);
+    if (newSet.has(txId)) {
+      newSet.delete(txId);
+    } else {
+      newSet.add(txId);
+    }
+    setSelectedTxIds(newSet);
+  };
+
+  const handleClearSelection = () => {
+    setSelectedTxIds(new Set());
+  };
+
+  const handleBatchDelete = async () => {
+    const count = selectedTxIds.size;
+    if (count === 0) return;
+
+    if (window.confirm(`¿Estás seguro de eliminar permanentemente ${count} transacciones seleccionadas?`)) {
+      try {
+        await setTransactions((prev) => (prev || []).filter((t) => !selectedTxIds.has(t.id)));
+        setSelectedTxIds(new Set());
+        toast?.success(`Se han eliminado ${count} transacciones del Libro Mayor.`, 'Eliminación por Lote');
+      } catch (err) {
+        toast?.error(`Error al eliminar en lote: ${err.message}`);
+      }
+    }
+  };
+
+  const handleExportCSV = (onlySelected = false) => {
+    const dataToExport = onlySelected
+      ? transactions.filter((t) => selectedTxIds.has(t.id))
+      : sortedTransactions;
+
+    if (dataToExport.length === 0) {
+      toast?.warning('No hay transacciones disponibles para exportar.');
+      return;
+    }
+
+    const dateStr = new Date().toISOString().split('T')[0];
+    const ok = exportTransactionsToCSV(dataToExport, accounts, `aurafinance_libro_mayor_${dateStr}.csv`);
+    if (ok) {
+      toast?.success(`Exportadas ${dataToExport.length} transacciones en CSV.`, 'Exportación Exitosa');
+    }
+  };
+
+  const isAllPageSelected =
+    paginatedTransactions.length > 0 &&
+    paginatedTransactions.every((tx) => selectedTxIds.has(tx.id));
 
   return (
     <div className="view-container">
-      <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+      {/* Header */}
+      <header className="transactions-view-header">
         <div>
           <div className="glass-pill emerald" style={{ marginBottom: '0.75rem' }}>
-            <span>Libro Mayor & Movimientos</span>
+            <span>Libro Mayor & Auditoría Criptográfica</span>
           </div>
           <h1 className="text-gradient-emerald">Registro de Transacciones</h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-            Historial de entradas, salidas y transferencias con balance contable y auditoría criptográfica.
+            Historial de entradas, salidas y transferencias con ordenamiento multicriterio y exportación.
           </p>
         </div>
 
-        <button
-          type="button"
-          className="glass-pill emerald"
-          onClick={() => setIsModalOpen(true)}
-          style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
-        >
-          + Nueva Transacción [N]
-        </button>
+        <div className="tx-header-actions">
+          <button
+            type="button"
+            className="glass-pill"
+            onClick={() => handleExportCSV(false)}
+            title="Exportar movimientos a CSV"
+            style={{ cursor: 'pointer' }}
+          >
+            📊 Exportar CSV
+          </button>
+          <button
+            type="button"
+            className="glass-pill emerald"
+            onClick={() => setIsModalOpen(true)}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
+          >
+            + Nueva Transacción [N]
+          </button>
+        </div>
       </header>
 
-      {/* Filter Bar */}
+      {/* Floating Batch Actions Bar */}
+      {selectedTxIds.size > 0 && (
+        <div className="tx-batch-bar">
+          <div className="tx-batch-info">
+            <span>✓ {selectedTxIds.size} transacciones seleccionadas</span>
+          </div>
+          <div className="tx-batch-actions">
+            <button
+              type="button"
+              className="glass-pill"
+              onClick={() => handleExportCSV(true)}
+              style={{ cursor: 'pointer', fontSize: 'var(--font-size-xs)' }}
+            >
+              📥 Exportar Seleccionadas
+            </button>
+            <button
+              type="button"
+              className="glass-pill"
+              onClick={handleBatchDelete}
+              style={{ cursor: 'pointer', fontSize: 'var(--font-size-xs)', background: 'rgba(239, 68, 68, 0.2)', color: '#fca5a5', borderColor: 'rgba(239, 68, 68, 0.4)' }}
+            >
+              🗑️ Eliminar Seleccionadas
+            </button>
+            <button
+              type="button"
+              className="glass-pill"
+              onClick={handleClearSelection}
+              style={{ cursor: 'pointer', fontSize: 'var(--font-size-xs)' }}
+            >
+              ✕ Deseleccionar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Filter Quick Pills */}
       <div className="glass-panel" style={{ padding: '0.75rem 1rem', marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginRight: '0.5rem' }}>Filtrar por:</span>
+        <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginRight: '0.5rem' }}>Tipo de flujo:</span>
         <button
           type="button"
           className={`glass-pill ${filterType === 'ALL' ? 'emerald' : ''}`}
-          onClick={() => setFilterType('ALL')}
+          onClick={() => { setFilterType('ALL'); setCurrentPage(1); }}
           style={{ cursor: 'pointer' }}
         >
           Todas ({transactions.length})
@@ -54,7 +218,7 @@ export default function TransactionsView() {
         <button
           type="button"
           className={`glass-pill ${filterType === 'INCOME' ? 'emerald' : ''}`}
-          onClick={() => setFilterType('INCOME')}
+          onClick={() => { setFilterType('INCOME'); setCurrentPage(1); }}
           style={{ cursor: 'pointer' }}
         >
           Ingresos
@@ -62,7 +226,7 @@ export default function TransactionsView() {
         <button
           type="button"
           className={`glass-pill ${filterType === 'EXPENSE' ? 'emerald' : ''}`}
-          onClick={() => setFilterType('EXPENSE')}
+          onClick={() => { setFilterType('EXPENSE'); setCurrentPage(1); }}
           style={{ cursor: 'pointer' }}
         >
           Gastos
@@ -70,84 +234,225 @@ export default function TransactionsView() {
         <button
           type="button"
           className={`glass-pill ${filterType === 'TRANSFER' ? 'emerald' : ''}`}
-          onClick={() => setFilterType('TRANSFER')}
+          onClick={() => { setFilterType('TRANSFER'); setCurrentPage(1); }}
           style={{ cursor: 'pointer' }}
         >
           Transferencias
         </button>
       </div>
 
-      {/* Transactions Table */}
-      <div className="glass-panel" style={{ padding: '1.5rem', overflowX: 'auto' }}>
-        {filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--text-secondary)' }}>
-            <p>No hay transacciones registradas con el filtro seleccionado.</p>
-          </div>
-        ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)', color: 'var(--text-secondary)', fontSize: 'var(--font-size-xs)' }}>
-                <th style={{ padding: '0.75rem 1rem' }}>FECHA</th>
-                <th style={{ padding: '0.75rem 1rem' }}>CONCEPTO</th>
-                <th style={{ padding: '0.75rem 1rem' }}>CATEGORÍA</th>
-                <th style={{ padding: '0.75rem 1rem' }}>CUENTA</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'right' }}>MONTO</th>
-                <th style={{ padding: '0.75rem 1rem', textAlign: 'center' }}>ACCIONES</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((tx) => {
-                const isIncome = tx.type === 'INCOME';
-                const isTransfer = tx.type === 'TRANSFER';
-                const accountLabel = isTransfer
-                  ? `${getAccountName(tx.sourceAccountId)} ➔ ${getAccountName(tx.destinationAccountId)}`
-                  : isIncome
-                    ? getAccountName(tx.destinationAccountId)
-                    : getAccountName(tx.sourceAccountId);
+      {/* Dynamic Data Table */}
+      <div className="glass-panel tx-table-container">
+        <div className="tx-table-responsive">
+          {totalItems === 0 ? (
+            <div style={{ textAlign: 'center', padding: '3.5rem 1rem', color: 'var(--text-secondary)' }}>
+              <p style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>🍃 No hay transacciones registradas</p>
+              <p style={{ fontSize: '0.85rem' }}>Pulsa el botón <strong>+ Nueva Transacción</strong> o la tecla <strong>[N]</strong> para asentar tu primer movimiento.</p>
+            </div>
+          ) : (
+            <table className="tx-data-table">
+              <thead>
+                <tr>
+                  <th className="tx-checkbox-cell">
+                    <input
+                      type="checkbox"
+                      checked={isAllPageSelected}
+                      onChange={handleSelectAllOnPage}
+                      className="tx-custom-checkbox"
+                      aria-label="Seleccionar todas las transacciones de esta página"
+                    />
+                  </th>
+                  <th
+                    className={`tx-sortable-th ${sortField === 'date' ? 'active-sort' : ''}`}
+                    onClick={() => handleSort('date')}
+                  >
+                    FECHA {sortField === 'date' && <span className="sort-icon">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                  </th>
+                  <th
+                    className={`tx-sortable-th ${sortField === 'concept' ? 'active-sort' : ''}`}
+                    onClick={() => handleSort('concept')}
+                  >
+                    CONCEPTO {sortField === 'concept' && <span className="sort-icon">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                  </th>
+                  <th
+                    className={`tx-sortable-th ${sortField === 'category' ? 'active-sort' : ''}`}
+                    onClick={() => handleSort('category')}
+                  >
+                    CATEGORÍA {sortField === 'category' && <span className="sort-icon">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                  </th>
+                  <th>CUENTA / DESTINO</th>
+                  <th
+                    className={`tx-sortable-th ${sortField === 'amount' ? 'active-sort' : ''}`}
+                    style={{ textAlign: 'right' }}
+                    onClick={() => handleSort('amount')}
+                  >
+                    MONTO {sortField === 'amount' && <span className="sort-icon">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                  </th>
+                  <th style={{ textAlign: 'center' }}>ACCIONES</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedTransactions.map((tx) => {
+                  const isIncome = tx.type === 'INCOME';
+                  const isTransfer = tx.type === 'TRANSFER';
+                  const isSelected = selectedTxIds.has(tx.id);
+                  const accountLabel = isTransfer
+                    ? `${getAccountName(tx.sourceAccountId)} ➔ ${getAccountName(tx.destinationAccountId)}`
+                    : isIncome
+                      ? getAccountName(tx.destinationAccountId)
+                      : getAccountName(tx.sourceAccountId);
 
-                return (
-                  <tr key={tx.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', fontSize: 'var(--font-size-sm)' }}>
-                    <td className="num-mono" style={{ padding: '1rem', color: 'var(--text-tertiary)' }}>{tx.date}</td>
-                    <td style={{ padding: '1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                      <div>{tx.concept}</div>
-                      {tx.tags && tx.tags.length > 0 && (
-                        <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
-                          {tx.tags.map((tg) => (
-                            <span key={tg} style={{ fontSize: '0.6875rem', color: 'var(--color-primary-light)' }}>{tg}</span>
-                          ))}
+                  return (
+                    <tr key={tx.id} className={isSelected ? 'row-selected' : ''}>
+                      <td className="tx-checkbox-cell">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => handleToggleSelectRow(tx.id)}
+                          className="tx-custom-checkbox"
+                          aria-label={`Seleccionar transacción ${tx.concept}`}
+                        />
+                      </td>
+                      <td className="num-mono" style={{ color: 'var(--text-tertiary)' }}>
+                        {tx.date}
+                      </td>
+                      <td>
+                        <div className="tx-concept-cell">
+                          <div className="tx-concept-main">
+                            <span>{tx.concept}</span>
+                          </div>
+
+                          <div className="tx-meta-badges">
+                            {/* Receipt badge */}
+                            {tx.receipt && (
+                              <button
+                                type="button"
+                                className="tx-badge-receipt"
+                                onClick={() => setPreviewReceipt(tx.receipt)}
+                                title="Ver comprobante adjunto"
+                              >
+                                🧾 Comprobante
+                              </button>
+                            )}
+
+                            {/* Location badge */}
+                            {tx.location?.label && (
+                              <span className="tx-badge-loc" title={tx.location.label}>
+                                📍 {tx.location.label}
+                              </span>
+                            )}
+
+                            {/* Tags */}
+                            {tx.tags && tx.tags.length > 0 && (
+                              <div className="tx-tag-list">
+                                {tx.tags.map((tg) => (
+                                  <span key={tg} className="tx-tag-pill">{tg}</span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </td>
-                    <td style={{ padding: '1rem' }}>
-                      <span className="glass-pill" style={{ fontSize: 'var(--font-size-2xs)' }}>{tx.category}</span>
-                    </td>
-                    <td style={{ padding: '1rem', color: 'var(--text-secondary)', fontSize: 'var(--font-size-xs)' }}>{accountLabel}</td>
-                    <td
-                      className="num-mono"
-                      style={{
-                        padding: '1rem',
-                        textAlign: 'right',
-                        fontWeight: 700,
-                        color: isIncome ? 'var(--color-income)' : isTransfer ? 'var(--color-transfer)' : 'var(--color-expense)',
-                      }}
-                    >
-                      {isIncome ? `+${formatCurrency(tx.amount)}` : isTransfer ? `⇄ ${formatCurrency(tx.amount)}` : `-${formatCurrency(tx.amount)}`}
-                    </td>
-                    <td style={{ padding: '1rem', textAlign: 'center' }}>
-                      <button
-                        type="button"
-                        onClick={() => deleteTransaction(tx.id)}
-                        style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-danger)', background: 'transparent', border: 'none', cursor: 'pointer' }}
-                        title="Eliminar asiento contable"
+                      </td>
+                      <td>
+                        <span className="glass-pill" style={{ fontSize: 'var(--font-size-2xs)' }}>
+                          {tx.category || 'General'}
+                        </span>
+                        {tx.subCategory && (
+                          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginLeft: '6px' }}>
+                            {tx.subCategory}
+                          </span>
+                        )}
+                      </td>
+                      <td style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-xs)' }}>
+                        {accountLabel}
+                      </td>
+                      <td
+                        className="num-mono"
+                        style={{
+                          textAlign: 'right',
+                          fontWeight: 700,
+                          color: isIncome ? 'var(--color-income)' : isTransfer ? 'var(--color-transfer)' : 'var(--color-expense)',
+                        }}
                       >
-                        ✕
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                        {isIncome ? `+${formatCurrency(tx.amount)}` : isTransfer ? `⇄ ${formatCurrency(tx.amount)}` : `-${formatCurrency(tx.amount)}`}
+                      </td>
+                      <td style={{ textAlign: 'center' }}>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (window.confirm(`¿Eliminar asiento contable "${tx.concept}"?`)) {
+                              deleteTransaction(tx.id);
+                              toast?.info('Asiento contable eliminado de la bóveda.');
+                            }
+                          }}
+                          style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-danger)', background: 'transparent', border: 'none', cursor: 'pointer' }}
+                          title="Eliminar asiento contable"
+                          aria-label={`Eliminar asiento ${tx.concept}`}
+                        >
+                          ✕
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {/* Pagination Controls Footer */}
+        {totalItems > 0 && (
+          <div className="tx-pagination-footer">
+            <div className="tx-pagination-info">
+              Mostrando {Math.min((currentPage - 1) * pageSize + 1, totalItems)} - {Math.min(currentPage * pageSize, totalItems)} de {totalItems} transacciones
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="tx-pagesize-select"
+                aria-label="Transacciones por página"
+              >
+                <option value={10}>10 por pág.</option>
+                <option value={25}>25 por pág.</option>
+                <option value={50}>50 por pág.</option>
+              </select>
+            </div>
+
+            <div className="tx-pagination-controls">
+              <button
+                type="button"
+                className="tx-page-btn"
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                ◀ Anterior
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((p) => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
+                .map((page, idx, arr) => (
+                  <React.Fragment key={page}>
+                    {idx > 0 && arr[idx - 1] !== page - 1 && <span style={{ color: 'var(--text-muted)' }}>...</span>}
+                    <button
+                      type="button"
+                      className={`tx-page-btn ${currentPage === page ? 'active' : ''}`}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </button>
+                  </React.Fragment>
+                ))}
+              <button
+                type="button"
+                className="tx-page-btn"
+                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                Siguiente ▶
+              </button>
+            </div>
+          </div>
         )}
       </div>
 
@@ -155,6 +460,13 @@ export default function TransactionsView() {
       <TransactionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+
+      {/* Lightbox Modal for Receipt Attachment */}
+      <ReceiptModal
+        isOpen={!!previewReceipt}
+        onClose={() => setPreviewReceipt(null)}
+        receipt={previewReceipt}
       />
     </div>
   );
