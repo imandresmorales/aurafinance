@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useAccounts } from '../hooks';
 import { formatCurrency } from '../utils';
-import { AccountModal, CurrencyConverterModal } from '../components';
+import { AccountModal, CurrencyConverterModal, ReconciliationModal } from '../components';
 
 export default function WalletsView() {
   const { accounts, balances, netWorthData, addAccount, updateAccount, deleteAccount } = useAccounts();
   const [selectedFilter, setSelectedFilter] = useState('ALL');
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [isConverterModalOpen, setIsConverterModalOpen] = useState(false);
+  const [isReconModalOpen, setIsReconModalOpen] = useState(false);
   const [accountToEdit, setAccountToEdit] = useState(null);
 
   const handleOpenCreateModal = () => {
@@ -46,6 +47,14 @@ export default function WalletsView() {
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="glass-pill emerald"
+            onClick={() => setIsReconModalOpen(true)}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
+          >
+            🏛️ Conciliación Bancaria
+          </button>
           <button
             type="button"
             className="glass-pill gold"
@@ -184,6 +193,12 @@ export default function WalletsView() {
       <CurrencyConverterModal
         isOpen={isConverterModalOpen}
         onClose={() => setIsConverterModalOpen(false)}
+      />
+
+      {/* Bank Reconciliation Modal */}
+      <ReconciliationModal
+        isOpen={isReconModalOpen}
+        onClose={() => setIsReconModalOpen(false)}
       />
     </div>
   );

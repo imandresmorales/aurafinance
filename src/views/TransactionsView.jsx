@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useAccounts, useToast } from '../hooks';
 import { formatCurrency, exportTransactionsToCSV, fuzzyFilter } from '../utils';
-import { TransactionModal, ReceiptModal, TransactionFilters, DATE_PRESETS, HighlightText } from '../components';
+import { TransactionModal, ReceiptModal, TransactionFilters, DATE_PRESETS, HighlightText, ReconciliationModal } from '../components';
 import './TransactionsView.css';
 
 const INITIAL_FILTERS = {
@@ -25,6 +25,7 @@ export default function TransactionsView() {
   const [filterType, setFilterType] = useState('ALL');
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReconModalOpen, setIsReconModalOpen] = useState(false);
   const [previewReceipt, setPreviewReceipt] = useState(null);
 
   // Multi-Selection State
@@ -235,6 +236,15 @@ export default function TransactionsView() {
         </div>
 
         <div className="tx-header-actions">
+          <button
+            type="button"
+            className="glass-pill"
+            onClick={() => setIsReconModalOpen(true)}
+            title="Conciliación bancaria contra extractos"
+            style={{ cursor: 'pointer' }}
+          >
+            🏛️ Conciliar
+          </button>
           <button
             type="button"
             className="glass-pill"
@@ -581,6 +591,12 @@ export default function TransactionsView() {
         isOpen={!!previewReceipt}
         onClose={() => setPreviewReceipt(null)}
         receipt={previewReceipt}
+      />
+
+      {/* Bank Reconciliation Modal */}
+      <ReconciliationModal
+        isOpen={isReconModalOpen}
+        onClose={() => setIsReconModalOpen(false)}
       />
     </div>
   );
