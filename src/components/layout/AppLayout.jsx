@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import { TransactionModal } from '../transactions';
 import './AppLayout.css';
 
 export default function AppLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [stealthMode, setStealthMode] = useState(false);
+  const [isQuickTxModalOpen, setIsQuickTxModalOpen] = useState(false);
 
-  // Global hotkey: 'H' for stealth mode toggle
+  // Global hotkeys: 'H' for stealth mode toggle, 'N' for new transaction modal
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
@@ -18,6 +20,10 @@ export default function AppLayout({ children }) {
       if (e.key === 'h' || e.key === 'H') {
         e.preventDefault();
         setStealthMode((prev) => !prev);
+      }
+      if (e.key === 'n' || e.key === 'N') {
+        e.preventDefault();
+        setIsQuickTxModalOpen(true);
       }
     };
 
@@ -67,6 +73,12 @@ export default function AppLayout({ children }) {
 
         <Footer />
       </div>
+
+      {/* Global Quick Transaction Modal [N] */}
+      <TransactionModal
+        isOpen={isQuickTxModalOpen}
+        onClose={() => setIsQuickTxModalOpen(false)}
+      />
     </div>
   );
 }
