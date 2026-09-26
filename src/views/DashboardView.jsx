@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAccounts } from '../hooks';
 import { formatCurrency } from '../utils';
-import { OnboardingWizard } from '../components';
+import { OnboardingWizard, DashboardBalanceCards } from '../components';
 
 export default function DashboardView() {
-  const { accounts, balances, netWorthData } = useAccounts();
+  const { accounts, transactions } = useAccounts();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   // Comprobar si es el primer inicio para sugerir el tour de inducción
@@ -19,10 +19,7 @@ export default function DashboardView() {
     }
   }, []);
 
-  // Calcular liquidez inmediata disponible (cuentas de tipo banco o efectivo)
-  const cashFlow = accounts
-    .filter((a) => a.category === 'BANK' || a.category === 'CASH')
-    .reduce((sum, acc) => sum + (balances[acc.id] !== undefined ? Math.max(0, balances[acc.id]) : 0), 0);
+  const reconciledCount = transactions.filter((t) => t.reconciled).length;
 
   return (
     <div className="view-container">
@@ -48,71 +45,32 @@ export default function DashboardView() {
         </button>
       </header>
 
-      {/* Main Metric Cards */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-        <div className="glass-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>
-              Patrimonio Neto Total
-            </span>
-            <span className="glass-pill emerald" style={{ fontSize: 'var(--font-size-xs)' }}>+14.2%</span>
-          </div>
-          <div className="num-mono text-gradient-emerald" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 700, margin: '0.25rem 0 0.75rem 0' }}>
-            {formatCurrency(netWorthData.netWorth, 'USD')}
-          </div>
-          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)' }}>
-            Activos {formatCurrency(netWorthData.totalAssets)} • Pasivos {formatCurrency(netWorthData.totalLiabilities)}
-          </p>
-        </div>
-
-        <div className="glass-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>
-              Liquidez Inmediata
-            </span>
-            <span className="glass-pill gold" style={{ fontSize: 'var(--font-size-xs)' }}>6.2 Meses Runway</span>
-          </div>
-          <div className="num-mono text-gradient-gold" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 700, margin: '0.25rem 0 0.75rem 0' }}>
-            {formatCurrency(cashFlow, 'USD')}
-          </div>
-          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)' }}>
-            Disponible en {accounts.filter((a) => a.category === 'BANK' || a.category === 'CASH').length} cuentas líquidas
-          </p>
-        </div>
-
-        <div className="glass-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>
-              Cuentas & Billeteras
-            </span>
-            <span className="glass-pill emerald" style={{ fontSize: 'var(--font-size-xs)' }}>E2EE</span>
-          </div>
-          <div className="num-mono" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 700, color: 'var(--color-primary-light)', margin: '0.25rem 0 0.75rem 0' }}>
-            {accounts.length} Activas
-          </div>
-          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-tertiary)' }}>
-            Todas sincronizadas con Libro Mayor
-          </p>
-        </div>
-      </section>
+      {/* Reactive Multi-Period KPI Balance Cards */}
+      <DashboardBalanceCards />
 
       {/* Quick Access Grid */}
       <section className="glass-panel" style={{ padding: '1.75rem' }}>
         <h3 style={{ marginBottom: '1.25rem', color: 'var(--color-primary-light)' }}>
-          Operaciones Recientes & Estado del Sistema
+          Auditoría Contable & Estado del Sistema
         </h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
           <div style={{ padding: '1.25rem', background: 'rgba(6, 35, 26, 0.4)', borderRadius: 'var(--radius-md)', border: 'var(--border-glass)' }}>
-            <h4 style={{ fontSize: 'var(--font-size-base)', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Cuentas Conciliadas</h4>
-            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>{accounts.length} de {accounts.length} billeteras verificadas con hash criptográfico.</p>
+            <h4 style={{ fontSize: 'var(--font-size-base)', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Cuentas & Conciliación</h4>
+            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>
+              {accounts.length} billeteras activas · {reconciledCount} de {transactions.length} asientos conciliados.
+            </p>
           </div>
           <div style={{ padding: '1.25rem', background: 'rgba(6, 35, 26, 0.4)', borderRadius: 'var(--radius-md)', border: 'var(--border-glass)' }}>
-            <h4 style={{ fontSize: 'var(--font-size-base)', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Regla 50/30/20</h4>
-            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>Necesidades: 48% • Deseos: 20% • Ahorro: 32%.</p>
+            <h4 style={{ fontSize: 'var(--font-size-base)', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Cifrado Zero-Knowledge</h4>
+            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>
+              Bóveda protegida con AES-256-GCM y PBKDF2 (100k iteraciones SHA-256).
+            </p>
           </div>
           <div style={{ padding: '1.25rem', background: 'rgba(6, 35, 26, 0.4)', borderRadius: 'var(--radius-md)', border: 'var(--border-glass)' }}>
-            <h4 style={{ fontSize: 'var(--font-size-base)', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Próximo Pago</h4>
-            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>Servidor Cloud ($45.00) en 4 días.</p>
+            <h4 style={{ fontSize: 'var(--font-size-base)', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>Partida Doble Balanceada</h4>
+            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>
+              Libro Mayor íntegro con consistencia matemática en cada movimiento contable.
+            </p>
           </div>
         </div>
       </section>
