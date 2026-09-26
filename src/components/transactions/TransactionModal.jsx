@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Input, Button, TagPicker } from '../common';
 import { CategorySelector } from '../categories';
+import ReceiptUploader from './ReceiptUploader';
+import LocationPicker from './LocationPicker';
+import ReceiptModal from './ReceiptModal';
 import { useAccounts, useToast } from '../../hooks';
 import { TRANSACTION_TYPES, FINANCIAL_CATEGORIES } from '../../services';
 import './TransactionModal.css';
@@ -20,6 +23,9 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
   const [subCategory, setSubCategory] = useState('Supermercado');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [receipt, setReceipt] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [previewReceipt, setPreviewReceipt] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // Set default accounts when modal opens
@@ -30,6 +36,9 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
       setAmount('');
       setDate(new Date().toISOString().split('T')[0]);
       setSelectedTags([]);
+      setReceipt(null);
+      setLocation(null);
+      setPreviewReceipt(null);
 
       const primaryAsset = accounts.find((a) => a.type === 'ASSET') || accounts[0];
       const secondaryAsset = accounts.find((a) => a.id !== primaryAsset?.id) || accounts[0];
@@ -75,6 +84,8 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
         sourceAccountId: type === TRANSACTION_TYPES.INCOME ? undefined : sourceAccountId,
         destinationAccountId: type === TRANSACTION_TYPES.EXPENSE ? undefined : destinationAccountId,
         tags: selectedTags,
+        receipt: receipt || undefined,
+        location: location || undefined,
       };
 
       await addTransaction(txPayload);
@@ -88,161 +99,194 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Captura Rápida de Transacción"
-      subtitle="Asiento de partida doble en Libro Mayor cifrado"
-      maxWidth="620px"
-    >
-      <form onSubmit={handleSubmit} className="transaction-form-body">
-        {/* Type Selector Pills */}
-        <div className="tx-type-selector-pills" role="radiogroup" aria-label="Tipo de Transacción">
-          <button
-            type="button"
-            className={`tx-type-pill ${type === TRANSACTION_TYPES.EXPENSE ? 'active expense' : ''}`}
-            onClick={() => setType(TRANSACTION_TYPES.EXPENSE)}
-          >
-            📉 Gasto
-          </button>
-          <button
-            type="button"
-            className={`tx-type-pill ${type === TRANSACTION_TYPES.INCOME ? 'active income' : ''}`}
-            onClick={() => setType(TRANSACTION_TYPES.INCOME)}
-          >
-            📈 Ingreso
-          </button>
-          <button
-            type="button"
-            className={`tx-type-pill ${type === TRANSACTION_TYPES.TRANSFER ? 'active transfer' : ''}`}
-            onClick={() => setType(TRANSACTION_TYPES.TRANSFER)}
-          >
-            ⇄ Transferencia
-          </button>
-        </div>
+    <>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Captura Rápida de Transacción"
+        subtitle="Asiento de partida doble en Libro Mayor cifrado"
+        maxWidth="620px"
+      >
+        <form onSubmit={handleSubmit} className="transaction-form-body">
+          {/* Type Selector Pills */}
+          <div className="tx-type-selector-pills" role="radiogroup" aria-label="Tipo de Transacción">
+            <button
+              type="button"
+              className={`tx-type-pill ${type === TRANSACTION_TYPES.EXPENSE ? 'active expense' : ''}`}
+              onClick={() => setType(TRANSACTION_TYPES.EXPENSE)}
+            >
+              📉 Gasto
+            </button>
+            <button
+              type="button"
+              className={`tx-type-pill ${type === TRANSACTION_TYPES.INCOME ? 'active income' : ''}`}
+              onClick={() => setType(TRANSACTION_TYPES.INCOME)}
+            >
+              📈 Ingreso
+            </button>
+            <button
+              type="button"
+              className={`tx-type-pill ${type === TRANSACTION_TYPES.TRANSFER ? 'active transfer' : ''}`}
+              onClick={() => setType(TRANSACTION_TYPES.TRANSFER)}
+            >
+              ⇄ Transferencia
+            </button>
+          </div>
 
-        {/* Amount Input & Quick Chips */}
-        <div className="amount-capture-block">
+          {/* Amount Input & Quick Chips */}
+          <div className="amount-capture-block">
+            <Input
+              label="Monto:"
+              type="number"
+              step="any"
+              required
+              autoFocus
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
+              prefix="$"
+              className="big-amount-input"
+            />
+
+            <div className="quick-amount-chips">
+              {QUICK_AMOUNTS.map((val) => (
+                <button
+                  key={val}
+                  type="button"
+                  className="quick-chip-btn num-mono"
+                  onClick={() => handleQuickAddAmount(val)}
+                >
+                  +{val}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <Input
-            label="Monto:"
-            type="number"
-            step="any"
+            label="Concepto / Descripción:"
             required
-            autoFocus
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="0.00"
-            prefix="$"
-            className="big-amount-input"
+            value={concept}
+            onChange={(e) => setConcept(e.target.value)}
+            placeholder="Ej. Supermercado semanal / Factura cliente"
           />
 
-          <div className="quick-amount-chips">
-            {QUICK_AMOUNTS.map((val) => (
-              <button
-                key={val}
-                type="button"
-                className="quick-chip-btn num-mono"
-                onClick={() => handleQuickAddAmount(val)}
-              >
-                +{val}
-              </button>
-            ))}
+          {/* Account Selector Row */}
+          <div className="tx-form-row">
+            {type !== TRANSACTION_TYPES.INCOME && (
+              <div className="tx-field-col">
+                <label className="input-label" htmlFor="source-acc">Cuenta Origen:</label>
+                <select
+                  id="source-acc"
+                  className="tx-select-control"
+                  value={sourceAccountId}
+                  onChange={(e) => setSourceAccountId(e.target.value)}
+                >
+                  {accounts.map((acc) => (
+                    <option key={acc.id} value={acc.id}>
+                      {acc.name} ({acc.currency})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {type !== TRANSACTION_TYPES.EXPENSE && (
+              <div className="tx-field-col">
+                <label className="input-label" htmlFor="dest-acc">Cuenta Destino:</label>
+                <select
+                  id="dest-acc"
+                  className="tx-select-control"
+                  value={destinationAccountId}
+                  onChange={(e) => setDestinationAccountId(e.target.value)}
+                >
+                  {accounts.map((acc) => (
+                    <option key={acc.id} value={acc.id}>
+                      {acc.name} ({acc.currency})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div className="tx-field-col">
+              <label className="input-label" htmlFor="tx-date">Fecha:</label>
+              <input
+                id="tx-date"
+                type="date"
+                className="tx-select-control"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
 
-        <Input
-          label="Concepto / Descripción:"
-          required
-          value={concept}
-          onChange={(e) => setConcept(e.target.value)}
-          placeholder="Ej. Supermercado semanal / Factura cliente"
-        />
-
-        {/* Account Selector Row */}
-        <div className="tx-form-row">
-          {type !== TRANSACTION_TYPES.INCOME && (
-            <div className="tx-field-col">
-              <label className="input-label" htmlFor="source-acc">Cuenta Origen:</label>
-              <select
-                id="source-acc"
-                className="tx-select-control"
-                value={sourceAccountId}
-                onChange={(e) => setSourceAccountId(e.target.value)}
-              >
-                {accounts.map((acc) => (
-                  <option key={acc.id} value={acc.id}>
-                    {acc.name} ({acc.currency})
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          {type !== TRANSACTION_TYPES.EXPENSE && (
-            <div className="tx-field-col">
-              <label className="input-label" htmlFor="dest-acc">Cuenta Destino:</label>
-              <select
-                id="dest-acc"
-                className="tx-select-control"
-                value={destinationAccountId}
-                onChange={(e) => setDestinationAccountId(e.target.value)}
-              >
-                {accounts.map((acc) => (
-                  <option key={acc.id} value={acc.id}>
-                    {acc.name} ({acc.currency})
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          <div className="tx-field-col">
-            <label className="input-label" htmlFor="tx-date">Fecha:</label>
-            <input
-              id="tx-date"
-              type="date"
-              className="tx-select-control"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+          {/* Intelligent Hierarchical Category Selector */}
+          <div>
+            <label className="input-label" style={{ marginBottom: '0.4rem' }}>
+              Categoría & Subcategoría:
+            </label>
+            <CategorySelector
+              selectedCategory={category}
+              selectedSubCategory={subCategory}
+              onSelectCategory={setCategory}
+              onSelectSubCategory={setSubCategory}
+              type={type}
             />
           </div>
-        </div>
 
-        {/* Intelligent Hierarchical Category Selector */}
-        <div>
-          <label className="input-label" style={{ marginBottom: '0.4rem' }}>
-            Categoría & Subcategoría:
-          </label>
-          <CategorySelector
-            selectedCategory={category}
-            selectedSubCategory={subCategory}
-            onSelectCategory={setCategory}
-            onSelectSubCategory={setSubCategory}
-            type={type}
-          />
-        </div>
+          {/* Multi-Tagging Contextual Engine */}
+          <div>
+            <label className="input-label" style={{ marginBottom: '0.4rem' }}>
+              Etiquetas contextuales (#Tags):
+            </label>
+            <TagPicker
+              selectedTags={selectedTags}
+              onChange={setSelectedTags}
+            />
+          </div>
 
-        {/* Multi-Tagging Contextual Engine */}
-        <div>
-          <label className="input-label" style={{ marginBottom: '0.4rem' }}>
-            Etiquetas contextuales (#Tags):
-          </label>
-          <TagPicker
-            selectedTags={selectedTags}
-            onChange={setSelectedTags}
-          />
-        </div>
+          {/* Attachments & Geolocation */}
+          <div className="tx-attachments-grid">
+            <div>
+              <label className="input-label" style={{ marginBottom: '0.4rem' }}>
+                Comprobante / Ticket:
+              </label>
+              <ReceiptUploader
+                receipt={receipt}
+                onChange={setReceipt}
+                onPreview={setPreviewReceipt}
+              />
+            </div>
 
-        {/* Modal Action Buttons */}
-        <div className="tx-modal-actions">
-          <Button variant="ghost" type="button" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button variant="primary" type="submit" isLoading={isLoading}>
-            Asentar Movimiento
-          </Button>
-        </div>
-      </form>
-    </Modal>
+            <div>
+              <label className="input-label" style={{ marginBottom: '0.4rem' }}>
+                Geolocalización / Lugar:
+              </label>
+              <LocationPicker
+                location={location}
+                onChange={setLocation}
+              />
+            </div>
+          </div>
+
+          {/* Modal Action Buttons */}
+          <div className="tx-modal-actions">
+            <Button variant="ghost" type="button" onClick={onClose}>
+              Cancelar
+            </Button>
+            <Button variant="primary" type="submit" isLoading={isLoading}>
+              Asentar Movimiento
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Full-view Receipt Preview Lightbox */}
+      <ReceiptModal
+        isOpen={!!previewReceipt}
+        onClose={() => setPreviewReceipt(null)}
+        receipt={previewReceipt}
+      />
+    </>
   );
 }

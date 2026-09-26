@@ -1,0 +1,126 @@
+.location-picker-root {
+  width: 100%;
+}
+
+.location-actions-bar {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.location-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.location-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--text-primary);
+  border-color: var(--border-glass-hover);
+}
+
+.location-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.location-selected-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: var(--radius-sm);
+}
+
+.location-icon {
+  font-size: 0.95rem;
+}
+
+.location-meta-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.location-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.location-coords {
+  font-size: 0.7rem;
+  color: #38bdf8;
+}
+
+.location-remove-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  transition: color var(--trans-fast);
+}
+
+.location-remove-btn:hover {
+  color: var(--crimson-accent);
+}
+
+.location-manual-form {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.location-input-field {
+  flex: 1;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+}
+
+.location-input-field:focus {
+  outline: none;
+  border-color: var(--emerald-primary);
+}
+
+.location-save-manual-btn {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background: var(--emerald-primary);
+  color: #03140f;
+  border: none;
+  cursor: pointer;
+}
+
+.location-save-manual-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.location-cancel-manual-btn {
+  padding: 0.45rem 0.6rem;
+  font-size: 0.78rem;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-glass);
+  cursor: pointer;
+}

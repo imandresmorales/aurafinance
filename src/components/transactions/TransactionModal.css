@@ -114,6 +114,13 @@
   border-color: rgba(16, 185, 129, 0.6);
 }
 
+.tx-attachments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+  margin-top: 0.25rem;
+}
+
 .tx-modal-actions {
   display: flex;
   justify-content: flex-end;
