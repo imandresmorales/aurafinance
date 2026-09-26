@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAccounts } from '../hooks';
 import { formatCurrency } from '../utils';
-import { AccountModal, CurrencyConverterModal, ReconciliationModal } from '../components';
+import { AccountModal, CurrencyConverterModal, ReconciliationModal, NetWorthTracker } from '../components';
 
 export default function WalletsView() {
   const { accounts, balances, netWorthData, addAccount, updateAccount, deleteAccount } = useAccounts();
@@ -74,27 +74,8 @@ export default function WalletsView() {
         </div>
       </header>
 
-      {/* Net Worth Summary Pill Header */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
-        <div className="glass-card">
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>Activos Totales</span>
-          <div className="num-mono text-gradient-emerald" style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 700, margin: '0.25rem 0' }}>
-            {formatCurrency(netWorthData.totalAssets)}
-          </div>
-        </div>
-        <div className="glass-card">
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>Pasivos & Deudas</span>
-          <div className="num-mono" style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 700, color: 'var(--color-danger)', margin: '0.25rem 0' }}>
-            {formatCurrency(netWorthData.totalLiabilities)}
-          </div>
-        </div>
-        <div className="glass-card">
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>Patrimonio Neto</span>
-          <div className="num-mono text-gradient-gold" style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 700, margin: '0.25rem 0' }}>
-            {formatCurrency(netWorthData.netWorth)}
-          </div>
-        </div>
-      </section>
+      {/* Real-time Net Worth & Solvency Tracker Card */}
+      <NetWorthTracker />
 
       {/* Filter Tabs */}
       <div className="glass-panel" style={{ padding: '0.75rem 1rem', marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>

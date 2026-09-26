@@ -1,0 +1,223 @@
+/* ==========================================================================
+   AuraFinance - NetWorthTracker Component Styles
+   ========================================================================== */
+
+.networth-tracker-card {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.networth-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.networth-eyebrow {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.networth-amount {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-top: 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+.solvency-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.solvency-badge.excellent {
+  background: rgba(16, 185, 129, 0.2);
+  color: #a7f3d0;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.solvency-badge.solid {
+  background: rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.solvency-badge.moderate {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.solvency-badge.vulnerable {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.networth-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.networth-metric-box {
+  padding: 1.1rem;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-glass);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.networth-metric-box.asset {
+  border-left: 3px solid var(--emerald-primary);
+}
+
+.networth-metric-box.liability {
+  border-left: 3px solid var(--crimson-accent);
+}
+
+.metric-box-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.metric-box-icon {
+  font-size: 1.1rem;
+}
+
+.metric-box-title {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.metric-box-val {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.metric-box-sub {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* Allocation Bars */
+.networth-allocation-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.allocation-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.allocation-summary {
+  color: var(--text-muted);
+}
+
+.allocation-bar-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  display: flex;
+}
+
+.allocation-bar-fill.liquid {
+  background: #38bdf8;
+  height: 100%;
+}
+
+.allocation-bar-fill.investment {
+  background: var(--emerald-primary);
+  height: 100%;
+}
+
+.networth-footer-action {
+  display: flex;
+  justify-content: center;
+}
+
+.networth-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--emerald-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  transition: color var(--trans-fast);
+}
+
+.networth-toggle-btn:hover {
+  text-decoration: underline;
+}
+
+.networth-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.networth-breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.85rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.breakdown-name-col {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.breakdown-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.breakdown-class-pill {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+}
+
+.breakdown-amount {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
