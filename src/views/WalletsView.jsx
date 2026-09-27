@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAccounts } from '../hooks';
 import { formatCurrency } from '../utils';
-import { AccountModal, CurrencyConverterModal, ReconciliationModal, NetWorthTracker } from '../components';
+import { AccountModal, CurrencyConverterModal, ReconciliationModal, NetWorthTracker, WalletManager } from '../components';
 
 export default function WalletsView() {
   const { accounts, balances, netWorthData, addAccount, updateAccount, deleteAccount } = useAccounts();
@@ -76,6 +76,9 @@ export default function WalletsView() {
 
       {/* Real-time Net Worth & Solvency Tracker Card */}
       <NetWorthTracker />
+
+      {/* Quick Internal Rebalancing & Transfer Deck */}
+      <WalletManager />
 
       {/* Filter Tabs */}
       <div className="glass-panel" style={{ padding: '0.75rem 1rem', marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
