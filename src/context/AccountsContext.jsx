@@ -149,10 +149,19 @@ export function AccountsProvider({ children }) {
     DEFAULT_TRANSACTIONS
   );
 
-  // Recálculo reactivo y determinista de balances contables
+  // Separación reactiva entre transacciones activas y en papelera (Soft Delete)
+  const activeTransactions = useMemo(() => {
+    return (transactions || []).filter((t) => !t.deleted);
+  }, [transactions]);
+
+  const deletedTransactions = useMemo(() => {
+    return (transactions || []).filter((t) => t.deleted);
+  }, [transactions]);
+
+  // Recálculo reactivo y determinista de balances contables (solo transacciones activas)
   const balances = useMemo(() => {
-    return computeAccountBalances(accounts || [], transactions || []);
-  }, [accounts, transactions]);
+    return computeAccountBalances(accounts || [], activeTransactions);
+  }, [accounts, activeTransactions]);
 
   // Recálculo del patrimonio neto consolidado
   const netWorthData = useMemo(() => {
@@ -236,10 +245,49 @@ export function AccountsProvider({ children }) {
     [setTransactions]
   );
 
-  // Eliminar una transacción
-  const deleteTransaction = useCallback(
+  // Eliminación suave (Soft Delete) hacia la papelera de reciclaje
+  const softDeleteTransaction = useCallback(
+    async (txId, reason = 'Eliminado por el usuario') => {
+      await setTransactions((prev) =>
+        (prev || []).map((t) =>
+          t.id === txId
+            ? { ...t, deleted: true, deletedAt: Date.now(), deletionReason: reason }
+            : t
+        )
+      );
+    },
+    [setTransactions]
+  );
+
+  // Restaurar transacción desde la papelera de reciclaje
+  const restoreTransaction = useCallback(
     async (txId) => {
-      await setTransactions((prev) => (prev || []).filter((t) => t.id !== txId));
+      await setTransactions((prev) =>
+        (prev || []).map((t) => {
+          if (t.id === txId) {
+            const restored = { ...t };
+            delete restored.deleted;
+            delete restored.deletedAt;
+            delete restored.deletionReason;
+            return restored;
+          }
+          return t;
+        })
+      );
+    },
+    [setTransactions]
+  );
+
+  // Purgar permanentemente transacciones de la papelera
+  const purgeDeletedTransactions = useCallback(
+    async (txIds = null) => {
+      await setTransactions((prev) =>
+        (prev || []).filter((t) => {
+          if (!t.deleted) return true;
+          if (Array.isArray(txIds)) return !txIds.includes(t.id);
+          return false;
+        })
+      );
     },
     [setTransactions]
   );
@@ -250,14 +298,19 @@ export function AccountsProvider({ children }) {
         accounts: accounts || [],
         balances,
         netWorthData,
-        transactions: transactions || [],
+        transactions: activeTransactions,
+        rawTransactions: transactions || [],
+        deletedTransactions,
         setTransactions,
         addAccount,
         updateAccount,
         deleteAccount,
         addTransaction,
         updateTransaction,
-        deleteTransaction,
+        deleteTransaction: softDeleteTransaction,
+        softDeleteTransaction,
+        restoreTransaction,
+        purgeDeletedTransactions,
         isLoading: isAccountsLoading || isTxLoading,
       }}
     >
@@ -265,3 +318,4 @@ export function AccountsProvider({ children }) {
     </AccountsContext.Provider>
   );
 }
+
