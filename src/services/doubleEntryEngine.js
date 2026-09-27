@@ -102,15 +102,16 @@ export function createDoubleEntry({
   const cleanDate = normalizeIsoDate(date);
 
   const postings = [];
+  const primaryAccount = destinationAccountId || sourceAccountId;
 
   if (type === TRANSACTION_TYPES.INCOME) {
     // Ingreso: Debe en Cuenta de Activo (+), Haber en Categoría de Ingreso
-    postings.push({ accountId: destinationAccountId, type: 'DEBIT', amount: normAmount });
+    postings.push({ accountId: primaryAccount, type: 'DEBIT', amount: normAmount });
     postings.push({ accountId: `CAT:${category}`, type: 'CREDIT', amount: normAmount });
   } else if (type === TRANSACTION_TYPES.EXPENSE) {
     // Gasto: Debe en Categoría de Gasto (+), Haber en Cuenta de Activo/Pasivo (-)
     postings.push({ accountId: `CAT:${category}`, type: 'DEBIT', amount: normAmount });
-    postings.push({ accountId: sourceAccountId, type: 'CREDIT', amount: normAmount });
+    postings.push({ accountId: primaryAccount, type: 'CREDIT', amount: normAmount });
   } else if (type === TRANSACTION_TYPES.TRANSFER) {
     // Transferencia entre cuentas: Debe en Destino (+), Haber en Origen (-)
     postings.push({ accountId: destinationAccountId, type: 'DEBIT', amount: normAmount });
