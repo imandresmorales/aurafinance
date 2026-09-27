@@ -1,7 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { useAccounts, useToast } from '../hooks';
 import { formatCurrency, exportTransactionsToCSV, fuzzyFilter } from '../utils';
-import { TransactionModal, ReceiptModal, TransactionFilters, DATE_PRESETS, HighlightText, ReconciliationModal, RecycleBinModal } from '../components';
+import {
+  TransactionModal,
+  ReceiptModal,
+  TransactionFilters,
+  DATE_PRESETS,
+  HighlightText,
+  ReconciliationModal,
+  RecycleBinModal,
+  DuplicateDetectorModal
+} from '../components';
 import './TransactionsView.css';
 
 const INITIAL_FILTERS = {
@@ -27,6 +36,7 @@ export default function TransactionsView() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReconModalOpen, setIsReconModalOpen] = useState(false);
   const [isTrashModalOpen, setIsTrashModalOpen] = useState(false);
+  const [isDetectorModalOpen, setIsDetectorModalOpen] = useState(false);
   const [previewReceipt, setPreviewReceipt] = useState(null);
 
   // Multi-Selection State
@@ -245,6 +255,15 @@ export default function TransactionsView() {
             style={{ cursor: 'pointer', position: 'relative' }}
           >
             🗑️ Papelera {deletedTransactions?.length > 0 && `(${deletedTransactions.length})`}
+          </button>
+          <button
+            type="button"
+            className="glass-pill"
+            onClick={() => setIsDetectorModalOpen(true)}
+            title="Detección heurística de duplicados y anomalías"
+            style={{ cursor: 'pointer' }}
+          >
+            🛡️ Duplicados
           </button>
           <button
             type="button"
@@ -620,6 +639,12 @@ export default function TransactionsView() {
       <RecycleBinModal
         isOpen={isTrashModalOpen}
         onClose={() => setIsTrashModalOpen(false)}
+      />
+
+      {/* Duplicate & Anomaly Detection Modal */}
+      <DuplicateDetectorModal
+        isOpen={isDetectorModalOpen}
+        onClose={() => setIsDetectorModalOpen(false)}
       />
     </div>
   );

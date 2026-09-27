@@ -1,0 +1,222 @@
+/* ==========================================================================
+   AuraFinance - DuplicateDetectorModal Component Styles
+   ========================================================================== */
+
+.detector-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detector-status-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+}
+
+.detector-status-banner.warning {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.detector-status-banner.clean {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.detector-status-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.detector-status-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.detector-status-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.detector-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.detector-section-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.duplicates-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.duplicate-pair-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.pair-comparison-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pair-tx-col {
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.pair-tx-col.original {
+  border-left: 2px solid var(--emerald-primary);
+}
+
+.pair-tx-col.duplicate {
+  border-left: 2px solid var(--crimson-accent);
+}
+
+.pair-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--emerald-primary);
+}
+
+.pair-tag.warning {
+  color: var(--crimson-accent);
+}
+
+.pair-concept {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.pair-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.pair-amount {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.pair-match-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-sm);
+}
+
+.match-confidence {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fde68a;
+}
+
+.match-days {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.pair-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 0.6rem;
+}
+
+/* Outliers Grid */
+.outliers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.outlier-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.outlier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.outlier-cat-pill {
+  font-size: 0.68rem;
+  padding: 1px 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+}
+
+.outlier-factor-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.outlier-concept {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.outlier-amounts-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+}
+
+.outlier-amount {
+  font-weight: 700;
+  color: var(--crimson-accent);
+}
+
+.outlier-avg {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.detector-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
