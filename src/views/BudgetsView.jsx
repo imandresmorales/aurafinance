@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useAccounts, useToast } from '../hooks';
 import { formatCurrency } from '../utils';
 import { calculateEnvelopeExecution } from '../services';
-import { Rule502030Card, BudgetModal, EnvelopeCard } from '../components';
+import { Rule502030Card, BudgetModal, EnvelopeCard, EmergencyFundTracker } from '../components';
 
 export default function BudgetsView() {
   const { budgets, transactions, addBudget, updateBudget, deleteBudget } = useAccounts();
@@ -70,6 +70,9 @@ export default function BudgetsView() {
           </button>
         </div>
       </header>
+
+      {/* Emergency Fund & Survival Runway Tracker */}
+      <EmergencyFundTracker />
 
       {/* 50/30/20 Rule Breakdown */}
       <Rule502030Card />
