@@ -5,7 +5,7 @@ import ReceiptUploader from './ReceiptUploader';
 import LocationPicker from './LocationPicker';
 import ReceiptModal from './ReceiptModal';
 import { useAccounts, useToast } from '../../hooks';
-import { TRANSACTION_TYPES, FINANCIAL_CATEGORIES } from '../../services';
+import { TRANSACTION_TYPES, FINANCIAL_CATEGORIES, suggestCategory } from '../../services';
 import './TransactionModal.css';
 
 const QUICK_AMOUNTS = [5, 10, 25, 50, 100, 250, 500];
@@ -27,6 +27,7 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
   const [receipt, setReceipt] = useState(null);
   const [location, setLocation] = useState(null);
   const [previewReceipt, setPreviewReceipt] = useState(null);
+  const [categorySuggestion, setCategorySuggestion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // Set default accounts when modal opens
@@ -185,9 +186,44 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
             label="Concepto / Descripción:"
             required
             value={concept}
-            onChange={(e) => setConcept(e.target.value)}
-            placeholder="Ej. Supermercado semanal / Factura cliente"
+            onChange={(e) => {
+              const val = e.target.value;
+              setConcept(val);
+              const suggestion = suggestCategory(val);
+              setCategorySuggestion(suggestion);
+              if (suggestion && type !== TRANSACTION_TYPES.TRANSFER) {
+                setCategory(suggestion.category);
+                if (suggestion.subCategory) {
+                  setSubCategory(suggestion.subCategory);
+                }
+              }
+            }}
+            placeholder="Ej. Supermercado semanal / Factura cliente / Uber"
           />
+
+          {categorySuggestion && type !== TRANSACTION_TYPES.TRANSFER && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: 'var(--font-size-2xs)',
+                color: 'var(--color-primary-light)',
+                background: 'rgba(16, 185, 129, 0.08)',
+                border: '1px solid rgba(16, 185, 129, 0.2)',
+                borderRadius: 'var(--radius-sm)',
+                padding: '0.35rem 0.65rem',
+                margin: '-0.25rem 0 0.5rem 0',
+              }}
+            >
+              <span>{categorySuggestion.icon} Auto-detectado:</span>
+              <strong>{categorySuggestion.category}</strong>
+              {categorySuggestion.subCategory && <span>&rsaquo; {categorySuggestion.subCategory}</span>}
+              <span className="glass-pill emerald" style={{ fontSize: '9px', padding: '1px 5px', marginLeft: 'auto' }}>
+                {Math.round(categorySuggestion.confidence * 100)}% certeza
+              </span>
+            </div>
+          )}
 
           {/* Account Selector Row */}
           <div className="tx-form-row">
