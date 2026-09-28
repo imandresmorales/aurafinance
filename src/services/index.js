@@ -5,3 +5,5 @@ export * from './reconciliationEngine';
 export * from './netWorthEngine';
 export * from './dashboardMetricsEngine';
 export * from './anomalyDetectionEngine';
+export * from './envelopeBudgetEngine';
+
