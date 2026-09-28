@@ -138,6 +138,79 @@ export const DEFAULT_TRANSACTIONS = [
   },
 ];
 
+export const DEFAULT_BUDGETS = [
+  {
+    id: 'env-housing',
+    name: 'Vivienda & Servicios',
+    category: 'Vivienda & Servicios',
+    allocated: 1800.0,
+    icon: '🏠',
+    color: '#38bdf8',
+    notes: 'Alquiler, luz, agua e internet',
+    period: '2026-09',
+  },
+  {
+    id: 'env-food',
+    name: 'Alimentación',
+    category: 'Alimentación',
+    allocated: 700.0,
+    icon: '🥑',
+    color: '#10b981',
+    notes: 'Supermercados y alimentos frescos',
+    period: '2026-09',
+  },
+  {
+    id: 'env-transport',
+    name: 'Transporte & Movilidad',
+    category: 'Transporte & Movilidad',
+    allocated: 350.0,
+    icon: '🚗',
+    color: '#f59e0b',
+    notes: 'Combustible y transporte público',
+    period: '2026-09',
+  },
+  {
+    id: 'env-leisure',
+    name: 'Ocio & Cultura',
+    category: 'Ocio & Cultura',
+    allocated: 450.0,
+    icon: '🎭',
+    color: '#e2c275',
+    notes: 'Cine, salidas y restaurantes',
+    period: '2026-09',
+  },
+  {
+    id: 'env-health',
+    name: 'Salud & Bienestar',
+    category: 'Salud & Bienestar',
+    allocated: 250.0,
+    icon: '🩺',
+    color: '#ec4899',
+    notes: 'Farmacia, gimnasio y seguros',
+    period: '2026-09',
+  },
+  {
+    id: 'env-software',
+    name: 'Software & Cloud',
+    category: 'Software & Cloud',
+    allocated: 150.0,
+    icon: '💻',
+    color: '#a855f7',
+    notes: 'Servidores y suscripciones tech',
+    period: '2026-09',
+  },
+  {
+    id: 'env-savings',
+    name: 'Inversión & Ahorro',
+    category: 'Inversión & Ahorro',
+    allocated: 800.0,
+    icon: '📈',
+    color: '#10b981',
+    notes: 'Aportaciones indexadas y fondo de emergencia',
+    period: '2026-09',
+  },
+];
+
 export function AccountsProvider({ children }) {
   const [accounts, setAccounts, { isLoading: isAccountsLoading }] = useEncryptedStorage(
     'financial_accounts',
@@ -147,6 +220,11 @@ export function AccountsProvider({ children }) {
   const [transactions, setTransactions, { isLoading: isTxLoading }] = useEncryptedStorage(
     'journal_transactions',
     DEFAULT_TRANSACTIONS
+  );
+
+  const [budgets, setBudgets, { isLoading: isBudgetsLoading }] = useEncryptedStorage(
+    'envelope_budgets',
+    DEFAULT_BUDGETS
   );
 
   // Separación reactiva entre transacciones activas y en papelera (Soft Delete)
@@ -292,6 +370,55 @@ export function AccountsProvider({ children }) {
     [setTransactions]
   );
 
+  // Añadir un nuevo sobre de presupuesto
+  const addBudget = useCallback(
+    async (budgetData) => {
+      const newBudget = {
+        id: `env-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+        name: budgetData.name?.trim() || 'Sobre de Presupuesto',
+        category: budgetData.category || budgetData.name || 'General',
+        allocated: parseFloat(budgetData.allocated) || 0,
+        icon: budgetData.icon || '🏷️',
+        color: budgetData.color || '#10b981',
+        notes: budgetData.notes?.trim() || '',
+        period: budgetData.period || new Date().toISOString().slice(0, 7),
+        createdAt: Date.now(),
+      };
+
+      await setBudgets((prev) => [...(prev || []), newBudget]);
+      return newBudget;
+    },
+    [setBudgets]
+  );
+
+  // Actualizar un sobre de presupuesto existente
+  const updateBudget = useCallback(
+    async (budgetId, budgetData) => {
+      await setBudgets((prev) =>
+        (prev || []).map((b) =>
+          b.id === budgetId
+            ? {
+                ...b,
+                ...budgetData,
+                allocated: budgetData.allocated !== undefined ? parseFloat(budgetData.allocated) || 0 : b.allocated,
+                name: budgetData.name ? budgetData.name.trim() : b.name,
+                updatedAt: Date.now(),
+              }
+            : b
+        )
+      );
+    },
+    [setBudgets]
+  );
+
+  // Eliminar un sobre de presupuesto
+  const deleteBudget = useCallback(
+    async (budgetId) => {
+      await setBudgets((prev) => (prev || []).filter((b) => b.id !== budgetId));
+    },
+    [setBudgets]
+  );
+
   return (
     <AccountsContext.Provider
       value={{
@@ -301,6 +428,11 @@ export function AccountsProvider({ children }) {
         transactions: activeTransactions,
         rawTransactions: transactions || [],
         deletedTransactions,
+        budgets: budgets || [],
+        setBudgets,
+        addBudget,
+        updateBudget,
+        deleteBudget,
         setTransactions,
         addAccount,
         updateAccount,
@@ -311,7 +443,7 @@ export function AccountsProvider({ children }) {
         softDeleteTransaction,
         restoreTransaction,
         purgeDeletedTransactions,
-        isLoading: isAccountsLoading || isTxLoading,
+        isLoading: isAccountsLoading || isTxLoading || isBudgetsLoading,
       }}
     >
       {children}
