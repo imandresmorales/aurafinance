@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatCurrency } from '../utils';
+import { Rule502030Card } from '../components';
 
 export default function BudgetsView() {
   const envelopes = [
@@ -21,6 +22,10 @@ export default function BudgetsView() {
           Asignación mensual por categorías con límites inteligentes y alertas dinámicas.
         </p>
       </header>
+
+      {/* 50/30/20 Rule Breakdown */}
+      <Rule502030Card />
+
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
         {envelopes.map((env) => {

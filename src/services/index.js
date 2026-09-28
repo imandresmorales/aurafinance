@@ -6,4 +6,6 @@ export * from './netWorthEngine';
 export * from './dashboardMetricsEngine';
 export * from './anomalyDetectionEngine';
 export * from './envelopeBudgetEngine';
+export * from './rule502030Engine';
+
 
