@@ -1,0 +1,87 @@
+.envelope-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.envelope-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.envelope-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.envelope-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.envelope-name {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.envelope-stat-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.envelope-remaining-badge {
+  font-size: var(--font-size-2xs);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.envelope-remaining-badge.positive {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-primary-light);
+}
+
+.envelope-remaining-badge.negative {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--color-danger);
+}
+
+.envelope-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.envelope-action-btn {
+  background: transparent;
+  border: none;
+  font-size: var(--font-size-2xs);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.envelope-action-btn.edit {
+  color: var(--color-primary-light);
+  font-weight: 600;
+}
+
+.envelope-action-btn.delete {
+  color: var(--color-danger);
+}
+
+.envelope-action-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
