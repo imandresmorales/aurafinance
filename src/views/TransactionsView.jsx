@@ -9,7 +9,8 @@ import {
   HighlightText,
   ReconciliationModal,
   RecycleBinModal,
-  DuplicateDetectorModal
+  DuplicateDetectorModal,
+  RuleAutomationModal,
 } from '../components';
 import './TransactionsView.css';
 
@@ -37,6 +38,7 @@ export default function TransactionsView() {
   const [isReconModalOpen, setIsReconModalOpen] = useState(false);
   const [isTrashModalOpen, setIsTrashModalOpen] = useState(false);
   const [isDetectorModalOpen, setIsDetectorModalOpen] = useState(false);
+  const [isAutomationModalOpen, setIsAutomationModalOpen] = useState(false);
   const [previewReceipt, setPreviewReceipt] = useState(null);
 
   // Multi-Selection State
@@ -264,6 +266,15 @@ export default function TransactionsView() {
             style={{ cursor: 'pointer' }}
           >
             🛡️ Duplicados
+          </button>
+          <button
+            type="button"
+            className="glass-pill"
+            onClick={() => setIsAutomationModalOpen(true)}
+            title="Motor de reglas y automatizaciones inteligentes"
+            style={{ cursor: 'pointer' }}
+          >
+            ⚡ Reglas
           </button>
           <button
             type="button"
@@ -645,6 +656,12 @@ export default function TransactionsView() {
       <DuplicateDetectorModal
         isOpen={isDetectorModalOpen}
         onClose={() => setIsDetectorModalOpen(false)}
+      />
+
+      {/* Intelligent Rule Automation Engine Modal */}
+      <RuleAutomationModal
+        isOpen={isAutomationModalOpen}
+        onClose={() => setIsAutomationModalOpen(false)}
       />
     </div>
   );

@@ -11,6 +11,7 @@ export * from './autoCategorizationEngine';
 export * from './emergencyFundEngine';
 export * from './variableIncomeBudgetEngine';
 export * from './budgetVarianceEngine';
+export * from './ruleAutomationEngine';
 
 
 
