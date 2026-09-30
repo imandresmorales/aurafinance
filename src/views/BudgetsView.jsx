@@ -11,6 +11,7 @@ import {
   EnvelopeReallocatorModal,
   BudgetVarianceReport,
   CategoryManagerModal,
+  FixedVsDiscretionaryCard,
 } from '../components';
 
 export default function BudgetsView() {
@@ -115,6 +116,9 @@ export default function BudgetsView() {
 
       {/* Analytical Budget Variance Report */}
       <BudgetVarianceReport />
+
+      {/* Fixed vs Discretionary Expenses & FCR Ratio */}
+      <FixedVsDiscretionaryCard />
 
       {/* Envelopes Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>

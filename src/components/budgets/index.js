@@ -6,6 +6,7 @@ export { default as EmergencyFundTracker } from './EmergencyFundTracker';
 export { default as VariableIncomeModal } from './VariableIncomeModal';
 export { default as EnvelopeReallocatorModal } from './EnvelopeReallocatorModal';
 export { default as BudgetVarianceReport } from './BudgetVarianceReport';
+export { default as FixedVsDiscretionaryCard } from './FixedVsDiscretionaryCard';
 
 
 
