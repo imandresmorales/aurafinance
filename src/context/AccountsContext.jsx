@@ -6,6 +6,7 @@ import {
   createDoubleEntry,
   computeAccountBalances,
   calculateNetWorth,
+  FINANCIAL_CATEGORIES,
 } from '../services';
 
 export const AccountsContext = createContext(null);
@@ -227,6 +228,11 @@ export function AccountsProvider({ children }) {
     DEFAULT_BUDGETS
   );
 
+  const [categories, setCategories, { isLoading: isCategoriesLoading }] = useEncryptedStorage(
+    'financial_categories',
+    FINANCIAL_CATEGORIES
+  );
+
   // Separación reactiva entre transacciones activas y en papelera (Soft Delete)
   const activeTransactions = useMemo(() => {
     return (transactions || []).filter((t) => !t.deleted);
@@ -419,6 +425,51 @@ export function AccountsProvider({ children }) {
     [setBudgets]
   );
 
+  // Categorías Personalizadas - CRUD
+  const addCategory = useCallback(
+    async (categoryData) => {
+      const newCat = {
+        id: `cat-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+        name: categoryData.name.trim(),
+        type: categoryData.type || 'EXPENSE',
+        icon: categoryData.icon || 'tag',
+        color: categoryData.color || '#10b981',
+        subCategories: categoryData.subCategories && categoryData.subCategories.length ? categoryData.subCategories : ['General'],
+        createdAt: Date.now(),
+      };
+      await setCategories((prev) => [...(prev || FINANCIAL_CATEGORIES), newCat]);
+      return newCat;
+    },
+    [setCategories]
+  );
+
+  const updateCategory = useCallback(
+    async (categoryId, updatedFields) => {
+      await setCategories((prev) =>
+        (prev || FINANCIAL_CATEGORIES).map((c) =>
+          c.id === categoryId ? { ...c, ...updatedFields } : c
+        )
+      );
+    },
+    [setCategories]
+  );
+
+  const deleteCategory = useCallback(
+    async (categoryId) => {
+      await setCategories((prev) =>
+        (prev || FINANCIAL_CATEGORIES).filter((c) => c.id !== categoryId)
+      );
+    },
+    [setCategories]
+  );
+
+  const resetCategoriesToDefault = useCallback(
+    async () => {
+      await setCategories(FINANCIAL_CATEGORIES);
+    },
+    [setCategories]
+  );
+
   return (
     <AccountsContext.Provider
       value={{
@@ -433,6 +484,11 @@ export function AccountsProvider({ children }) {
         addBudget,
         updateBudget,
         deleteBudget,
+        categories: categories || FINANCIAL_CATEGORIES,
+        addCategory,
+        updateCategory,
+        deleteCategory,
+        resetCategoriesToDefault,
         setTransactions,
         addAccount,
         updateAccount,
@@ -443,7 +499,7 @@ export function AccountsProvider({ children }) {
         softDeleteTransaction,
         restoreTransaction,
         purgeDeletedTransactions,
-        isLoading: isAccountsLoading || isTxLoading || isBudgetsLoading,
+        isLoading: isAccountsLoading || isTxLoading || isBudgetsLoading || isCategoriesLoading,
       }}
     >
       {children}

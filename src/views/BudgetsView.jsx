@@ -10,6 +10,7 @@ import {
   VariableIncomeModal,
   EnvelopeReallocatorModal,
   BudgetVarianceReport,
+  CategoryManagerModal,
 } from '../components';
 
 export default function BudgetsView() {
@@ -19,6 +20,7 @@ export default function BudgetsView() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVariableModalOpen, setIsVariableModalOpen] = useState(false);
   const [isReallocModalOpen, setIsReallocModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [budgetToEdit, setBudgetToEdit] = useState(null);
 
   const { envelopes, summary } = useMemo(() => {
@@ -70,6 +72,14 @@ export default function BudgetsView() {
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="glass-pill"
+            onClick={() => setIsCategoryModalOpen(true)}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer' }}
+          >
+            🏷️ Categorías & Iconos
+          </button>
           <button
             type="button"
             className="glass-pill"
@@ -136,6 +146,12 @@ export default function BudgetsView() {
       <EnvelopeReallocatorModal
         isOpen={isReallocModalOpen}
         onClose={() => setIsReallocModalOpen(false)}
+      />
+
+      {/* Category Manager Modal */}
+      <CategoryManagerModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
       />
     </div>
   );

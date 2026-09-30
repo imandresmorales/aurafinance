@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useAccounts } from '../../hooks';
 import { FINANCIAL_CATEGORIES } from '../../services';
+import { renderCategoryIcon } from './categoryIcons';
 import './CategorySelector.css';
 
 export default function CategorySelector({
@@ -9,13 +11,16 @@ export default function CategorySelector({
   onSelectSubCategory,
   type = 'EXPENSE',
 }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [activeParentTab, setActiveParentTab] = useState(selectedCategory || FINANCIAL_CATEGORIES[0].name);
+  const accountsCtx = useAccounts();
+  const allCategories = accountsCtx?.categories || FINANCIAL_CATEGORIES;
 
-  const filteredCategories = FINANCIAL_CATEGORIES.filter((cat) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeParentTab, setActiveParentTab] = useState(selectedCategory || allCategories[0]?.name);
+
+  const filteredCategories = allCategories.filter((cat) => {
     if (searchTerm) {
       const matchParent = cat.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchSub = cat.subCategories.some((sub) =>
+      const matchSub = (cat.subCategories || []).some((sub) =>
         sub.toLowerCase().includes(searchTerm.toLowerCase())
       );
       return matchParent || matchSub;
@@ -24,7 +29,7 @@ export default function CategorySelector({
   });
 
   const activeParentObj =
-    FINANCIAL_CATEGORIES.find((c) => c.name === activeParentTab) || FINANCIAL_CATEGORIES[0];
+    allCategories.find((c) => c.name === activeParentTab) || allCategories[0];
 
   const handleSelectParent = (cat) => {
     setActiveParentTab(cat.name);
@@ -65,7 +70,9 @@ export default function CategorySelector({
               className={`parent-cat-chip ${isSelected ? 'active' : ''}`}
               onClick={() => handleSelectParent(cat)}
             >
-              <span className="cat-emoji">{cat.icon}</span>
+              <span className="cat-emoji" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                {renderCategoryIcon(cat.icon, isSelected ? 'var(--emerald-400)' : 'currentColor', 16)}
+              </span>
               <span className="cat-title">{cat.name}</span>
             </button>
           );
