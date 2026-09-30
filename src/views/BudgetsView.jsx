@@ -2,7 +2,14 @@ import React, { useState, useMemo } from 'react';
 import { useAccounts, useToast } from '../hooks';
 import { formatCurrency } from '../utils';
 import { calculateEnvelopeExecution } from '../services';
-import { Rule502030Card, BudgetModal, EnvelopeCard, EmergencyFundTracker, VariableIncomeModal } from '../components';
+import {
+  Rule502030Card,
+  BudgetModal,
+  EnvelopeCard,
+  EmergencyFundTracker,
+  VariableIncomeModal,
+  EnvelopeReallocatorModal,
+} from '../components';
 
 export default function BudgetsView() {
   const { budgets, transactions, addBudget, updateBudget, deleteBudget } = useAccounts();
@@ -10,6 +17,7 @@ export default function BudgetsView() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVariableModalOpen, setIsVariableModalOpen] = useState(false);
+  const [isReallocModalOpen, setIsReallocModalOpen] = useState(false);
   const [budgetToEdit, setBudgetToEdit] = useState(null);
 
   const { envelopes, summary } = useMemo(() => {
@@ -63,11 +71,19 @@ export default function BudgetsView() {
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <button
             type="button"
+            className="glass-pill"
+            onClick={() => setIsReallocModalOpen(true)}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer' }}
+          >
+            ⇄ Reasignar Sobres
+          </button>
+          <button
+            type="button"
             className="glass-pill gold"
             onClick={() => setIsVariableModalOpen(true)}
             style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
           >
-            ⚡ Presupuesto Dinámico (Ingresos Variables)
+            ⚡ Presupuesto Dinámico
           </button>
           <button
             type="button"
@@ -75,7 +91,7 @@ export default function BudgetsView() {
             onClick={handleOpenCreate}
             style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
           >
-            + Nuevo Sobre de Presupuesto
+            + Nuevo Sobre
           </button>
         </div>
       </header>
@@ -110,6 +126,12 @@ export default function BudgetsView() {
       <VariableIncomeModal
         isOpen={isVariableModalOpen}
         onClose={() => setIsVariableModalOpen(false)}
+      />
+
+      {/* Envelope Reallocation Modal */}
+      <EnvelopeReallocatorModal
+        isOpen={isReallocModalOpen}
+        onClose={() => setIsReallocModalOpen(false)}
       />
     </div>
   );
