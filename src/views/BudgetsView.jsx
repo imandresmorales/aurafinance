@@ -12,6 +12,7 @@ import {
   BudgetVarianceReport,
   CategoryManagerModal,
   FixedVsDiscretionaryCard,
+  BurnRateForecastCard,
 } from '../components';
 
 export default function BudgetsView() {
@@ -119,6 +120,9 @@ export default function BudgetsView() {
 
       {/* Fixed vs Discretionary Expenses & FCR Ratio */}
       <FixedVsDiscretionaryCard />
+
+      {/* Burn Rate & Month-End Financial Forecast */}
+      <BurnRateForecastCard />
 
       {/* Envelopes Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>

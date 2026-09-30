@@ -13,6 +13,7 @@ export * from './variableIncomeBudgetEngine';
 export * from './budgetVarianceEngine';
 export * from './ruleAutomationEngine';
 export * from './fixedVsDiscretionaryEngine';
+export * from './burnRateForecastEngine';
 
 
 
