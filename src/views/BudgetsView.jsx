@@ -9,6 +9,7 @@ import {
   EmergencyFundTracker,
   VariableIncomeModal,
   EnvelopeReallocatorModal,
+  BudgetVarianceReport,
 } from '../components';
 
 export default function BudgetsView() {
@@ -101,6 +102,9 @@ export default function BudgetsView() {
 
       {/* 50/30/20 Rule Breakdown */}
       <Rule502030Card />
+
+      {/* Analytical Budget Variance Report */}
+      <BudgetVarianceReport />
 
       {/* Envelopes Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
