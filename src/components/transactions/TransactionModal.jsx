@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Modal, Input, Button, TagPicker } from '../common';
 import { CategorySelector } from '../categories';
 import ReceiptUploader from './ReceiptUploader';
 import LocationPicker from './LocationPicker';
 import ReceiptModal from './ReceiptModal';
 import { useAccounts, useToast } from '../../hooks';
-import { TRANSACTION_TYPES, FINANCIAL_CATEGORIES, suggestCategory } from '../../services';
+import { TRANSACTION_TYPES, FINANCIAL_CATEGORIES, suggestCategory, checkBudgetImpact } from '../../services';
 import './TransactionModal.css';
 
 const QUICK_AMOUNTS = [5, 10, 25, 50, 100, 250, 500];
 
 export default function TransactionModal({ isOpen, onClose, defaultType = TRANSACTION_TYPES.EXPENSE }) {
-  const { accounts, addTransaction } = useAccounts();
+  const { accounts, budgets, transactions, addTransaction } = useAccounts();
   const toast = useToast();
 
   const [type, setType] = useState(defaultType);
@@ -29,6 +29,16 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
   const [previewReceipt, setPreviewReceipt] = useState(null);
   const [categorySuggestion, setCategorySuggestion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Proactive Budget Impact Calculation
+  const budgetImpact = useMemo(() => {
+    if (type !== TRANSACTION_TYPES.EXPENSE) return null;
+    return checkBudgetImpact(budgets || [], transactions || [], {
+      category,
+      amount: parseFloat(amount) || 0,
+      date,
+    });
+  }, [type, budgets, transactions, category, amount, date]);
 
   // Set default accounts when modal opens
   useEffect(() => {
@@ -287,6 +297,30 @@ export default function TransactionModal({ isOpen, onClose, defaultType = TRANSA
               onSelectSubCategory={setSubCategory}
               type={type}
             />
+
+            {/* Proactive Budget Overflow Alert */}
+            {budgetImpact && budgetImpact.warningLevel !== 'NONE' && (
+              <div
+                style={{
+                  padding: '0.65rem 0.85rem',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: 'var(--font-size-2xs)',
+                  marginTop: '0.65rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  background: budgetImpact.warningLevel === 'OVERFLOW' ? 'rgba(244, 63, 94, 0.12)' : 'rgba(245, 158, 11, 0.12)',
+                  border: `1px solid ${budgetImpact.warningLevel === 'OVERFLOW' ? 'rgba(244, 63, 94, 0.35)' : 'rgba(245, 158, 11, 0.35)'}`,
+                  color: budgetImpact.warningLevel === 'OVERFLOW' ? '#fca5a5' : '#fcd34d',
+                }}
+              >
+                <span style={{ fontSize: '1.1rem' }}>{budgetImpact.warningLevel === 'OVERFLOW' ? '🔥' : '⚠️'}</span>
+                <div>
+                  <strong>{budgetImpact.warningLevel === 'OVERFLOW' ? 'Alerta de Límite Superado' : 'Aviso Presupuestario'}: </strong>
+                  <span>{budgetImpact.message}</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Multi-Tagging Contextual Engine */}

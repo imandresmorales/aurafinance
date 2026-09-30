@@ -153,3 +153,72 @@ export function calculateZeroBasedBudgetSummary(totalMonthlyIncome = 0, envelope
     advice,
   };
 }
+
+/**
+ * Alerta proactiva: Evalúa el impacto presupuestario de un gasto antes de asentarlo
+ * @param {Array} budgets - Lista de sobres presupuestarios
+ * @param {Array} transactions - Transacciones del libro mayor
+ * @param {Object} newExpense - Objeto { category, amount, date }
+ * @returns {Object} Diagnóstico proactivo del sobre de presupuesto
+ */
+export function checkBudgetImpact(budgets = [], transactions = [], newExpense = {}) {
+  const normAmount = normalizeMoney(newExpense.amount || 0);
+  const category = (newExpense.category || '').trim();
+  const date = newExpense.date || new Date().toISOString().slice(0, 10);
+  const period = date.slice(0, 7);
+
+  if (!category || normAmount <= 0) {
+    return { hasEnvelope: false, willOverflow: false, warningLevel: 'NONE' };
+  }
+
+  // Buscar sobre correspondiente a la categoría
+  const targetEnvelope = budgets.find(
+    (b) => (b.category || b.name || '').trim().toLowerCase() === category.toLowerCase()
+  );
+
+  if (!targetEnvelope) {
+    return { hasEnvelope: false, willOverflow: false, warningLevel: 'NONE' };
+  }
+
+  // Calcular gasto actual en esa categoría en el periodo
+  const currentCategorySpent = transactions
+    .filter((tx) => !tx.deleted && tx.type === 'EXPENSE' && tx.date?.startsWith(period))
+    .filter((tx) => (tx.category || '').trim().toLowerCase() === category.toLowerCase())
+    .reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0);
+
+  const allocated = normalizeMoney(targetEnvelope.allocated || 0);
+  const currentSpent = normalizeMoney(currentCategorySpent);
+  const currentRemaining = normalizeMoney(allocated - currentSpent);
+  const projectedSpent = normalizeMoney(currentSpent + normAmount);
+  const projectedRemaining = normalizeMoney(allocated - projectedSpent);
+  const willOverflow = projectedSpent > allocated;
+  const overflowAmount = willOverflow ? normalizeMoney(projectedSpent - allocated) : 0;
+  const projectedPercent = allocated > 0 ? normalizeMoney((projectedSpent / allocated) * 100) : 100;
+
+  let warningLevel = 'NONE';
+  let message = '';
+
+  if (willOverflow) {
+    warningLevel = 'OVERFLOW';
+    message = `Este gasto de $${normAmount.toFixed(2)} sobrepasará tu límite en "${targetEnvelope.name}" por $${overflowAmount.toFixed(2)} (${projectedPercent.toFixed(0)}% del límite).`;
+  } else if (projectedPercent >= 85) {
+    warningLevel = 'CAUTION';
+    message = `Atención: Con este gasto consumirás el ${projectedPercent.toFixed(0)}% del sobre "${targetEnvelope.name}" (Quedarán $${projectedRemaining.toFixed(2)} disponibles).`;
+  }
+
+  return {
+    hasEnvelope: true,
+    envelope: targetEnvelope,
+    allocated,
+    currentSpent,
+    currentRemaining,
+    projectedSpent,
+    projectedRemaining,
+    projectedPercent,
+    willOverflow,
+    overflowAmount,
+    warningLevel,
+    message,
+  };
+}
+
