@@ -9,6 +9,8 @@ export * from './envelopeBudgetEngine';
 export * from './rule502030Engine';
 export * from './autoCategorizationEngine';
 export * from './emergencyFundEngine';
+export * from './variableIncomeBudgetEngine';
+
 
 
 

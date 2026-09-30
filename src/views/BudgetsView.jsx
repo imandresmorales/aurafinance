@@ -2,13 +2,14 @@ import React, { useState, useMemo } from 'react';
 import { useAccounts, useToast } from '../hooks';
 import { formatCurrency } from '../utils';
 import { calculateEnvelopeExecution } from '../services';
-import { Rule502030Card, BudgetModal, EnvelopeCard, EmergencyFundTracker } from '../components';
+import { Rule502030Card, BudgetModal, EnvelopeCard, EmergencyFundTracker, VariableIncomeModal } from '../components';
 
 export default function BudgetsView() {
   const { budgets, transactions, addBudget, updateBudget, deleteBudget } = useAccounts();
   const toast = useToast();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVariableModalOpen, setIsVariableModalOpen] = useState(false);
   const [budgetToEdit, setBudgetToEdit] = useState(null);
 
   const { envelopes, summary } = useMemo(() => {
@@ -59,7 +60,15 @@ export default function BudgetsView() {
           </p>
         </div>
 
-        <div>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="glass-pill gold"
+            onClick={() => setIsVariableModalOpen(true)}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
+          >
+            ⚡ Presupuesto Dinámico (Ingresos Variables)
+          </button>
           <button
             type="button"
             className="glass-pill emerald"
@@ -95,6 +104,12 @@ export default function BudgetsView() {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveBudget}
         budgetToEdit={budgetToEdit}
+      />
+
+      {/* Variable Income Modal */}
+      <VariableIncomeModal
+        isOpen={isVariableModalOpen}
+        onClose={() => setIsVariableModalOpen(false)}
       />
     </div>
   );

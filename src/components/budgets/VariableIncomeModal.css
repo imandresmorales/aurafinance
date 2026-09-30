@@ -1,0 +1,58 @@
+.variable-income-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tier-cascade-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tier-card-block {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.tier-card-block.active {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+}
+
+.tier-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.tier-title {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tier-envelope-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.tier-env-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  font-size: var(--font-size-xs);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

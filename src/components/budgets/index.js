@@ -3,6 +3,8 @@ export { default as BudgetModal } from './BudgetModal';
 export { default as EnvelopeProgressBar } from './EnvelopeProgressBar';
 export { default as EnvelopeCard } from './EnvelopeCard';
 export { default as EmergencyFundTracker } from './EmergencyFundTracker';
+export { default as VariableIncomeModal } from './VariableIncomeModal';
+
 
 
 
