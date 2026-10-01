@@ -15,6 +15,7 @@ import {
   BurnRateForecastCard,
   MicroExpensesCard,
   BudgetRolloverModal,
+  SurplusAllocationModal,
 } from '../components';
 
 export default function BudgetsView() {
@@ -26,6 +27,7 @@ export default function BudgetsView() {
   const [isReallocModalOpen, setIsReallocModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isRolloverModalOpen, setIsRolloverModalOpen] = useState(false);
+  const [isSurplusModalOpen, setIsSurplusModalOpen] = useState(false);
   const [budgetToEdit, setBudgetToEdit] = useState(null);
 
   const { envelopes, summary } = useMemo(() => {
@@ -100,6 +102,14 @@ export default function BudgetsView() {
             style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer' }}
           >
             🗓️ Cierre & Reajuste
+          </button>
+          <button
+            type="button"
+            className="glass-pill gold"
+            onClick={() => setIsSurplusModalOpen(true)}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer', fontWeight: 600 }}
+          >
+            💰 Asignar Excedente
           </button>
           <button
             type="button"
@@ -180,6 +190,12 @@ export default function BudgetsView() {
       <BudgetRolloverModal
         isOpen={isRolloverModalOpen}
         onClose={() => setIsRolloverModalOpen(false)}
+      />
+
+      {/* Interactive Surplus Allocator Modal */}
+      <SurplusAllocationModal
+        isOpen={isSurplusModalOpen}
+        onClose={() => setIsSurplusModalOpen(false)}
       />
     </div>
   );
