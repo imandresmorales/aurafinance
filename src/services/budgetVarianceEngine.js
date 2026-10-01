@@ -16,7 +16,7 @@ export function calculateBudgetVariances(budgets = [], transactions = [], monthK
 
   // Filter transactions for the target month and active expenses
   const monthExpenses = (transactions || []).filter(t => {
-    if (!t || t.isDeleted || t.type !== 'expense') return false;
+    if (!t || t.isDeleted || (t.type || '').toLowerCase() !== 'expense') return false;
     const tDate = t.date ? String(t.date).slice(0, 7) : '';
     return tDate === targetMonth;
   });
@@ -26,7 +26,7 @@ export function calculateBudgetVariances(budgets = [], transactions = [], monthK
   monthExpenses.forEach(t => {
     const cat = t.category || 'Sin Categoría';
     const amt = Math.abs(Number(t.amount)) || 0;
-    actualByCategory[cat] = (actualByCategory[cat] || 0) + amt;
+    actualByCategory[cat] = Math.round(((actualByCategory[cat] || 0) + amt) * 100) / 100;
   });
 
   const activeBudgets = (budgets || []).filter(b => !b.isDeleted && b.isActive !== false);
@@ -35,7 +35,7 @@ export function calculateBudgetVariances(budgets = [], transactions = [], monthK
     const budgeted = Number(b.limit || b.allocated || b.amount) || 0;
     const category = b.category || b.name || 'General';
     const actual = actualByCategory[category] || 0;
-    const variance = budgeted - actual; // Positive: under budget (favorable), Negative: over budget (unfavorable)
+    const variance = Math.round((budgeted - actual) * 100) / 100; // Positive: under budget (favorable), Negative: over budget (unfavorable)
     const percentSpent = budgeted > 0 ? (actual / budgeted) * 100 : (actual > 0 ? 100 : 0);
 
     let status = 'favorable';
@@ -59,18 +59,18 @@ export function calculateBudgetVariances(budgets = [], transactions = [], monthK
     };
   });
 
-  // Aggregate calculations
-  const totalBudgeted = items.reduce((acc, i) => acc + i.budgeted, 0);
-  const totalActual = items.reduce((acc, i) => acc + i.actual, 0);
-  const netVariance = totalBudgeted - totalActual;
+  // Aggregate calculations with IEEE-754 precision protection
+  const totalBudgeted = Math.round(items.reduce((acc, i) => acc + i.budgeted, 0) * 100) / 100;
+  const totalActual = Math.round(items.reduce((acc, i) => acc + i.actual, 0) * 100) / 100;
+  const netVariance = Math.round((totalBudgeted - totalActual) * 100) / 100;
   
-  const totalOverspend = items
+  const totalOverspend = Math.round(items
     .filter(i => i.variance < 0)
-    .reduce((acc, i) => acc + Math.abs(i.variance), 0);
+    .reduce((acc, i) => acc + Math.abs(i.variance), 0) * 100) / 100;
     
-  const totalSavings = items
+  const totalSavings = Math.round(items
     .filter(i => i.variance > 0)
-    .reduce((acc, i) => acc + i.variance, 0);
+    .reduce((acc, i) => acc + i.variance, 0) * 100) / 100;
 
   // Adherence score (100% minus penalty for overspending)
   let adherenceScore = 100;
