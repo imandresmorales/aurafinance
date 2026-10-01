@@ -14,6 +14,7 @@ export * from './budgetVarianceEngine';
 export * from './ruleAutomationEngine';
 export * from './fixedVsDiscretionaryEngine';
 export * from './burnRateForecastEngine';
+export * from './microExpensesEngine';
 
 
 

@@ -13,6 +13,7 @@ import {
   CategoryManagerModal,
   FixedVsDiscretionaryCard,
   BurnRateForecastCard,
+  MicroExpensesCard,
 } from '../components';
 
 export default function BudgetsView() {
@@ -123,6 +124,9 @@ export default function BudgetsView() {
 
       {/* Burn Rate & Month-End Financial Forecast */}
       <BurnRateForecastCard />
+
+      {/* Micro-Expenses ("Efecto Hormiga") Cumulative Analysis */}
+      <MicroExpensesCard />
 
       {/* Envelopes Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
