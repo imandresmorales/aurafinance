@@ -14,6 +14,7 @@ import {
   FixedVsDiscretionaryCard,
   BurnRateForecastCard,
   MicroExpensesCard,
+  BudgetRolloverModal,
 } from '../components';
 
 export default function BudgetsView() {
@@ -24,6 +25,7 @@ export default function BudgetsView() {
   const [isVariableModalOpen, setIsVariableModalOpen] = useState(false);
   const [isReallocModalOpen, setIsReallocModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isRolloverModalOpen, setIsRolloverModalOpen] = useState(false);
   const [budgetToEdit, setBudgetToEdit] = useState(null);
 
   const { envelopes, summary } = useMemo(() => {
@@ -90,6 +92,14 @@ export default function BudgetsView() {
             style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer' }}
           >
             ⇄ Reasignar Sobres
+          </button>
+          <button
+            type="button"
+            className="glass-pill"
+            onClick={() => setIsRolloverModalOpen(true)}
+            style={{ padding: '0.75rem 1.25rem', fontSize: 'var(--font-size-sm)', cursor: 'pointer' }}
+          >
+            🗓️ Cierre & Reajuste
           </button>
           <button
             type="button"
@@ -164,6 +174,12 @@ export default function BudgetsView() {
       <CategoryManagerModal
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
+      />
+
+      {/* Smart Monthly Period-End Budget Rollover Modal */}
+      <BudgetRolloverModal
+        isOpen={isRolloverModalOpen}
+        onClose={() => setIsRolloverModalOpen(false)}
       />
     </div>
   );
