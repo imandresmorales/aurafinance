@@ -17,6 +17,7 @@ import {
   BudgetRolloverModal,
   SurplusAllocationModal,
   BudgetMatrix,
+  EnvelopeBudgetExplorer,
 } from '../components';
 
 export default function BudgetsView() {
@@ -151,6 +152,9 @@ export default function BudgetsView() {
 
       {/* Interannual & Multi-Period Budget Matrix */}
       <BudgetMatrix />
+
+      {/* Interactive Envelope Budget Explorer */}
+      <EnvelopeBudgetExplorer onEditBudget={handleOpenEdit} />
 
       {/* Envelopes Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
