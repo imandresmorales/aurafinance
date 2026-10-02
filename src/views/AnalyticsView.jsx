@@ -4,6 +4,7 @@ import {
   CategoryDonutChart,
   IncomeVsExpenseBarChart,
   SankeyMoneyFlow,
+  SpendingHeatmap,
 } from '../components';
 import { formatCurrency } from '../utils';
 
@@ -28,6 +29,9 @@ export default function AnalyticsView() {
 
       {/* Sankey Money Flow Diagram */}
       <SankeyMoneyFlow />
+
+      {/* Behavioral Spending Heatmap */}
+      <SpendingHeatmap />
 
       {/* Category Donut Distribution */}
       <CategoryDonutChart />
