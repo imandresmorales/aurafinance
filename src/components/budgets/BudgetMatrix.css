@@ -1,0 +1,153 @@
+.budget-matrix-card {
+  margin-bottom: 2rem;
+  background: var(--bg-surface);
+  border: var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-glass);
+  position: relative;
+  overflow: hidden;
+}
+
+.budget-matrix-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary-light), var(--color-accent-gold), transparent);
+}
+
+.budget-matrix-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.budget-matrix-title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.budget-matrix-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.matrix-year-select {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--text-primary);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-mono);
+  outline: none;
+  cursor: pointer;
+}
+
+.matrix-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.matrix-table th,
+.matrix-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.matrix-table th {
+  background: rgba(8, 46, 35, 0.5);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-family: var(--font-sans);
+}
+
+.matrix-table th:first-child,
+.matrix-table td:first-child {
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: #06231b;
+  z-index: 2;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.matrix-cell-over {
+  color: #f87171 !important;
+  background: rgba(239, 68, 68, 0.08);
+  font-weight: 600;
+}
+
+.matrix-cell-safe {
+  color: var(--text-secondary);
+}
+
+.matrix-cell-active {
+  color: var(--color-primary-light);
+  font-weight: 500;
+}
+
+.matrix-total-row {
+  background: rgba(16, 185, 129, 0.08);
+  font-weight: 700;
+}
+
+.matrix-total-row td {
+  border-top: 2px solid rgba(16, 185, 129, 0.3);
+  color: var(--text-primary);
+}
+
+.matrix-kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.matrix-kpi-box {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  padding: 0.9rem;
+}
+
+.matrix-kpi-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.matrix-kpi-val {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.matrix-yoy-section {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}

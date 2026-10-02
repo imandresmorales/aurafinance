@@ -16,6 +16,7 @@ import {
   MicroExpensesCard,
   BudgetRolloverModal,
   SurplusAllocationModal,
+  BudgetMatrix,
 } from '../components';
 
 export default function BudgetsView() {
@@ -147,6 +148,9 @@ export default function BudgetsView() {
 
       {/* Micro-Expenses ("Efecto Hormiga") Cumulative Analysis */}
       <MicroExpensesCard />
+
+      {/* Interannual & Multi-Period Budget Matrix */}
+      <BudgetMatrix />
 
       {/* Envelopes Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>

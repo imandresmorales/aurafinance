@@ -11,6 +11,7 @@ export { default as BurnRateForecastCard } from './BurnRateForecastCard';
 export { default as MicroExpensesCard } from './MicroExpensesCard';
 export { default as BudgetRolloverModal } from './BudgetRolloverModal';
 export { default as SurplusAllocationModal } from './SurplusAllocationModal';
+export { BudgetMatrix } from './BudgetMatrix';
 
 
 
