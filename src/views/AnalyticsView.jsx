@@ -3,6 +3,7 @@ import {
   CashFlowTimelineChart,
   CategoryDonutChart,
   IncomeVsExpenseBarChart,
+  SankeyMoneyFlow,
 } from '../components';
 import { formatCurrency } from '../utils';
 
@@ -24,6 +25,9 @@ export default function AnalyticsView() {
 
       {/* Grouped Income vs Expense Bar Chart */}
       <IncomeVsExpenseBarChart />
+
+      {/* Sankey Money Flow Diagram */}
+      <SankeyMoneyFlow />
 
       {/* Category Donut Distribution */}
       <CategoryDonutChart />
