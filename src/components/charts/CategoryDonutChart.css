@@ -1,0 +1,140 @@
+.donut-chart-card {
+  background: var(--bg-surface);
+  border: var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-glass);
+  position: relative;
+  overflow: hidden;
+}
+
+.donut-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.donut-chart-title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.donut-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .donut-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.donut-svg-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.donut-svg {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  overflow: visible;
+}
+
+.donut-slice {
+  cursor: pointer;
+  transition: transform var(--transition-fast), filter var(--transition-fast), opacity var(--transition-fast);
+  transform-origin: 150px 150px;
+}
+
+.donut-slice:hover {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+}
+
+.donut-slice.dimmed {
+  opacity: 0.35;
+}
+
+.donut-center-info {
+  position: absolute;
+  text-align: center;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-center-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.donut-center-val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0.15rem 0;
+}
+
+.donut-legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.donut-legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.donut-legend-item:hover,
+.donut-legend-item.active {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.donut-legend-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-xs);
+}
+
+.donut-legend-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.donut-legend-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--font-size-xs);
+}
