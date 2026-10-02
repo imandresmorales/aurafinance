@@ -18,6 +18,7 @@ export * from './microExpensesEngine';
 export * from './budgetRolloverEngine';
 export * from './surplusAllocationEngine';
 export * from './budgetMatrixEngine';
+export * from './svgChartEngine';
 
 
 
