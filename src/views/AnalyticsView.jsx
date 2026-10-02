@@ -1,4 +1,5 @@
 import React from 'react';
+import { CashFlowTimelineChart } from '../components';
 import { formatCurrency } from '../utils';
 
 export default function AnalyticsView() {
@@ -13,6 +14,9 @@ export default function AnalyticsView() {
           Visualización de tendencias de consumo, análisis de flujo de caja y distribución patrimonial.
         </p>
       </header>
+
+      {/* Cash Flow Timeline Chart */}
+      <CashFlowTimelineChart />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
         <div className="glass-card">
