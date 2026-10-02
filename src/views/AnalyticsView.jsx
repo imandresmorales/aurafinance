@@ -1,5 +1,9 @@
 import React from 'react';
-import { CashFlowTimelineChart, CategoryDonutChart } from '../components';
+import {
+  CashFlowTimelineChart,
+  CategoryDonutChart,
+  IncomeVsExpenseBarChart,
+} from '../components';
 import { formatCurrency } from '../utils';
 
 export default function AnalyticsView() {
@@ -17,6 +21,9 @@ export default function AnalyticsView() {
 
       {/* Cash Flow Timeline Chart */}
       <CashFlowTimelineChart />
+
+      {/* Grouped Income vs Expense Bar Chart */}
+      <IncomeVsExpenseBarChart />
 
       {/* Category Donut Distribution */}
       <CategoryDonutChart />

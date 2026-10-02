@@ -1,0 +1,79 @@
+.bar-chart-card {
+  background: var(--bg-surface);
+  border: var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-glass);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.bar-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.bar-chart-title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bar-svg-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.bar-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.chart-bar-rect {
+  transition: opacity var(--transition-fast), filter var(--transition-fast);
+  cursor: pointer;
+}
+
+.chart-bar-rect:hover {
+  opacity: 0.85;
+  filter: brightness(1.2);
+}
+
+.bar-kpi-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.bar-kpi-item {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+}
+
+.bar-kpi-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.bar-kpi-val {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+}
