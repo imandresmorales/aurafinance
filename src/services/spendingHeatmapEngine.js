@@ -49,12 +49,17 @@ export function buildSpendingHeatmap(transactions = [], period = null) {
 
   activeExpenses.forEach((tx) => {
     const amt = Math.abs(Number(tx.amount)) || 0;
-    const txDate = tx.date ? new Date(tx.date) : new Date();
+    let dayIdx = 0;
 
-    // In JS getDay(): 0 is Sunday, 1 is Monday, ..., 6 is Saturday
-    // Map to 0 = Monday, ..., 6 = Sunday
-    const jsDay = isNaN(txDate.getDay()) ? 0 : txDate.getDay();
-    const dayIdx = jsDay === 0 ? 6 : jsDay - 1;
+    if (tx.date) {
+      const dateStr = String(tx.date).slice(0, 10);
+      const [y, m, d] = dateStr.split('-').map(Number);
+      if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+        const localDate = new Date(y, m - 1, d, 12, 0, 0);
+        const jsDay = localDate.getDay();
+        dayIdx = jsDay === 0 ? 6 : jsDay - 1;
+      }
+    }
 
     // Time slot calculation
     let hour = 12; // default if not timestamped
