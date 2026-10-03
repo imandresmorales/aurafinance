@@ -8,6 +8,7 @@ import {
   NetWorthAreaChart,
   FinancialRadarChart,
   MicroTrendCards,
+  IncomeExpenseCorrelationCard,
 } from '../components';
 import { formatCurrency } from '../utils';
 
@@ -26,6 +27,9 @@ export default function AnalyticsView() {
 
       {/* Statistical Micro-Trends Cards */}
       <MicroTrendCards />
+
+      {/* Extraordinary Income Correlation & Retention Card */}
+      <IncomeExpenseCorrelationCard />
 
       {/* 5-Pillar Financial Equilibrium Spider/Radar Chart */}
       <FinancialRadarChart />
