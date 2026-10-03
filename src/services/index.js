@@ -24,6 +24,7 @@ export * from './spendingHeatmapEngine';
 export * from './financialRadarEngine';
 export * from './dateRangeEngine';
 export * from './chartPatterns';
+export * from './microTrendsEngine';
 
 
 
