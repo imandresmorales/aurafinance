@@ -1,0 +1,16 @@
+/* chartPatterns.css - Colorblind & High-Contrast Texture Overlays */
+
+.svg-pattern-overlay {
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.chart-accessible-textures .chart-bar-rect:nth-child(odd) {
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 1px;
+}
+
+.chart-accessible-textures .donut-slice {
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 1.5px;
+}
