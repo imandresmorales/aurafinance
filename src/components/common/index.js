@@ -9,3 +9,4 @@ export { default as TagPicker } from './TagPicker';
 export { default as HighlightText } from './HighlightText';
 export { default as RuleAutomationModal } from './RuleAutomationModal';
 export { default as DateRangeSelector } from './DateRangeSelector';
+export { default as AccessibleDataTable } from './AccessibleDataTable';

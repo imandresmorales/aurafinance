@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { useAccounts } from '../../hooks';
 import { formatCurrency } from '../../utils';
+import { AccessibleDataTable } from '../common';
 import {
   createLinearScale,
   calculateNiceTicks,
@@ -334,6 +335,18 @@ export function NetWorthAreaChart() {
           <span>Pasivos / Pasivo Total</span>
         </div>
       </div>
+
+      {/* Accessible Screen Reader Table */}
+      <AccessibleDataTable
+        caption="Historial de Evolución Patrimonial"
+        headers={['Mes', 'Activos', 'Pasivos', 'Patrimonio Neto']}
+        rows={chartData.map((d) => [
+          d.label,
+          formatCurrency(d.assets),
+          formatCurrency(d.liabilities),
+          formatCurrency(d.netWorth),
+        ])}
+      />
     </div>
   );
 }
