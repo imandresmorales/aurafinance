@@ -1,0 +1,65 @@
+/* chartTransitions.css - Accessible SVG & Chart Transitions adhering to prefers-reduced-motion */
+
+@keyframes chartPathDraw {
+  from {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes chartBarGrow {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes chartFadeScale {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.chart-animated-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  animation: chartPathDraw 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.chart-animated-bar {
+  transform-origin: bottom;
+  animation: chartBarGrow 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.chart-animated-container {
+  animation: chartFadeScale 0.4s ease-out forwards;
+}
+
+/* WCAG 2.2 AAA Motion Sensitivity Override */
+@media (prefers-reduced-motion: reduce) {
+  .chart-animated-path,
+  .chart-animated-bar,
+  .chart-animated-container,
+  .donut-slice,
+  .radar-polygon,
+  .sankey-ribbon,
+  .chart-bar-rect,
+  .heatmap-cell {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

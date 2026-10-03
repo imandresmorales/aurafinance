@@ -2,6 +2,8 @@
 @import './themes.css';
 @import './typography.css';
 @import './glass.css';
+@import './chartPatterns.css';
+@import './chartTransitions.css';
 
 /* Global Reset & Base */
 *,
