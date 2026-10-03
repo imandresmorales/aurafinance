@@ -22,6 +22,7 @@ export * from './svgChartEngine';
 export * from './sankeyEngine';
 export * from './spendingHeatmapEngine';
 export * from './financialRadarEngine';
+export * from './dateRangeEngine';
 
 
 

@@ -8,3 +8,4 @@ export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as TagPicker } from './TagPicker';
 export { default as HighlightText } from './HighlightText';
 export { default as RuleAutomationModal } from './RuleAutomationModal';
+export { default as DateRangeSelector } from './DateRangeSelector';
