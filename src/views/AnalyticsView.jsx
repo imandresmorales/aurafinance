@@ -6,6 +6,7 @@ import {
   SankeyMoneyFlow,
   SpendingHeatmap,
   NetWorthAreaChart,
+  FinancialRadarChart,
 } from '../components';
 import { formatCurrency } from '../utils';
 
@@ -21,6 +22,9 @@ export default function AnalyticsView() {
           Visualización de tendencias de consumo, análisis de flujo de caja y distribución patrimonial.
         </p>
       </header>
+
+      {/* 5-Pillar Financial Equilibrium Spider/Radar Chart */}
+      <FinancialRadarChart />
 
       {/* Stacked Net Worth Area Chart */}
       <NetWorthAreaChart />
