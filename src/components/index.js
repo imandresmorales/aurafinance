@@ -8,4 +8,5 @@ export * from './reconciliation';
 export * from './dashboard';
 export * from './budgets';
 export * from './charts';
+export * from './recurring';
 

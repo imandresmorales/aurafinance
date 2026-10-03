@@ -28,6 +28,7 @@ export * from './microTrendsEngine';
 export * from './correlationEngine';
 export * from './waterfallEngine';
 export * from './recurringEngine';
+export * from './subscriptionDetectorEngine';
 
 
 
