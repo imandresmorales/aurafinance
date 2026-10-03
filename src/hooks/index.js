@@ -10,3 +10,5 @@ export { default as useAccounts } from './useAccounts';
 export * from './useAccounts';
 export { default as useChartZoomPan } from './useChartZoomPan';
 export * from './useChartZoomPan';
+export { default as useDashboardLayout } from './useDashboardLayout';
+export * from './useDashboardLayout';
