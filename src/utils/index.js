@@ -3,6 +3,7 @@ export * from './rateLimiter';
 export * from './sanitization';
 export * from './csvExporter';
 export * from './fuzzySearch';
+export * from './chartExporter';
 
 // Formateador de divisas estándar internacional
 export const formatCurrency = (amount, currency = 'USD', locale = 'es-ES') => {
