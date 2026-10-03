@@ -17,6 +17,7 @@ export const DEFAULT_ANALYTICS_WIDGETS = [
   { id: 'spending-heatmap', title: 'Mapa de Calor de Consumo', visible: true, order: 7 },
   { id: 'waterfall-balance', title: 'Gráfico de Cascada (Waterfall)', visible: true, order: 8 },
   { id: 'category-donut', title: 'Distribución por Categorías', visible: true, order: 9 },
+  { id: 'financial-calendar', title: 'Calendario de Compromisos Financieros', visible: true, order: 10 },
 ];
 
 export function useDashboardLayout(storageKey = 'aurafinance_analytics_layout') {

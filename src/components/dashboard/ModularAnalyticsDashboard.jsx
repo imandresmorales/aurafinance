@@ -10,6 +10,7 @@ import {
   FinancialRadarChart,
   WaterfallBalanceChart,
 } from '../charts';
+import { FinancialCalendar } from '../recurring';
 import { MicroTrendCards } from './MicroTrendCards';
 import { IncomeExpenseCorrelationCard } from './IncomeExpenseCorrelationCard';
 import './ModularAnalyticsDashboard.css';
@@ -40,6 +41,8 @@ export function ModularAnalyticsDashboard() {
         return <WaterfallBalanceChart />;
       case 'category-donut':
         return <CategoryDonutChart />;
+      case 'financial-calendar':
+        return <FinancialCalendar />;
       default:
         return null;
     }

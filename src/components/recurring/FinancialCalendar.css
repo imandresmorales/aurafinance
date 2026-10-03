@@ -1,0 +1,557 @@
+.financial-calendar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Header */
+.cal-header-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.25rem;
+  background: rgba(6, 26, 20, 0.65);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  backdrop-filter: blur(12px);
+}
+
+.cal-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  margin-bottom: 0.4rem;
+}
+
+.cal-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f0fdf4;
+  letter-spacing: -0.02em;
+}
+
+.cal-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+.cal-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cal-month-stepper {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(4, 20, 15, 0.8);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 0.6rem;
+  padding: 0.25rem 0.5rem;
+  gap: 0.5rem;
+}
+
+.cal-btn-step {
+  background: transparent;
+  border: none;
+  color: #34d399;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.55rem;
+  cursor: pointer;
+  border-radius: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.cal-btn-step:hover {
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.cal-current-month-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f0fdf4;
+  min-width: 140px;
+  text-align: center;
+}
+
+.cal-btn-today {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cal-btn-today:hover {
+  background: rgba(16, 185, 129, 0.25);
+}
+
+.cal-view-switch {
+  display: flex;
+  background: rgba(4, 20, 15, 0.8);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 0.5rem;
+  padding: 0.2rem;
+  gap: 0.2rem;
+}
+
+.cal-view-btn {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cal-view-btn.active {
+  background: #10b981;
+  color: #041a14;
+  font-weight: 700;
+}
+
+/* KPI Bar */
+.cal-kpi-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.cal-kpi-item {
+  background: rgba(6, 26, 20, 0.5);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 0.85rem;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  backdrop-filter: blur(8px);
+}
+
+.cal-kpi-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cal-kpi-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.cal-kpi-val.positive {
+  color: #34d399;
+}
+
+.cal-kpi-val.negative {
+  color: #f87171;
+}
+
+.cal-kpi-val.highlight {
+  color: #38bdf8;
+}
+
+.cal-kpi-note {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Calendar Grid Layout */
+.cal-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .cal-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cal-grid-card {
+  background: rgba(6, 26, 20, 0.6);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.cal-weekdays-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.cal-weekday-cell {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #34d399;
+  text-transform: uppercase;
+  padding: 0.4rem;
+}
+
+.cal-days-matrix {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.4rem;
+}
+
+.cal-day-cell {
+  background: rgba(4, 20, 15, 0.6);
+  border: 1px solid rgba(16, 185, 129, 0.12);
+  border-radius: 0.6rem;
+  min-height: 80px;
+  padding: 0.45rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.cal-day-cell:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.35);
+  transform: translateY(-1px);
+}
+
+.cal-day-cell.outside-month {
+  opacity: 0.35;
+}
+
+.cal-day-cell.selected {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+}
+
+.cal-day-cell.payday {
+  border-left: 3px solid #34d399;
+}
+
+.cal-day-cell.heavy_expense {
+  border-left: 3px solid #f87171;
+}
+
+.cal-day-number-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cal-day-number {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f0fdf4;
+}
+
+.cal-event-count-dot {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.25);
+  color: #34d399;
+  padding: 0.1rem 0.35rem;
+  border-radius: 9999px;
+}
+
+.cal-day-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cal-pill {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.3rem;
+  border-radius: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-pill.income {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+.cal-pill.expense {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+/* Day Inspector Side Panel */
+.cal-day-inspector-card {
+  background: rgba(6, 26, 20, 0.65);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cal-inspector-header {
+  border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+  padding-bottom: 0.75rem;
+}
+
+.cal-inspector-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #38bdf8;
+}
+
+.cal-inspector-date {
+  margin: 0.25rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f0fdf4;
+}
+
+.cal-inspector-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: rgba(4, 20, 15, 0.7);
+  padding: 0.75rem;
+  border-radius: 0.6rem;
+}
+
+.cal-ins-stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.cal-ins-stat.total {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.35rem;
+  font-weight: 700;
+}
+
+.cal-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cal-events-title {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.cal-events-empty {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.cal-event-card {
+  background: rgba(4, 20, 15, 0.8);
+  border: 1px solid rgba(16, 185, 129, 0.18);
+  border-radius: 0.6rem;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cal-event-card.projected {
+  border-style: dashed;
+}
+
+.cal-evt-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cal-evt-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f0fdf4;
+}
+
+.cal-evt-amount {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.cal-evt-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.cal-evt-cat {
+  color: #9ca3af;
+}
+
+.cal-evt-badge {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.3rem;
+}
+
+.badge-proj {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+.badge-real {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.cal-btn-confirm-evt {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10b981;
+  color: #34d399;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  margin-top: 0.2rem;
+  transition: all 0.2s ease;
+}
+
+.cal-btn-confirm-evt:hover {
+  background: #10b981;
+  color: #041a14;
+}
+
+/* List View Mode */
+.cal-list-view-card {
+  background: rgba(6, 26, 20, 0.6);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.cal-list-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f0fdf4;
+}
+
+.cal-chronological-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cal-feed-group {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.cal-feed-date-badge {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 0.6rem;
+  min-width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #34d399;
+}
+
+.feed-day {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.feed-month {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+.cal-feed-events {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cal-feed-event-item {
+  background: rgba(4, 20, 15, 0.7);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 0.6rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cal-feed-name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f0fdf4;
+}
+
+.cal-feed-category {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.cal-feed-pricing {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cal-feed-amt {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.cal-feed-action-btn {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10b981;
+  color: #34d399;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
