@@ -213,7 +213,7 @@ export function CashFlowTimelineChart() {
                     fontFamily="var(--font-mono)"
                     textAnchor="end"
                   >
-                    {formatCurrency(tickVal, false)}
+                    {formatCurrency(tickVal)}
                   </text>
                 </g>
               );

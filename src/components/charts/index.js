@@ -6,3 +6,4 @@ export { default as SpendingHeatmap } from './SpendingHeatmap';
 export { default as NetWorthAreaChart } from './NetWorthAreaChart';
 export { default as FinancialRadarChart } from './FinancialRadarChart';
 export { default as WaterfallBalanceChart } from './WaterfallBalanceChart';
+export { default as FinancialChartsSuite } from './FinancialChartsSuite';
