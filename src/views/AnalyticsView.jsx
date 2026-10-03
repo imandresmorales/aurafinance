@@ -5,6 +5,7 @@ import {
   IncomeVsExpenseBarChart,
   SankeyMoneyFlow,
   SpendingHeatmap,
+  NetWorthAreaChart,
 } from '../components';
 import { formatCurrency } from '../utils';
 
@@ -20,6 +21,9 @@ export default function AnalyticsView() {
           Visualización de tendencias de consumo, análisis de flujo de caja y distribución patrimonial.
         </p>
       </header>
+
+      {/* Stacked Net Worth Area Chart */}
+      <NetWorthAreaChart />
 
       {/* Cash Flow Timeline Chart */}
       <CashFlowTimelineChart />

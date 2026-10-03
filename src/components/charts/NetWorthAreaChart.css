@@ -1,0 +1,63 @@
+.networth-chart-card {
+  background: var(--bg-surface);
+  border: var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-glass);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.networth-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.networth-chart-title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.networth-svg-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.networth-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.networth-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  font-size: var(--font-size-xs);
+  flex-wrap: wrap;
+}
+
+.networth-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.networth-legend-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
