@@ -8,6 +8,7 @@ import {
   SpendingHeatmap,
   NetWorthAreaChart,
   FinancialRadarChart,
+  WaterfallBalanceChart,
 } from '../charts';
 import { MicroTrendCards } from './MicroTrendCards';
 import { IncomeExpenseCorrelationCard } from './IncomeExpenseCorrelationCard';
@@ -35,6 +36,8 @@ export function ModularAnalyticsDashboard() {
         return <SankeyMoneyFlow />;
       case 'spending-heatmap':
         return <SpendingHeatmap />;
+      case 'waterfall-balance':
+        return <WaterfallBalanceChart />;
       case 'category-donut':
         return <CategoryDonutChart />;
       default:

@@ -26,6 +26,7 @@ export * from './dateRangeEngine';
 export * from './chartPatterns';
 export * from './microTrendsEngine';
 export * from './correlationEngine';
+export * from './waterfallEngine';
 
 
 

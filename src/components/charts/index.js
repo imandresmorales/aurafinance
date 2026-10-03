@@ -5,3 +5,4 @@ export { default as SankeyMoneyFlow } from './SankeyMoneyFlow';
 export { default as SpendingHeatmap } from './SpendingHeatmap';
 export { default as NetWorthAreaChart } from './NetWorthAreaChart';
 export { default as FinancialRadarChart } from './FinancialRadarChart';
+export { default as WaterfallBalanceChart } from './WaterfallBalanceChart';

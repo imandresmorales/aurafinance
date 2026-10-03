@@ -15,7 +15,8 @@ export const DEFAULT_ANALYTICS_WIDGETS = [
   { id: 'income-vs-expense', title: 'Comparativa Ingresos vs Gastos', visible: true, order: 5 },
   { id: 'sankey-flow', title: 'Diagrama Sankey de Trayecto del Dinero', visible: true, order: 6 },
   { id: 'spending-heatmap', title: 'Mapa de Calor de Consumo', visible: true, order: 7 },
-  { id: 'category-donut', title: 'Distribución por Categorías', visible: true, order: 8 },
+  { id: 'waterfall-balance', title: 'Gráfico de Cascada (Waterfall)', visible: true, order: 8 },
+  { id: 'category-donut', title: 'Distribución por Categorías', visible: true, order: 9 },
 ];
 
 export function useDashboardLayout(storageKey = 'aurafinance_analytics_layout') {

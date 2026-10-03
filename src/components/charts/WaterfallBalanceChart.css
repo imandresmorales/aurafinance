@@ -1,0 +1,53 @@
+.waterfall-card-container {
+  background: var(--bg-surface);
+  border: var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-glass);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.waterfall-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.waterfall-title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.waterfall-svg-wrapper {
+  width: 100%;
+  position: relative;
+  overflow-x: auto;
+}
+
+.waterfall-svg {
+  width: 100%;
+  min-width: 600px;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.waterfall-block {
+  cursor: pointer;
+  transition: opacity var(--transition-fast), filter var(--transition-fast);
+}
+
+.waterfall-block:hover {
+  filter: brightness(1.25);
+  opacity: 0.9;
+}
