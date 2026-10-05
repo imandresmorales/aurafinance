@@ -7,18 +7,20 @@ import { useState, useCallback, useEffect } from 'react';
 import useEncryptedStorage from './useEncryptedStorage';
 
 export const DEFAULT_ANALYTICS_WIDGETS = [
-  { id: 'micro-trends', title: 'Micro-Tendencias Estadísticas', visible: true, order: 0 },
-  { id: 'windfall-correlation', title: 'Correlación de Ingresos Extraordinarios', visible: true, order: 1 },
-  { id: 'financial-radar', title: 'Radar de Salud y Equilibrio', visible: true, order: 2 },
-  { id: 'net-worth-area', title: 'Evolución del Patrimonio Neto', visible: true, order: 3 },
-  { id: 'cash-flow-timeline', title: 'Flujo de Caja Histórico', visible: true, order: 4 },
-  { id: 'income-vs-expense', title: 'Comparativa Ingresos vs Gastos', visible: true, order: 5 },
-  { id: 'sankey-flow', title: 'Diagrama Sankey de Trayecto del Dinero', visible: true, order: 6 },
-  { id: 'spending-heatmap', title: 'Mapa de Calor de Consumo', visible: true, order: 7 },
-  { id: 'waterfall-balance', title: 'Gráfico de Cascada (Waterfall)', visible: true, order: 8 },
-  { id: 'category-donut', title: 'Distribución por Categorías', visible: true, order: 9 },
-  { id: 'financial-calendar', title: 'Calendario de Compromisos Financieros', visible: true, order: 10 },
+  { id: 'upcoming-bills', title: 'Próximos Pagos (7 Días)', visible: true, order: 0 },
+  { id: 'micro-trends', title: 'Micro-Tendencias Estadísticas', visible: true, order: 1 },
+  { id: 'windfall-correlation', title: 'Correlación de Ingresos Extraordinarios', visible: true, order: 2 },
+  { id: 'financial-radar', title: 'Radar de Salud y Equilibrio', visible: true, order: 3 },
+  { id: 'net-worth-area', title: 'Evolución del Patrimonio Neto', visible: true, order: 4 },
+  { id: 'cash-flow-timeline', title: 'Flujo de Caja Histórico', visible: true, order: 5 },
+  { id: 'income-vs-expense', title: 'Comparativa Ingresos vs Gastos', visible: true, order: 6 },
+  { id: 'sankey-flow', title: 'Diagrama Sankey de Trayecto del Dinero', visible: true, order: 7 },
+  { id: 'spending-heatmap', title: 'Mapa de Calor de Consumo', visible: true, order: 8 },
+  { id: 'waterfall-balance', title: 'Gráfico de Cascada (Waterfall)', visible: true, order: 9 },
+  { id: 'category-donut', title: 'Distribución por Categorías', visible: true, order: 10 },
+  { id: 'financial-calendar', title: 'Calendario de Compromisos Financieros', visible: true, order: 11 },
 ];
+
 
 export function useDashboardLayout(storageKey = 'aurafinance_analytics_layout') {
   const [widgets, setWidgets] = useState(() => {

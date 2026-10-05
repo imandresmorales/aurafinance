@@ -13,6 +13,7 @@ import {
 import { FinancialCalendar } from '../recurring';
 import { MicroTrendCards } from './MicroTrendCards';
 import { IncomeExpenseCorrelationCard } from './IncomeExpenseCorrelationCard';
+import { UpcomingBillsWidget } from './UpcomingBillsWidget';
 import './ModularAnalyticsDashboard.css';
 
 export function ModularAnalyticsDashboard() {
@@ -21,6 +22,8 @@ export function ModularAnalyticsDashboard() {
 
   const renderWidgetContent = (widgetId) => {
     switch (widgetId) {
+      case 'upcoming-bills':
+        return <UpcomingBillsWidget />;
       case 'micro-trends':
         return <MicroTrendCards />;
       case 'windfall-correlation':
