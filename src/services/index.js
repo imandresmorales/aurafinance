@@ -38,6 +38,7 @@ export * from './subscriptionAnnualizerEngine';
 export * from './subscriptionOptimizerEngine';
 export * from './autoSettlementEngine';
 export * from './priceHikeAlertsEngine';
+export * from './contractRenewalEngine';
 
 
 
