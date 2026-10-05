@@ -36,6 +36,7 @@ export * from './billAlertEngine';
 export * from './variableRecurringEngine';
 export * from './subscriptionAnnualizerEngine';
 export * from './subscriptionOptimizerEngine';
+export * from './autoSettlementEngine';
 
 
 
