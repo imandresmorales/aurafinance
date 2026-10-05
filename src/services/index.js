@@ -30,6 +30,7 @@ export * from './waterfallEngine';
 export * from './recurringEngine';
 export * from './subscriptionDetectorEngine';
 export * from './financialCalendarEngine';
+export * from './cashFlowForecastEngine';
 
 
 
