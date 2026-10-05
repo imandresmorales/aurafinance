@@ -31,6 +31,7 @@ export * from './recurringEngine';
 export * from './subscriptionDetectorEngine';
 export * from './financialCalendarEngine';
 export * from './cashFlowForecastEngine';
+export * from './runwayCalculatorEngine';
 
 
 
