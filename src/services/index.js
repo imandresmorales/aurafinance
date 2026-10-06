@@ -42,6 +42,7 @@ export * from './contractRenewalEngine';
 export * from './billStatusEngine';
 export * from './timezoneSafeScheduler';
 export * from './financialStressEngine';
+export * from './financialAdvisorEngine';
 
 
 
