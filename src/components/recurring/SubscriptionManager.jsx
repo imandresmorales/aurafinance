@@ -7,7 +7,7 @@ import {
 import { formatCurrency } from '../../utils';
 import './SubscriptionManager.css';
 
-export default function SubscriptionManager() {
+export function SubscriptionManager() {
   const {
     transactions = [],
     wallets = [],
@@ -482,3 +482,5 @@ export default function SubscriptionManager() {
     </div>
   );
 }
+
+export default SubscriptionManager;
