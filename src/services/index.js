@@ -43,6 +43,7 @@ export * from './billStatusEngine';
 export * from './timezoneSafeScheduler';
 export * from './financialStressEngine';
 export * from './financialAdvisorEngine';
+export * from './financialHealthScoreEngine';
 
 
 
