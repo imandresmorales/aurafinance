@@ -44,6 +44,7 @@ export * from './timezoneSafeScheduler';
 export * from './financialStressEngine';
 export * from './financialAdvisorEngine';
 export * from './financialHealthScoreEngine';
+export * from './savingsGoalsEngine';
 
 
 
