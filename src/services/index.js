@@ -52,6 +52,7 @@ export * from './gamifiedChallengesEngine';
 export * from './fireCalculatorEngine';
 export * from './workLifeHoursEngine';
 export * from './roundUpSavingsSimulator';
+export * from './goalRecalculatorEngine';
 
 
 

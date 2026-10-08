@@ -19,6 +19,7 @@ export const GOAL_CATEGORIES = {
 };
 
 export const GOAL_PRIORITIES = {
+  CRITICAL: { id: 'CRITICAL', label: 'Crítica', weight: 4, color: '#dc2626' },
   HIGH: { id: 'HIGH', label: 'Alta', weight: 3, color: '#ef4444' },
   MEDIUM: { id: 'MEDIUM', label: 'Media', weight: 2, color: '#f59e0b' },
   LOW: { id: 'LOW', label: 'Baja', weight: 1, color: '#10b981' },
