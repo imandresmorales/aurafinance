@@ -47,6 +47,7 @@ export * from './financialHealthScoreEngine';
 export * from './savingsGoalsEngine';
 export * from './compoundInterestEngine';
 export * from './financialWisdomEngine';
+export * from './spendingAnomalyEngine';
 
 
 
