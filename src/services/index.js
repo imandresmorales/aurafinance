@@ -50,6 +50,7 @@ export * from './financialWisdomEngine';
 export * from './spendingAnomalyEngine';
 export * from './gamifiedChallengesEngine';
 export * from './fireCalculatorEngine';
+export * from './workLifeHoursEngine';
 
 
 
