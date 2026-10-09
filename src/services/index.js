@@ -61,6 +61,7 @@ export * from './debtPayoffStrategiesEngine';
 export * from './amortizationEngine';
 export * from './earlyPrincipalPayoffEngine';
 export * from './effectiveRateEngine';
+export * from './borrowingCapacityEngine';
 
 
 
