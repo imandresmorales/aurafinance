@@ -55,6 +55,7 @@ export * from './roundUpSavingsSimulator';
 export * from './goalRecalculatorEngine';
 export * from './opportunityCostEngine';
 export * from './monthlyHabitsEngine';
+export * from './financialReportGenerator';
 
 
 
