@@ -66,6 +66,7 @@ export * from './taxSavingsPlannerEngine';
 export * from './taxDeductibleCategoriesEngine';
 export * from './taxCalendarEngine';
 export * from './creditCardUtilizationMonitor';
+export * from './debtConsolidationSimulator';
 
 
 
