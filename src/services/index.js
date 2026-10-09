@@ -63,6 +63,7 @@ export * from './earlyPrincipalPayoffEngine';
 export * from './effectiveRateEngine';
 export * from './borrowingCapacityEngine';
 export * from './taxSavingsPlannerEngine';
+export * from './taxDeductibleCategoriesEngine';
 
 
 
