@@ -178,13 +178,21 @@ export function generateFinancialReport(data = {}, options = {}) {
 export function triggerReportDownload(content, filename, mimeType = 'text/html') {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-  const blob = new Blob([content], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  document.body.removeChild(anchor);
-  URL.revokeObjectURL(url);
+  try {
+    const blob = new Blob([content], { type: mimeType });
+    if (typeof URL.createObjectURL === 'function') {
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = filename;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      if (typeof URL.revokeObjectURL === 'function') {
+        URL.revokeObjectURL(url);
+      }
+    }
+  } catch {
+    // Gracefully handle environments without full Blob/URL implementation (e.g. jsdom)
+  }
 }

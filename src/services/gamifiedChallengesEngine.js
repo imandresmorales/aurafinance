@@ -223,3 +223,28 @@ export function getChallengeAnalytics(challenge = {}) {
     nextMilestone,
   };
 }
+
+/**
+ * Summarizes the entire gamified challenges hub portfolio.
+ * @param {Array<Object>} [activeChallenges=[]]
+ * @returns {Object}
+ */
+export function getGamifiedChallengesSummary(activeChallenges = []) {
+  const templates = Object.values(CHALLENGE_TEMPLATES);
+  const challenges = Array.isArray(activeChallenges) && activeChallenges.length > 0
+    ? activeChallenges
+    : templates.map((t) => initializeChallenge(t.id));
+
+  const analytics = challenges.map((c) => getChallengeAnalytics(c));
+  const totalXpEarned = challenges.reduce((sum, c) => sum + (c.xpEarned || 0), 0);
+  const earnedBadgesCount = analytics.filter((a) => a.badgeKey !== 'LOCKED').length;
+
+  return {
+    totalChallengesCount: challenges.length,
+    activeChallengesCount: challenges.filter((c) => !c.isCompleted).length,
+    completedChallengesCount: challenges.filter((c) => c.isCompleted).length,
+    earnedBadgesCount,
+    totalXpEarned,
+    challenges: analytics,
+  };
+}
