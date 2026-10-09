@@ -1,0 +1,281 @@
+.daily-diagnostic-card {
+  background: rgba(4, 26, 20, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-xl, 18px);
+  padding: 1.5rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 20px rgba(16, 185, 129, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-family: var(--font-ui, 'Plus Jakarta Sans', sans-serif);
+  color: #e2e8f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.daily-diagnostic-card:hover {
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.55), 0 0 28px rgba(16, 185, 129, 0.15);
+}
+
+.daily-diagnostic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.diagnostic-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.diagnostic-sparkle-icon {
+  font-size: 1.5rem;
+  background: rgba(16, 185, 129, 0.15);
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.diagnostic-title {
+  margin: 0;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+  letter-spacing: -0.01em;
+}
+
+.diagnostic-subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.825rem;
+  color: #94a3b8;
+}
+
+.diagnostic-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.diagnostic-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.diagnostic-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.85rem;
+}
+
+.diagnostic-kpi-item {
+  background: rgba(8, 46, 35, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.diagnostic-kpi-item:hover {
+  background: rgba(8, 46, 35, 0.7);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.diagnostic-kpi-icon {
+  font-size: 1.4rem;
+}
+
+.diagnostic-kpi-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.diagnostic-kpi-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.diagnostic-kpi-value {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.diagnostic-wisdom-box {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(226, 194, 117, 0.08));
+  border: 1px solid rgba(226, 194, 117, 0.25);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  position: relative;
+}
+
+.diagnostic-wisdom-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #e2c275;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.04em;
+}
+
+.diagnostic-wisdom-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #f8fafc;
+  font-style: italic;
+}
+
+.diagnostic-wisdom-author {
+  display: block;
+  font-size: 0.775rem;
+  color: #cbd5e1;
+  margin-top: 0.4rem;
+  font-style: normal;
+  text-align: right;
+}
+
+.diagnostic-alerts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.diagnostic-section-heading {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.diagnostic-alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.diagnostic-alert-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.alert-severity-critical {
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.alert-severity-warning {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.alert-severity-info {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.alert-row-icon {
+  font-size: 1.1rem;
+}
+
+.alert-row-text {
+  flex: 1;
+  color: #f1f5f9;
+}
+
+.diagnostic-btn-action {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.diagnostic-btn-action:hover {
+  background: var(--color-primary, #10b981);
+  border-color: var(--color-primary, #10b981);
+  color: #041a14;
+}
+
+.diagnostic-footer-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.diagnostic-btn-primary {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #041a14;
+  border: none;
+  font-weight: 700;
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.diagnostic-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+.diagnostic-btn-ghost {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  padding: 0.65rem 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.diagnostic-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
