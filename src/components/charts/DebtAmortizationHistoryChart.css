@@ -1,0 +1,154 @@
+.debt-amortization-chart-card {
+  background: rgba(4, 26, 20, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-xl, 18px);
+  padding: 1.5rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 20px rgba(16, 185, 129, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-family: var(--font-ui, 'Plus Jakarta Sans', sans-serif);
+  color: #e2e8f0;
+}
+
+.debt-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.debt-chart-title {
+  margin: 0;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.debt-chart-sub {
+  margin: 0.2rem 0 0;
+  font-size: 0.825rem;
+  color: #94a3b8;
+}
+
+.debt-chart-kpis {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.debt-kpi-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0.4rem 0.85rem;
+}
+
+.debt-kpi-lbl {
+  font-size: 0.725rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.debt-kpi-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.text-emerald {
+  color: #10b981;
+}
+
+.debt-chart-svg-container {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.debt-amortization-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.debt-grid-line {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+}
+
+.debt-data-dot {
+  stroke: #041a14;
+  stroke-width: 2;
+  transition: transform 0.15s ease, r 0.15s ease;
+  cursor: pointer;
+}
+
+.debt-chart-point-group:hover .debt-data-dot {
+  r: 7;
+}
+
+.debt-data-hitbox {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.debt-chart-tooltip {
+  position: absolute;
+  transform: translate(-50%, -115%);
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 10px;
+  padding: 0.6rem 0.85rem;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  animation: tooltip-fade 0.15s ease-out;
+}
+
+@keyframes tooltip-fade {
+  from { opacity: 0; transform: translate(-50%, -105%); }
+  to { opacity: 1; transform: translate(-50%, -115%); }
+}
+
+.tooltip-period {
+  font-weight: 700;
+  color: #e2c275;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.25rem;
+  font-size: 0.775rem;
+}
+
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: #cbd5e1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
