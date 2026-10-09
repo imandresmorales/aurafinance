@@ -58,6 +58,7 @@ export * from './monthlyHabitsEngine';
 export * from './financialReportGenerator';
 export * from './debtManagementEngine';
 export * from './debtPayoffStrategiesEngine';
+export * from './amortizationEngine';
 
 
 
