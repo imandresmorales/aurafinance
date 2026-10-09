@@ -69,6 +69,7 @@ export * from './creditCardUtilizationMonitor';
 export * from './debtConsolidationSimulator';
 export * from './maxInstallmentAdvisorEngine';
 export * from './annualInterestCostEngine';
+export * from './encryptedCreditorBookEngine';
 
 
 
