@@ -10,4 +10,5 @@ export * from './budgets';
 export * from './charts';
 export * from './recurring';
 export * from './advisor';
+export * from './debt';
 

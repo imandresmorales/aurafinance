@@ -1,0 +1,340 @@
+.create-loan-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(3, 14, 11, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.25rem;
+  animation: fadeInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.create-loan-modal {
+  background: linear-gradient(135deg, rgba(8, 38, 30, 0.95) 0%, rgba(4, 22, 17, 0.98) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 32px rgba(16, 185, 129, 0.12);
+  border-radius: 1.25rem;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-loan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 1.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.create-loan-header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.create-loan-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.create-loan-header h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+}
+
+.create-loan-close-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.create-loan-close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+.create-loan-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-loan-body {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.75rem;
+  padding: 1.5rem 1.75rem;
+}
+
+@media (max-width: 768px) {
+  .create-loan-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.create-loan-inputs-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.create-loan-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.create-loan-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.create-loan-field label {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.create-loan-field input,
+.create-loan-field select,
+.create-loan-field textarea {
+  background: rgba(4, 18, 14, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  color: #ffffff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.create-loan-field input:focus,
+.create-loan-field select:focus,
+.create-loan-field textarea:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.create-loan-field input.input-error {
+  border-color: #ef4444;
+}
+
+.field-error-msg {
+  font-size: 0.75rem;
+  color: #f87171;
+}
+
+.create-loan-term-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.create-loan-term-group input {
+  flex: 1;
+}
+
+.create-loan-term-group select {
+  width: 100px;
+}
+
+/* Columna de Previsualización y Cálculo */
+.create-loan-preview-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-loan-calc-card {
+  background: rgba(3, 24, 18, 0.7);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.calc-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.calc-card-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #34d399;
+  letter-spacing: 0.04em;
+}
+
+.calc-card-header h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  margin: 0;
+  color: #e2e8f0;
+}
+
+.calc-card-main-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.calc-card-main-metric .currency-symbol {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.calc-card-main-metric .monthly-amount {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.calc-card-main-metric .payment-freq {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-left: 0.25rem;
+}
+
+.calc-card-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.825rem;
+}
+
+.calc-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #94a3b8;
+}
+
+.calc-breakdown-row strong {
+  color: #e2e8f0;
+}
+
+.calc-breakdown-row.highlight {
+  padding-top: 0.4rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+}
+
+.text-warning {
+  color: #fbbf24 !important;
+}
+
+.text-emerald {
+  color: #34d399 !important;
+  font-size: 0.95rem;
+}
+
+.calc-card-system-note {
+  background: rgba(16, 185, 129, 0.08);
+  border-left: 3px solid #10b981;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.calc-card-system-note p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #a7f3d0;
+  line-height: 1.4;
+}
+
+.create-loan-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1.25rem 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(3, 18, 14, 0.5);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #cbd5e1;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.65rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.btn-primary-emerald {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: #ffffff;
+  padding: 0.65rem 1.5rem;
+  border-radius: 0.65rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary-emerald:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+}
+
+.btn-primary-emerald:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
