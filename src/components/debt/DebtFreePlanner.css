@@ -1,0 +1,404 @@
+.debt-free-planner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  color: #f1f5f9;
+}
+
+/* Hero Card & Countdown */
+.planner-hero-card {
+  background: linear-gradient(135deg, rgba(8, 46, 35, 0.9) 0%, rgba(4, 26, 20, 0.95) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(16, 185, 129, 0.1);
+  border-radius: 1.25rem;
+  padding: 1.75rem 2rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.planner-hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.planner-tag-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.planner-hero-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.planner-boost-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #e2c275;
+  background: rgba(226, 194, 117, 0.15);
+  border: 1px solid rgba(226, 194, 117, 0.35);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  animation: pulseGold 2s infinite ease-in-out;
+}
+
+.planner-hero-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.planner-freedom-date {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  text-transform: capitalize;
+  letter-spacing: -0.02em;
+}
+
+.planner-countdown-pills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.countdown-pill {
+  background: rgba(4, 20, 16, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.85rem;
+  padding: 0.85rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.countdown-pill.highlight {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.countdown-pill .pill-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.countdown-pill.highlight .pill-number {
+  color: #34d399;
+}
+
+.countdown-pill .pill-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* Controles de Estrategia & Acelerador */
+.planner-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+
+.planner-control-card {
+  background: rgba(6, 32, 25, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.15rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.control-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.control-header h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  margin: 0;
+  color: #f8fafc;
+}
+
+.control-subtitle {
+  font-size: 0.775rem;
+  color: #94a3b8;
+}
+
+.strategy-toggle-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.strategy-btn {
+  background: rgba(3, 18, 14, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.85rem;
+  padding: 1rem;
+  text-align: left;
+  cursor: pointer;
+  color: #e2e8f0;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.strategy-btn:hover {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.strategy-btn.active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.2);
+}
+
+.strategy-btn-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.strategy-btn-header strong {
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+.strategy-btn p {
+  margin: 0;
+  font-size: 0.775rem;
+  color: #94a3b8;
+  line-height: 1.35;
+}
+
+.mini-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+.mini-badge.motivational {
+  background: rgba(96, 165, 250, 0.2);
+  color: #93c5fd;
+}
+
+.accelerator-presets {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.preset-btn {
+  background: rgba(4, 20, 16, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.5rem;
+  color: #cbd5e1;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover {
+  background: rgba(16, 185, 129, 0.15);
+  color: #ffffff;
+}
+
+.preset-btn.selected {
+  background: #10b981;
+  border-color: #10b981;
+  color: #041a14;
+  font-weight: 700;
+}
+
+.accelerator-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.accelerator-slider-row label {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.accelerator-slider-row label strong {
+  color: #34d399;
+}
+
+.accelerator-slider-row input[type='range'] {
+  accent-color: #10b981;
+  width: 100%;
+  cursor: pointer;
+}
+
+.work-hours-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  background: rgba(226, 194, 117, 0.1);
+  border: 1px solid rgba(226, 194, 117, 0.25);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.callout-icon {
+  font-size: 1.1rem;
+}
+
+.work-hours-callout p {
+  margin: 0;
+  font-size: 0.775rem;
+  color: #fef3c7;
+  line-height: 1.4;
+}
+
+/* Hoja de Ruta / Payoff Order Track */
+.planner-milestones-card {
+  background: rgba(6, 32, 25, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.15rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.milestones-header h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  margin: 0 0 0.25rem;
+  color: #f8fafc;
+}
+
+.milestones-summary {
+  font-size: 0.775rem;
+  color: #94a3b8;
+}
+
+.payoff-order-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payoff-step-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(3, 18, 14, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.75rem;
+  padding: 0.85rem 1.15rem;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.payoff-step-item:hover {
+  transform: translateX(4px);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.step-badge {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-num {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #34d399;
+}
+
+.step-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.step-top-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.step-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.step-month-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+}
+
+.step-metrics {
+  font-size: 0.775rem;
+  color: #94a3b8;
+}
+
+.step-metrics strong {
+  color: #cbd5e1;
+}
+
+.empty-payoff-notice {
+  padding: 1.5rem;
+  text-align: center;
+  color: #34d399;
+  font-weight: 600;
+}
+
+@keyframes pulseGold {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(226, 194, 117, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(226, 194, 117, 0.35);
+  }
+}
