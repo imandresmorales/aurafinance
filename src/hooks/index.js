@@ -12,3 +12,4 @@ export { default as useChartZoomPan } from './useChartZoomPan';
 export * from './useChartZoomPan';
 export { default as useDashboardLayout } from './useDashboardLayout';
 export * from './useDashboardLayout';
+export * from './useAutoLock';
