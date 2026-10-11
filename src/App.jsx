@@ -5,6 +5,7 @@ import {
   AuthProvider,
   ToastProvider,
   AccountsProvider,
+  StealthProvider,
 } from './context';
 import { useAuth } from './hooks';
 import { AppLayout, ToastContainer } from './components';
@@ -29,11 +30,13 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <ToastProvider>
-          <AccountsProvider>
-            <BrowserRouter>
-              <AppContent />
-            </BrowserRouter>
-          </AccountsProvider>
+          <StealthProvider>
+            <AccountsProvider>
+              <BrowserRouter>
+                <AppContent />
+              </BrowserRouter>
+            </AccountsProvider>
+          </StealthProvider>
         </ToastProvider>
       </AuthProvider>
     </ThemeProvider>
