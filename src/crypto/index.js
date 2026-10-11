@@ -3,3 +3,5 @@ export * from './keyDerivation';
 export * from './encryption';
 export * from './vaultStorage';
 export * from './vaultCryptoEngine';
+export * from './webAuthnEngine';
+export * from './totpEngine';
