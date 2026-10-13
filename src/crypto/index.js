@@ -5,3 +5,4 @@ export * from './vaultStorage';
 export * from './vaultCryptoEngine';
 export * from './webAuthnEngine';
 export * from './totpEngine';
+export * from './bip39Engine';
