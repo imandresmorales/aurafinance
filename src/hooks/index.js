@@ -13,3 +13,5 @@ export * from './useChartZoomPan';
 export { default as useDashboardLayout } from './useDashboardLayout';
 export * from './useDashboardLayout';
 export * from './useAutoLock';
+export * from './useSecureSession';
+export * from './useClipboardGuard';
