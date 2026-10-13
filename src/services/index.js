@@ -71,6 +71,8 @@ export * from './maxInstallmentAdvisorEngine';
 export * from './annualInterestCostEngine';
 export * from './encryptedCreditorBookEngine';
 export * from './cardFeeBenefitEvaluator';
+export * from './auditLogEngine';
+export * from './dbIntegrityEngine';
 
 
 
