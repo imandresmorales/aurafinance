@@ -15,3 +15,4 @@ export * from './useDashboardLayout';
 export * from './useAutoLock';
 export * from './useSecureSession';
 export * from './useClipboardGuard';
+export * from './useWindowIsolation';

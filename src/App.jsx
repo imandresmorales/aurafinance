@@ -7,11 +7,12 @@ import {
   AccountsProvider,
   StealthProvider,
 } from './context';
-import { useAuth } from './hooks';
+import { useAuth, useWindowIsolation } from './hooks';
 import { AppLayout, ToastContainer } from './components';
 import { AppRoutes } from './routes';
 
 function AppContent() {
+  useWindowIsolation();
   const { isAuthenticated, isLocked, unlockVault } = useAuth();
 
   return (
