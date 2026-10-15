@@ -8,8 +8,15 @@ import {
   encryptData,
   decryptData,
 } from '../crypto';
+import { PanicWipeButton } from '../components/security';
 
 export default function SecurityView() {
+  const [autoLockMinutes, setAutoLockMinutes] = useState(
+    () => localStorage.getItem('aura_autolock_minutes') || '15'
+  );
+  const [stealthActive, setStealthActive] = useState(
+    () => sessionStorage.getItem('aura_stealth_mode') === 'true'
+  );
   const [testPassphrase, setTestPassphrase] = useState('AuraFinanceMasterKey2026!');
   const [iterations, setIterations] = useState(100000);
   const [isDeriving, setIsDeriving] = useState(false);
@@ -285,6 +292,49 @@ export default function SecurityView() {
             </pre>
           </div>
         )}
+      </section>
+
+      {/* Ajustes de Privacidad y Bóveda */}
+      <section className="glass-card" style={{ padding: '1.5rem', marginTop: '2rem' }}>
+        <h2 style={{ fontSize: 'var(--font-size-lg)', marginBottom: '1rem', color: '#10b981' }}>
+          🛡️ Ajustes de Privacidad y Destrucción Segura
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          <div style={{ padding: '1rem', background: 'rgba(0,0,0,0.3)', borderRadius: 'var(--radius-md)', border: 'var(--border-glass)' }}>
+            <h4 style={{ margin: '0 0 8px', fontSize: '0.95rem', color: '#f8fafc' }}>⏱️ Bloqueo por Inactividad</h4>
+            <p style={{ margin: '0 0 12px', fontSize: '0.8rem', color: '#94a3b8' }}>
+              Tiempo sin interacción antes de bloquear la interfaz y borrar buffers de memoria.
+            </p>
+            <select
+              value={autoLockMinutes}
+              onChange={(e) => {
+                setAutoLockMinutes(e.target.value);
+                localStorage.setItem('aura_autolock_minutes', e.target.value);
+              }}
+              style={{
+                width: '100%',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                background: '#1e293b',
+                color: '#fff',
+                border: '1px solid #475569',
+              }}
+            >
+              <option value="5">5 minutos</option>
+              <option value="15">15 minutos (recomendado)</option>
+              <option value="30">30 minutos</option>
+              <option value="60">1 hora</option>
+            </select>
+          </div>
+
+          <div style={{ padding: '1rem', background: 'rgba(0,0,0,0.3)', borderRadius: 'var(--radius-md)', border: 'var(--border-glass)' }}>
+            <h4 style={{ margin: '0 0 8px', fontSize: '0.95rem', color: '#f8fafc' }}>🚨 Zona de Pánico & Autodestrucción</h4>
+            <p style={{ margin: '0 0 12px', fontSize: '0.8rem', color: '#94a3b8' }}>
+              Sobreescritura destructiva de emergencia para purgar claves y datos locales ante amenazas.
+            </p>
+            <PanicWipeButton />
+          </div>
+        </div>
       </section>
     </div>
   );
