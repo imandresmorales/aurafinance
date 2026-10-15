@@ -74,6 +74,7 @@ export * from './cardFeeBenefitEvaluator';
 export * from './auditLogEngine';
 export * from './dbIntegrityEngine';
 export * from './securityPostureEngine';
+export * from './deviceAnomalyEngine';
 
 
 
