@@ -73,6 +73,7 @@ export * from './encryptedCreditorBookEngine';
 export * from './cardFeeBenefitEvaluator';
 export * from './auditLogEngine';
 export * from './dbIntegrityEngine';
+export * from './securityPostureEngine';
 
 
 
