@@ -83,6 +83,7 @@ export * from './bankOfxQifParserEngine';
 export * from './vaultExporterEngine';
 export * from './financialPdfReportEngine';
 export * from './localNotificationEngine';
+export * from './appBadgingEngine';
 
 
 
