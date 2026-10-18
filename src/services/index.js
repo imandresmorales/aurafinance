@@ -77,6 +77,7 @@ export * from './securityPostureEngine';
 export * from './deviceAnomalyEngine';
 export * from './indexedDBEngine';
 export * from './backgroundSyncEngine';
+export * from './crdtSyncEngine';
 
 
 
