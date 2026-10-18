@@ -82,6 +82,7 @@ export * from './bankCsvParserEngine';
 export * from './bankOfxQifParserEngine';
 export * from './vaultExporterEngine';
 export * from './financialPdfReportEngine';
+export * from './localNotificationEngine';
 
 
 
