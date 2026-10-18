@@ -79,6 +79,7 @@ export * from './indexedDBEngine';
 export * from './backgroundSyncEngine';
 export * from './crdtSyncEngine';
 export * from './bankCsvParserEngine';
+export * from './bankOfxQifParserEngine';
 
 
 
